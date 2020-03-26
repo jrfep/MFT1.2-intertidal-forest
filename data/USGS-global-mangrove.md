@@ -13,6 +13,7 @@ This dataset is shown at a coarser resolution for display purposes.
 
 #### Data download
  Data URL: http://data.unep-wcmc.org/datasets/4
+https://sedac.ciesin.columbia.edu/data/set/lulc-global-mangrove-forests-distribution-2000
 
 ```sh
 mkdir -p $GISDATA/ecosystems/USGS-Mangroves
