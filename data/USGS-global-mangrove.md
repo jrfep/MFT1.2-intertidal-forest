@@ -64,15 +64,10 @@ UPDATE wcmc.mangroveusgs2011_v1_3 set buffer=ST_Multi(ST_buffer(geog,1000)::geom
 SELECT count (*) from  wcmc.mangroveusgs2011_v1_3 where area_km2<0.0000000005 ;
 UPDATE wcmc.mangroveusgs2011_v1_3 set buffer=ST_Multi(ST_buffer(geog,1000)::geometry) where area_km2<0.05 AND geog IS NOT NULL AND buffer IS NULL;
 
+-- check that it has been completed for all records:
 SELECT ST_Area(geog), ST_AREA(ST_GeogFromWKB(buffer)) FROM wcmc.mangroveusgs2011_v1_3 where buffer is NOT NULL LIMIT 20;
-
--- SELECT ST_Area(ST_buffer(geog,1000)), Type(ST_buffer(geog,1000)), ST_Area(geog),ST_Area(wkb_geometry) FROM wcmc.mangroveusgs2011_v1_3 WHERE area_km2>1000 limit 10;
-
-
--- CREATE TABLE wcmc.mangrove_buffer AS (
---    SELECT ogc_fid,ST_Buffer(ST_GeogFromWKB(wkb_geometry), 1000)
---    FROM wcmc.mangroveusgs2011_v1_3
--- );
+SELECT count(*) FROM wcmc.mangroveusgs2011_v1_3 where geog is NULL;
+SELECT count(*) FROM wcmc.mangroveusgs2011_v1_3 where buffer is NULL;
 
 ```
 

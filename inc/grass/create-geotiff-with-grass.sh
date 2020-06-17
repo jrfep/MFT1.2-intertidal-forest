@@ -13,10 +13,13 @@ echo "
 2 247:157:150:255
 " > DumparkMapColors.txt
 
-
-v.in.ogr -o input="PG:host=localhost dbname=gisdata user=jferrer" layer=wcmc.mangroveusgs2011_v1_3 output=WCMC_mangroves
+## get the wkb_geometry column
+v.in.ogr input="PG:host=localhost dbname=gisdata user=jferrer" layer=wcmc.mangroveusgs2011_v1_3 output=WCMC_mangroves geometry=wkb_geometry
+## get the buffer column (this is terribly slow, probably due to the overlap of polygons)
+v.in.ogr input="PG:host=localhost dbname=gisdata user=jferrer" layer=wcmc.mangroveusgs2011_v1_3 output=WCMC_mangroves_buffer geometry=buffer
 
 v.to.rast input=WCMC_mangroves output=MFT1.2_major use=val
+v.to.rast input=WCMC_mangroves_buffer output=MFT1.2_minor use=val
 r.colors map=MFT1.2_major rules=DumparkMapColors.txt
 
 
