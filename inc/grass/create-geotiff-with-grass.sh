@@ -15,31 +15,19 @@ echo "
 
 ## get the wkb_geometry column
 v.in.ogr input="PG:host=localhost dbname=gisdata user=jferrer" layer=wcmc.mangroveusgs2011_v1_3 output=WCMC_mangroves geometry=wkb_geometry
-## get the buffer column (this is terribly slow, probably due to the overlap of polygons)
-v.in.ogr input="PG:host=localhost dbname=gisdata user=jferrer" layer=wcmc.mangroveusgs2011_v1_3 output=WCMC_mangroves_buffer geometry=buffer
+## do the union first in postgis and then import, much faster
+v.in.ogr input="PG:host=localhost dbname=gisdata user=jferrer" layer=wcmc.mangrove_buffer output=WCMC_mangroves_buffer
 
 v.to.rast input=WCMC_mangroves output=MFT1.2_major use=val
 v.to.rast input=WCMC_mangroves_buffer output=MFT1.2_minor use=val
-r.colors map=MFT1.2_major rules=DumparkMapColors.txt
+ r.mapcalc --overwrite expression="MFT1.2.IM.v2=if(MFT1.2_minor,if(isnull(MFT1.2_major),2,1))"
+r.stats -ac MFT1.2_major,MFT1.2_minor,MFT1.2.IM.v2
+
+r.colors map=MFT1.2.IM.v2 rules=DumparkMapColors.txt
 
 
 
 
-
- ## merge all together with resolution near 1km using average vlaues and LZW compression
- gdalwarp --config GDAL_CACHEMAX 2000 -wm 2000 $(find . -wholename "*.tif") -co "COMPRESS=LZW" -tr 0.00833 0.00833 -r average merged.tif
- ## half minute
- gdalwarp --config GDAL_CACHEMAX 2000 -wm 2000 $(find . -wholename "*.tif") -co "COMPRESS=LZW" -tr 0.00833 0.00833 -r max MT1.2.30s.max.tif
-## 5 minute
- gdalwarp --config GDAL_CACHEMAX 2000 -wm 2000 $(find . -wholename "*.tif") -co "COMPRESS=LZW" -tr 0.0833 0.0833 -r max MT1.2.10m.max.tif
-
-
- r.in.gdal --overwrite input=MT1.2.10m.max.tif output=MT1.2.minor
- r.in.gdal --overwrite input=MT1.2.30s.max.tif output=MT1.2.major
- r.mapcalc --overwrite expression="MT1.2.IM.v2=if(MT1.2.major,1,if(MT1.2.minor,2,null()))"
-##r.null map=MT1.2.IM.v2 setnull=0
-#r.colors map=MT1.2.IM.v2  color=greens
-r.colors map=MT1.2.IM.v2 rules=DumparkMapColors.txt
 
 
 

@@ -60,7 +60,7 @@ UPDATE wcmc.mangroveusgs2011_v1_3 SET geog=ST_GeogFromWKB(wkb_geometry) WHERE ge
 -- this is slow for big polygons
 SELECT count (*) from  wcmc.mangroveusgs2011_v1_3 where area_km2>500 ;
 UPDATE wcmc.mangroveusgs2011_v1_3 set buffer=ST_Multi(ST_buffer(geog,1000)::geometry) where area_km2>1 AND geog IS NOT NULL AND buffer IS NULL;
--- this is fast for small polygons, but there many of them
+-- this is fast for small polygons, but there are many of them
 SELECT count (*) from  wcmc.mangroveusgs2011_v1_3 where area_km2<0.0000000005 ;
 UPDATE wcmc.mangroveusgs2011_v1_3 set buffer=ST_Multi(ST_buffer(geog,1000)::geometry) where area_km2<0.05 AND geog IS NOT NULL AND buffer IS NULL;
 
@@ -68,6 +68,12 @@ UPDATE wcmc.mangroveusgs2011_v1_3 set buffer=ST_Multi(ST_buffer(geog,1000)::geom
 SELECT ST_Area(geog), ST_AREA(ST_GeogFromWKB(buffer)) FROM wcmc.mangroveusgs2011_v1_3 where buffer is NOT NULL LIMIT 20;
 SELECT count(*) FROM wcmc.mangroveusgs2011_v1_3 where geog is NULL;
 SELECT count(*) FROM wcmc.mangroveusgs2011_v1_3 where buffer is NULL;
+
+-- we can try to simplify this table by creating a union by country code (ISO3 column):
+
+CREATE TABLE wcmc.mangrove_buffer AS (
+   SELECT ISO3,ST_UNION(buffer) FROM wcmc.mangroveusgs2011_v1_3 GROUP BY ISO3
+);
 
 ```
 
