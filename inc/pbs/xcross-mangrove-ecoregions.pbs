@@ -1,0 +1,56 @@
+#!/usr/bin/bash
+
+#PBS -l select=1:ncpus=8:mem=120gb
+#PBS -l walltime=24:00:00
+#PBS -N MangroveXEcoreg
+#PBS -k eod
+#PBS -j oe
+#PBS -M j.ferrer@unsw.edu.au
+#PBS -m ae
+
+## set up bash environment variables
+source $HOME/proyectos/IUCN-GET/GET-indicative-maps-GIS/env/project-env.sh
+
+## load modules for gdal functions
+module add sqlite/3.31.1 spatialite/5.0.0b0 python/3.8.3 perl/5.28.0 gdal/3.2.1 geos/3.8.1 proj/7.2.0
+module add R/4.0.2
+
+cd $WORKDIR
+
+## TEOW by ecoregion
+
+for BIOME in $(cut $GISDATA/ecoregions/global/TEOW/teow2017-valid-output/Ecoregions2017.csv -d, -f1 | tail -n+2 | sort | uniq)
+do
+##  echo $BIOME
+  if [ $BIOME = "N/A" ]
+  then
+    echo skipping $BIOME
+  else
+    nohup Rscript --vanilla $SCRIPTDIR/inc/R/xcross-ecoregions.R $BIOME > nohup-R-${BIOME}.out &
+    sleep $((RANDOM % 160))
+    echo date
+  fi
+done
+
+
+echo '<OGRVRTDataSource>
+<OGRVRTLayer name="mangroves">
+    <SrcDataSource>'$GISDATA'/ecosystems/global/WCMC-mangroves-GMW/GMW-valid-output/GMW_2016_valid.gpkg</SrcDataSource>
+    <SrcLayer>GMW_2016_v2</SrcLayer>
+</OGRVRTLayer>
+<OGRVRTLayer name="meow">
+    <SrcDataSource>'$GISDATA'/ecoregions/global/MEOW/meow_ecos_valid.gpkg</SrcDataSource>
+    <SrcLayer>meow_ecos</SrcLayer>
+</OGRVRTLayer>
+<OGRVRTLayer name="lmes">
+    <SrcDataSource>'$GISDATA'/ecoregions/global/LME/lmes_64_valid.gpkg</SrcDataSource>
+    <SrcLayer>lmes_64</SrcLayer>
+</OGRVRTLayer>
+</OGRVRTDataSource>' > mangrove-data-sources.vrt
+
+ ogrinfo mangrove-data-sources.vrt
+
+
+ogr2ogr -f "GPKG" intersection-lmes.gpkg mangrove-data-sources.vrt -dialect sqlite -sql "SELECT a.ogc_fid as oid,b.LME_NUMBER,b.OBJECTID,a.geom AS geometry FROM mangroves a, lmes b WHERE ST_Intersects(a.geom, b.geom)"
+
+# nohup ogr2ogr -f "GPKG" intersection-meow.gpkg mangrove-data-sources.vrt -dialect sqlite -sql "SELECT a.ogc_fid as oid,b.ECO_CODE,a.geom AS geometry FROM mangroves a, meow b WHERE ST_Intersects(a.geom, b.geom)" > $WORKDIR/nohup-OGR-MEOW.out &
