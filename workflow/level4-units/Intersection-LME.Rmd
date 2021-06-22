@@ -1,0 +1,135 @@
+---
+title: "Check intersection of ecoregions (LME) with mangrove (GMW) data"
+---
+
+We intersected the polygon of _Large Marine Ecosystems_ (LME, https://doi.org/10.7488/ds/1902) and _Global Mangrove Watch_ for the year 2016 (GMW, http://data.unep-wcmc.org/datasets/45) and we check the results from two different approaches (using OGR vs. R packages).
+
+```{r}
+require(dplyr)
+require(magrittr)
+require(sf)
+require(units)
+require(raster)
+require(readr)
+require(stringr)
+require(ggplot2)
+require(units)
+
+source(sprintf("%s/proyectos/IUCN-GET/MFT1.2-intertidal-forest/env/project-env.R",Sys.getenv("HOME")))
+setwd(work.dir)
+```
+
+## Load data
+
+First we read spatial data from our data sources. Steps for download from the original data sources, and preparation of the data (repairing topological invalid polygons, etc) is documented in the repo https://github.com/unsw-edu-au/cesdata.
+
+We use package `sf` to read the spatial data.
+
+```{r}
+lmes <- read_sf(sprintf("%s/ecoregions/global/LME/lmes_64_valid.gpkg",gis.data))
+mgv <- read_sf(sprintf("%s/ecosystems/global/WCMC-mangroves-GMW/GMW-valid-output/GMW_2016_valid.gpkg",gis.data))
+```
+
+Intersecting these polygons is time and resource consuming, so we performed this step using batch jobs (/inc/pbs/xcross-mangrove-ecoregions.pbs). We tested one approach using functions in the `gdal` library in and another using functions in the `sf` package in **R**.
+
+### Loading spatial object created with `ogr2ogr`
+
+The result from the first approach is stored as a single Geopackage file that we can read in R:
+
+```{r}
+mgv.lme.its <- read_sf("intersection-lmes.gpkg")
+```
+
+We summarise the spatial data into a tibble and run some checks on the data objects to make sure it is indeed complete:
+
+```{r}
+mgv.lme.its %>% mutate(area=st_area(geometry),centroid=st_centroid(geometry)) %>% st_drop_geometry  %>% transmute(oid,LME_NUMBER,area,lon=st_coordinates(centroid)[,1],lat=st_coordinates(centroid)[,2]) -> rslts_lme_1
+
+rslts_lme_1 %>% summarise(n=n(),nfid=n_distinct(oid), neco=n_distinct(LME_NUMBER),total_area=sum(area) %>% set_units("km^2"))
+```
+
+With this method we found 147902 mangrove polygons in 32 LMEs covering 80702.8 km^2. This area refers to the sum of whole polygons intersecting those LMEs (i.e. including area on land).
+
+
+### Loading Rdata object created with `sf` functions
+
+The results from the second approach is stored in an Rdata file:
+
+```{r}
+rda.file <- dir(sprintf("%s/Rdata/",work.dir),"LME",full.names=T)
+(load(rda.file))
+rslts_lme_2 <- rslts_lmes
+rm(rslts_lmes)
+```
+
+We run some checks on the data objects to make sure it is indeed complete. First check if all regions were processed and how many had mangrove polygons:
+
+```{r}
+all_lmes %>% summarise(total=n(),ready=sum(ready),with_mangroves= sum(crop_rows>0),intersected_mangroves=sum(intersection_rows>0),error=sum(fallos))
+```
+
+Next, we make a summary table similar as the one above:
+```{r}
+rslts_lme_2 %>% summarise(n=n(),nfid=n_distinct(ogc_fid), neco=n_distinct(LME_NUMBER),total_area=sum(area,na.rm=T) %>% set_units("km^2"))
+```
+This object contains a larger number of polygons but smaller area. This is due to differences in the approach: the code recorded all polygons in the bounding box of the regions but only calculated the overlapping area (intersection), thus some polygons are duplicated (compare n and nfid in the table), but several record are empty polygons (area is _NA_) and only the areas within the LME are counted
+
+In fact, removing the empty polygons gives the same number of polygons as the first approach:
+
+```{r}
+rslts_lme_2 %>% filter(!is.na(area)) %>% summarise(n=n(), nfid=n_distinct(ogc_fid), neco=n_distinct(LME_NUMBER), total_area=sum(area,na.rm=T) %>% set_units("km^2"))
+```
+
+Checking if there are any duplicated rows:
+
+```{r}
+ rslts_lme_2 %>% filter(!is.na(area)) %>% duplicated %>% table
+
+```
+
+### Compare results per region
+
+Summarising the data by LME region we can confirm that the differences are only in the estimated area of the polygon:
+
+```{r}
+
+rslts_lme_1 %>% group_by(LME_NUMBER) %>% summarise(total_area=sum(area) %>% set_units("km^2"), n_polygons=n_distinct(oid), x=weighted.mean(lon,weight=area), y=weighted.mean(lat,weight=area))
+
+rslts_lme_2 %>% filter(!is.na(area)) %>% group_by(LME_NUMBER) %>% summarise(total_area=sum(area) %>% set_units("km^2"), n_polygons=n_distinct(ogc_fid), x=weighted.mean(lon,weight=area), y=weighted.mean(lat,weight=area))
+```
+
+We can check the spatial objects to visualize which polygons get included in the intersection, for example in this LME:
+
+```{r}
+
+e1 <- c(xmin=-160.6768,ymin=18.33631,xmax=-154.3313,ymax=22.87770)
+
+if (!exists("slc.its"))
+   slc.its <- mgv.lme.its %>% filter(LME_NUMBER %in% 10)
+if (!exists("slc.lme"))
+   slc.lme <- lmes %>% filter(LME_NUMBER %in% 10)
+if (!exists("slc.mgv"))
+   slc.mgv <- mgv %>% st_crop(st_bbox(slc.its))
+slc.lme %>% st_crop(e1) %>% st_geometry %>% plot(border="peru",col="wheat",main=slc.lme %>% pull(LME_NAME))
+slc.mgv %>% st_geometry %>% plot(add=T,col="darkgreen",border="darkgreen")
+slc.its %>% st_geometry %>% plot(add=T,col="darkred",border="red")
+```
+
+And we can zoom in to get the details:
+
+```{r}
+e2 <- c(xmin=-157.34,ymin=21.01,xmax=-156.6,ymax=21.28)
+slc.lme %>% st_crop(e2) %>% st_geometry %>% plot(border="peru",col="wheat",main=slc.lme %>% pull(LME_NAME))
+slc.mgv %>% st_geometry %>% plot(add=T,col="darkgreen",border="darkgreen")
+slc.its %>% st_geometry %>% plot(add=T,col="darkred",border="red")
+
+```
+
+This all looks fine!
+
+#### Session information:
+
+```{r}
+sessionInfo()
+
+```

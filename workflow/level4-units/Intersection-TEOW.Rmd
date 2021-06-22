@@ -1,0 +1,98 @@
+---
+title: "Check intersection of ecoregions (TEOW) with mangrove (GMW) data"
+---
+
+We intersected the polygon of _Terrestrial ecoregions_ or [TEOW](https://ecoregions2017.appspot.com) and _Global Mangrove Watch_ for the year 2016 (GMW, http://data.unep-wcmc.org/datasets/45) and we check the results.
+
+
+```{r}
+require(dplyr)
+require(magrittr)
+require(sf)
+require(units)
+require(raster)
+require(readr)
+require(stringr)
+require(ggplot2)
+require(units)
+
+source(sprintf("%s/proyectos/IUCN-GET/MFT1.2-intertidal-forest/env/project-env.R",Sys.getenv("HOME")))
+setwd(work.dir)
+```
+
+
+## Load data
+
+Steps for download from the original data sources, and preparation of the data (repairing topological invalid polygons, etc) is documented in the repo https://github.com/unsw-edu-au/cesdata.
+Intersecting these polygons is time and resource consuming, so we performed this step using batch jobs (/inc/pbs/xcross-mangrove-ecoregions.pbs). We used an approach based on functions in the `sf` package in **R** and splitting the data by ecoregions. We need to read a series of Rdata objects and bind them together.
+
+
+```{r}
+rda.dir <- sprintf("%s/Rdata",work.dir)
+
+total_ecoreg <- tibble()
+rslts_teow <- tibble()
+for (k in dir(rda.dir,"TEOW")) {
+  load(sprintf("%s/Rdata/%s",work.dir,k))
+  total_ecoreg %<>% bind_rows(all_ecoregs)
+  rslts_teow %<>% bind_rows(rslts.teow)
+}
+```
+
+## Check data
+
+We run some checks on the data objects to make sure it is indeed complete. First check if all regions were processed and how many had mangrove polygons:
+
+```{r}
+total_ecoreg %>% summarise(total=n(),ready=sum(ready),with_mangroves= sum(crop_rows>0),intersected_mangroves=sum(intersection_rows>0),error=sum(fallos))
+```
+
+If some regions are missing, we can check here which biomes need further processing:
+
+```{r}
+total_ecoreg %>% filter(!ready) %>% pull(ECO_BIOME_) %>% table
+```
+
+For example the biome with code AF01 had previouly some errors in the Niger Delta and other ecoregions due to invalid polygons, we can check here that these are now processed without errors:
+```{r}
+total_ecoreg %>% filter(ECO_BIOME_ %in% "AF01" & ready) %>% dplyr::select(ECO_NAME,ready,fallos,crop_rows,intersection_rows) %>%  print.AsIs()
+```
+
+## Summary table
+
+Next, we make a summary table :
+```{r}
+rslts_teow %>% summarise(n=n(),nfid=n_distinct(ogc_fid), nbiome=n_distinct(ECO_BIOME_), neco=n_distinct(ECO_ID), total_area=sum(area,na.rm=T) %>% set_units("km^2"))
+```
+
+This object contains 584476  mangrove polygons in 44 biomes and 248 ecoregions covering 117195.6 km^2.
+The code for creating the intersections recorded all polygons in the bounding box of the regions but only calculated the overlapping area (intersection), thus some polygons are duplicated (compare n and nfid in the table), but several record are empty polygons (area is _NA_) and only the areas within the ecoregion unit are counted.
+
+If we exclude the polygons with empty area we get a smaller number of polygons:
+
+```{r}
+rslts_teow %>% filter(!is.na(area)) %>% summarise(n=n(),nfid=n_distinct(ogc_fid), nbiome=n_distinct(ECO_BIOME_), neco=n_distinct(ECO_ID), total_area=sum(area,na.rm=T) %>% set_units("km^2"))
+```
+
+Some polygons overlap with more than one ecoregion (compare n with nfid) but we should not have duplicated rows:
+
+```{r}
+rslts_teow %>% filter(!is.na(area)) %>% duplicated %>% table
+```
+
+We can now summarise results by ecoregion:
+
+```{r}
+
+rslts_teow %>% group_by(ECO_ID) %>% summarise(total_area=sum(drop_units(area)/1e6,na.rm=T),n_polygons=n_distinct(ogc_fid),x=weighted.mean(lon,weight=area),y=weighted.mean(lat,weight=area)) %>% filter(total_area > 0 )
+
+```
+
+This all looks fine!
+
+#### Session information:
+
+```{r}
+sessionInfo()
+
+```

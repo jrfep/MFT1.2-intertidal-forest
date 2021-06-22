@@ -9,7 +9,7 @@
 #PBS -m ae
 
 ## set up bash environment variables
-source $HOME/proyectos/IUCN-GET/GET-indicative-maps-GIS/env/project-env.sh
+source $HOME/proyectos/IUCN-GET/MFT1.2-intertidal-forest/env/project-env.sh
 
 ## load modules for gdal functions
 module add sqlite/3.31.1 spatialite/5.0.0b0 python/3.8.3 perl/5.28.0 gdal/3.2.1 geos/3.8.1 proj/7.2.0
@@ -53,4 +53,4 @@ echo '<OGRVRTDataSource>
 
 ogr2ogr -f "GPKG" intersection-lmes.gpkg mangrove-data-sources.vrt -dialect sqlite -sql "SELECT a.ogc_fid as oid,b.LME_NUMBER,b.OBJECTID,a.geom AS geometry FROM mangroves a, lmes b WHERE ST_Intersects(a.geom, b.geom)"
 
-# nohup ogr2ogr -f "GPKG" intersection-meow.gpkg mangrove-data-sources.vrt -dialect sqlite -sql "SELECT a.ogc_fid as oid,b.ECO_CODE,a.geom AS geometry FROM mangroves a, meow b WHERE ST_Intersects(a.geom, b.geom)" > $WORKDIR/nohup-OGR-MEOW.out &
+ nohup ogr2ogr -f "GPKG" intersection-meow.gpkg mangrove-data-sources.vrt -dialect sqlite -sql "SELECT a.ogc_fid as oid,b.ECO_CODE,a.geom AS geometry FROM mangroves a, meow b WHERE ST_Intersects(a.geom, b.geom)" > $WORKDIR/nohup-OGR-MEOW.out &
