@@ -1,6 +1,6 @@
 export MIHOST=$(hostname -s)
 
-export PROJECT=MFT1.2-intertidal-forest
+export PROJECTNAME=MFT1.2-intertidal-forest
 export SCRIPTDIR=$HOME/proyectos/IUCN-GET/$PROJECTNAME
 
 case $MIHOST in

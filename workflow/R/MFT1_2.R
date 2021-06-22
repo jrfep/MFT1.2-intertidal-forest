@@ -9,9 +9,7 @@ require(stringr)
 require(ggplot2)
 require(units)
 
-source(sprintf("%s/proyectos/UNSW/MFT1.2-intertidal-forest/env/project-env.R",Sys.getenv("HOME")))
-work.dir <- sprintf("/srv/scratch/%s/tmp/GET-indicative-maps-GIS/",Sys.getenv("USER"))
-gis.data <- sprintf("/srv/scratch/cesdata/gisdata")
+source(sprintf("%s/proyectos/IUCN-GET/MFT1.2-intertidal-forest/env/project-env.R",Sys.getenv("HOME")))
 setwd(work.dir)
 
 (load("GMW-2016-agg-TEOW.rda"))
