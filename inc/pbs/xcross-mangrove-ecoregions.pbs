@@ -42,6 +42,10 @@ echo '<OGRVRTDataSource>
     <SrcDataSource>'$GISDATA'/ecoregions/global/MEOW/meow_ecos_valid.gpkg</SrcDataSource>
     <SrcLayer>meow_ecos</SrcLayer>
 </OGRVRTLayer>
+<OGRVRTLayer name="teow">
+    <SrcDataSource>'$GISDATA'/ecoregions/global/TEOW/teow_2017_valid.gpkg</SrcDataSource>
+    <SrcLayer>Ecoregions2017</SrcLayer>
+</OGRVRTLayer>
 <OGRVRTLayer name="lmes">
     <SrcDataSource>'$GISDATA'/ecoregions/global/LME/lmes_64_valid.gpkg</SrcDataSource>
     <SrcLayer>lmes_64</SrcLayer>
@@ -52,5 +56,13 @@ echo '<OGRVRTDataSource>
 
 
 ogr2ogr -f "GPKG" intersection-lmes.gpkg mangrove-data-sources.vrt -dialect sqlite -sql "SELECT a.ogc_fid as oid,b.LME_NUMBER,b.OBJECTID,a.geom AS geometry FROM mangroves a, lmes b WHERE ST_Intersects(a.geom, b.geom)"
+
+
+if [ ! -e intersection-teow.gpkg ]
+then
+  echo $(date)
+  ogr2ogr -f "GPKG" intersection-teow.gpkg mangrove-data-sources.vrt -dialect sqlite -sql "SELECT a.ogc_fid as oid,b.ECO_ID,b.ECO_NAME,b.OBJECTID,b.ECO_BIOME_,a.geom AS geometry FROM mangroves a, teow b WHERE ST_Intersects(a.geom, b.geom)"
+  echo $(date)
+fi
 
  nohup ogr2ogr -f "GPKG" intersection-meow.gpkg mangrove-data-sources.vrt -dialect sqlite -sql "SELECT a.ogc_fid as oid,b.ECO_CODE,a.geom AS geometry FROM mangroves a, meow b WHERE ST_Intersects(a.geom, b.geom)" > $WORKDIR/nohup-OGR-MEOW.out &
