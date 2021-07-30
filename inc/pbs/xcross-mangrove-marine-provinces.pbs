@@ -1,0 +1,44 @@
+#!/usr/bin/bash
+
+#PBS -l select=1:ncpus=8:mem=120gb
+#PBS -l walltime=12:00:00
+#PBS -N MangroveXEcoreg
+#PBS -k eod
+#PBS -j oe
+#PBS -M j.ferrer@unsw.edu.au
+#PBS -m ae
+
+## set up bash environment variables
+source $HOME/proyectos/IUCN-GET/MFT1.2-intertidal-forest/env/project-env.sh
+
+## load modules for gdal functions
+module add sqlite/3.31.1 spatialite/5.0.0b0 python/3.8.3 perl/5.28.0 gdal/3.2.1 geos/3.8.1 proj/7.2.0
+module add R/4.0.2
+
+cd $WORKDIR
+
+
+echo '<OGRVRTDataSource>
+<OGRVRTLayer name="mangroves">
+    <SrcDataSource>'$GISDATA'/ecosystems/global/WCMC-mangroves-GMW/GMW-valid-output/GMW_2016_valid.gpkg</SrcDataSource>
+    <SrcLayer>GMW_2016_v2</SrcLayer>
+</OGRVRTLayer>
+<OGRVRTLayer name="mangrove_types">
+    <SrcDataSource>'$GISDATA'/ecosystems/global/WCMC-mangrove-types/TNC-BioPhys-Mangrove-valid-output/Mangrove_Typology_v2_2_2016_valid.gpkg</SrcDataSource>
+    <SrcLayer>Mangrove_Typology_v2_2_2016</SrcLayer>
+</OGRVRTLayer>
+<OGRVRTLayer name="meow">
+    <SrcDataSource>'$GISDATA'/ecoregions/global/MEOW/meow_ecos_valid.gpkg</SrcDataSource>
+    <SrcLayer>meow_ecos</SrcLayer>
+</OGRVRTLayer>
+</OGRVRTDataSource>' > mangrove-type-data-sources.vrt
+
+ # ogrinfo mangrove-type-data-sources.vrt
+
+# this one took around 30 mins
+if [ ! -e intersection-type-meow-provs.gpkg ]
+then
+  echo $(date)
+  ogr2ogr -f "GPKG" intersection-type-meow-provs.gpkg mangrove-type-data-sources.vrt -dialect sqlite -sql "SELECT a.ID,a.Class,a.Sedimentar,b.ECO_CODE,b.PROV_CODE,b.PROVINCE,a.geom AS geometry FROM mangrove_types a, meow b WHERE ST_Intersects(a.geom, b.geom)"
+  echo $(date)
+fi

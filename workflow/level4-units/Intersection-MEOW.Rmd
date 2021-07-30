@@ -1,0 +1,114 @@
+---
+title: "Check intersection of ecoregions (MEOW) with mangrove (GMW) data"
+---
+
+We intersected the polygon of _Marine ecoregions_ or [MEOW](https://www.worldwildlife.org/publications/marine-ecoregions-of-the-world-a-bioregionalization-of-coastal-and-shelf-areas) with mangrove data from _Global Mangrove Watch_ for the year 2016 (GMW, http://data.unep-wcmc.org/datasets/45) and the _Global biophysical typology of mangroves_ for the year 2016 (https://data.unep-wcmc.org/datasets/48) and we check the results.
+
+
+```{r}
+require(dplyr)
+require(magrittr)
+require(sf)
+require(units)
+require(raster)
+require(readr)
+require(stringr)
+require(ggplot2)
+require(units)
+
+source(sprintf("%s/proyectos/IUCN-GET/MFT1.2-intertidal-forest/env/project-env.R",Sys.getenv("HOME")))
+setwd(work.dir)
+```
+
+
+## Load data
+
+Steps for download from the original data sources, and preparation of the data (repairing topological invalid polygons, etc) is documented in the repo https://github.com/unsw-edu-au/cesdata.
+Intersecting these polygons is time and resource consuming, so we performed this step using batch jobs (/inc/pbs/xcross-mangrove-ecoregions.pbs).
+
+We use package `sf` to read the spatial data.
+
+```{r}
+meow <- read_sf(sprintf("%s/ecoregions/global/MEOW/meow_ecos_valid.gpkg",gis.data))
+
+mgv <- read_sf(sprintf("%s/ecosystems/global/WCMC-mangroves-GMW/GMW-valid-output/GMW_2016_valid.gpkg",gis.data))
+
+mgv_types <- read_sf(sprintf("%s/ecosystems/global/WCMC-mangrove-types/TNC-BioPhys-Mangrove-valid-output/Mangrove_Typology_v2_2_2016_valid.gpkg",gis.data))
+
+```
+
+Intersecting these polygons is time and resource consuming, so we performed this step using batch jobs (/inc/pbs/xcross-mangrove-ecoregions.pbs).
+
+
+### Loading spatial object created with `ogr2ogr`
+
+The result from the intersection is stored as a single Geopackage file that we can read in R:
+
+```{r}
+mgv.meow.its <- read_sf("intersection-meow.gpkg")
+mgt.meow.its <- read_sf("intersection-type-meow-provs.gpkg")
+```
+
+According to the recommendation from experts, we should use provinces instead of ecoregions. We can use the table from the spatial object to make the link for the MEOW intersection data with GMW.
+
+```{r}
+provs <- meow %>% st_drop_geometry %>% dplyr::select(ECO_CODE,PROV_CODE)
+mgv.meow.its %<>% left_join(provs,by="ECO_CODE")
+```
+
+This is already included in the `mgt.meow.its` object.
+
+
+### Summarise totals
+
+We summarise the spatial data into a tibble and run some checks on the data objects to make sure they are complete:
+
+```{r}
+mgv.meow.its %>% mutate(area=st_area(geometry),centroid=st_centroid(geometry)) %>% st_drop_geometry  %>% transmute(oid,PROV_CODE,ECO_CODE,area,lon=st_coordinates(centroid)[,1],lat=st_coordinates(centroid)[,2]) -> rslts_meow_1
+
+rslts_meow_1 %>% summarise(n=n(),nfid=n_distinct(oid), nprv=n_distinct(PROV_CODE),neco=n_distinct(ECO_CODE),total_area=sum(area) %>% set_units("km^2"))
+```
+
+For the GMW dataset we found 584535 distinct mangrove polygons in 37 provinces and 102 ecoregions covering 136497.7 km^2. This area refers to the sum of whole polygons intersecting those ecoregions (i.e. including area on land).
+
+
+```{r}
+mgt.meow.its %>% mutate(area=st_area(geometry),centroid=st_centroid(geometry)) %>% st_drop_geometry  %>% transmute(ID,PROV_CODE,ECO_CODE, Class, Sedimentar,area,lon=st_coordinates(centroid)[,1],lat=st_coordinates(centroid)[,2]) -> rslts_meow_2
+
+rslts_meow_2 %>%  summarise(n=n(),nfid=n_distinct(ID), nprv=n_distinct(PROV_CODE),neco=n_distinct(ECO_CODE),total_area=sum(area) %>% set_units("km^2"))
+```
+For the Mangrove Typology dataset this step is somehow slower (very large multipolygons?) we found 4167 distinct mangrove polygons in 37 provinces and 102 ecoregions covering 141024.7 km^2.
+
+We can check the totals by class and sedimentar:
+
+```{r}
+
+rslts_meow_2 %>% group_by(Class,Sedimentar) %>% summarise(n=n(),nfid=n_distinct(ID), nprv=n_distinct(PROV_CODE),neco=n_distinct(ECO_CODE),total_area=sum(area) %>% set_units("km^2"))
+
+```
+
+### Check duplicates / missing
+
+All polygons from the mangrove typology are included in the intersection:
+```{r}
+mgv_types %>% st_drop_geometry() %>% pull(ID) -> ids
+table(ids %in% rslts_meow_2$ID,useNA = "always")
+```
+
+These polygons intersect multiple ecoregions
+```{r}
+rslts_meow_2 %>% group_by(ID) %>% summarise(nprovs=n_distinct(PROV_CODE),necos=n_distinct(ECO_CODE)) %>% filter(necos>1)
+```
+
+
+
+
+This all looks fine!
+
+
+#### Session information:
+
+```{r}
+sessionInfo()
+
+```

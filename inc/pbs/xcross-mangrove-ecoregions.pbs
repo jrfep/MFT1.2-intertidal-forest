@@ -54,8 +54,10 @@ echo '<OGRVRTDataSource>
 
  ogrinfo mangrove-data-sources.vrt
 
-
+if [ ! -e intersection-lmes.gpkg ]
+then
 ogr2ogr -f "GPKG" intersection-lmes.gpkg mangrove-data-sources.vrt -dialect sqlite -sql "SELECT a.ogc_fid as oid,b.LME_NUMBER,b.OBJECTID,a.geom AS geometry FROM mangroves a, lmes b WHERE ST_Intersects(a.geom, b.geom)"
+fi
 
 
 if [ ! -e intersection-teow.gpkg ]
@@ -65,4 +67,9 @@ then
   echo $(date)
 fi
 
- nohup ogr2ogr -f "GPKG" intersection-meow.gpkg mangrove-data-sources.vrt -dialect sqlite -sql "SELECT a.ogc_fid as oid,b.ECO_CODE,a.geom AS geometry FROM mangroves a, meow b WHERE ST_Intersects(a.geom, b.geom)" > $WORKDIR/nohup-OGR-MEOW.out &
+if [ ! -e intersection-meow.gpkg ]
+then
+  echo $(date)
+  nohup ogr2ogr -f "GPKG" intersection-meow.gpkg mangrove-data-sources.vrt -dialect sqlite -sql "SELECT a.ogc_fid as oid,b.ECO_CODE,a.geom AS geometry FROM mangroves a, meow b WHERE ST_Intersects(a.geom, b.geom)" > $WORKDIR/nohup-OGR-MEOW.out &
+  echo $(date)
+fi

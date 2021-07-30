@@ -15,6 +15,17 @@ roraima)
   export GISDB=$HOME/gisdb/ecosphere
   export WORKDIR=$HOME/tmp/$PROJECTNAME
   export REFDIR=$HOME/Cloudstor/Shared/EFTglobalmaps/
+
+  grep -A4 IUCNdb $HOME/.database.ini | tail -n +2 > tmpfile
+  while IFS="=" read -r key value; do
+    case "$key" in
+    "host") export DBHOST="$value" ;;
+    "port") export DBPORT="$value" ;;
+    "database") export DBNAME="$value" ;;
+    "user") export DBUSER="$value" ;;
+    esac
+  done < tmpfile
+  rm tmpfile
   ;;
   *)
    if [ -e /srv/scratch/cesdata ]

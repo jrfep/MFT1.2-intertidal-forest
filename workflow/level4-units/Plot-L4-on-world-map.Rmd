@@ -1,8 +1,9 @@
 ---
-title: "Plot Level 4 units based on ecoregions (MEOW, TEOW, LME) and mangrove (GMW) data"
+title: "Plot Level 4 units based on marine provinces (MEOW) and mangrove biophysical type data"
 ---
 
-We intersected three ecoregion polygons (_Large Marine Ecosystems_ or [LME](https://doi.org/10.7488/ds/1902) ; _Terrestrial ecoregions_ or [TEOW](https://ecoregions2017.appspot.com) ; _Marine ecoregions_ or [MEOW](https://www.worldwildlife.org/publications/marine-ecoregions-of-the-world-a-bioregionalization-of-coastal-and-shelf-areas) ) and mangrove distribution data from _Global Mangrove Watch_ for the year 2016 ([GMW](http://data.unep-wcmc.org/datasets/45)) and we plot the number of distinct groups of mangroves.
+
+We intersected the polygon of _Marine ecoregions_ or [MEOW](https://www.worldwildlife.org/publications/marine-ecoregions-of-the-world-a-bioregionalization-of-coastal-and-shelf-areas) with mangrove data from _Global Mangrove Watch_ for the year 2016 (GMW, http://data.unep-wcmc.org/datasets/45) and the _Global biophysical typology of mangroves_ for the year 2016 (https://data.unep-wcmc.org/datasets/48) and we plot the number of distinct groups of mangroves.
 
 
 ```{r}
@@ -15,6 +16,9 @@ require(readr)
 require(stringr)
 require(ggplot2)
 require(units)
+require(tidyr)
+require(scatterpie)
+require(ggforce)
 
 source(sprintf("%s/proyectos/IUCN-GET/MFT1.2-intertidal-forest/env/project-env.R",Sys.getenv("HOME")))
 setwd(work.dir)
@@ -24,62 +28,54 @@ setwd(work.dir)
 
 First we read spatial data from our data sources. Steps for download from the original data sources, and preparation of the data (repairing topological invalid polygons, etc) is documented in the repo https://github.com/unsw-edu-au/cesdata.
 
-We use package `sf` to read the spatial data for mangroves:
+We use package `sf` to read the spatial data for the biophysical typology of mangroves:
 
 ```{r}
-mgv <- read_sf(sprintf("%s/ecosystems/global/WCMC-mangroves-GMW/GMW-valid-output/GMW_2016_valid.gpkg",gis.data))
+
+mgv_types <- read_sf(sprintf("%s/ecosystems/global/WCMC-mangrove-types/TNC-BioPhys-Mangrove-valid-output/Mangrove_Typology_v2_2_2016_valid.gpkg",gis.data))
+
 ```
 
-And for the intersection with LME and MEOW:
+And for the intersection with MEOW provinces:
 
 ```{r}
-mgv.lmes <- read_sf("intersection-lmes.gpkg")
-mgv.meow <- read_sf("intersection-meow.gpkg")
+mgt.meow.its <- read_sf("intersection-type-meow-provs.gpkg")
 ```
+
 
 And extract the data summaries we need:
 
 ```{r}
-mgv.meow %>% mutate(area=st_area(geometry),centroid=st_centroid(geometry)) %>% st_drop_geometry  %>% transmute(oid,ECO_CODE,area,lon=st_coordinates(centroid)[,1],lat=st_coordinates(centroid)[,2]) -> rslts_meow
-mgv.lmes %>% mutate(area=st_area(geometry),centroid=st_centroid(geometry)) %>% st_drop_geometry  %>% transmute(oid,LME_NUMBER,area,lon=st_coordinates(centroid)[,1],lat=st_coordinates(centroid)[,2]) -> rslts_lmes
-```
 
+mgt.meow.its %>% mutate(area=st_area(geometry),centroid=st_centroid(geometry)) %>% st_drop_geometry  %>% transmute(ID,PROV_CODE,ECO_CODE, Class, Sedimentar,area,lon=st_coordinates(centroid)[,1],lat=st_coordinates(centroid)[,2]) -> rslts_meow
 
-But for the terrestrial ecoregions we bind together the objects in the Rdata files
-
-```{r}
-rda.dir <- sprintf("%s/Rdata",work.dir)
-
-total_ecoreg <- tibble()
-rslts_teow <- tibble()
-for (k in dir(rda.dir,"TEOW")) {
-  load(sprintf("%s/Rdata/%s",work.dir,k))
-  total_ecoreg %<>% bind_rows(all_ecoregs)
-  rslts_teow %<>% bind_rows(rslts.teow)
-}
 ```
 
 ## Summarise data by ecoregion
 
-Now we can summarise by ecoregion id
+Now we can summarise by province id and mangrove type:
+
 ```{r}
 
-rslts_lmes %>% group_by(LME_NUMBER) %>% summarise(total_area=sum(area) %>% set_units("km²"), n_polygons=n_distinct(oid), x=weighted.mean(lon,weight=area), y=weighted.mean(lat,weight=area)) -> rsm_lmes
+rslts_meow %>% group_by(PROV_CODE,Class,Sedimentar) %>% summarise(total=sum(area) %>% drop_units) %>% pivot_wider(id=c(PROV_CODE), names_from=c(Class,Sedimentar), values_from=total) %>% replace(is.na(.), 0) -> prov_areas
 
-rslts_meow %>% group_by(ECO_CODE) %>% summarise(total_area=sum(area) %>% set_units("km²"), n_polygons=n_distinct(oid), x=weighted.mean(lon,weight=area), y=weighted.mean(lat,weight=area)) -> rsm_meow
+rslts_meow %>% group_by(PROV_CODE) %>% summarise(lon=weighted.mean(lon,drop_units(area)), lat=weighted.mean(lat,drop_units(area))) -> prov_xys
 
-rslts_teow %>% filter(!is.na(area)) %>% group_by(ECO_ID) %>% summarise(total_area=sum(area) %>% set_units("km²"), n_polygons=n_distinct(ogc_fid), x=weighted.mean(lon,weight=area),y=weighted.mean(lat,weight=area)) -> rsm_teow
+prov_data <- prov_xys %>% full_join(prov_areas)
+
+prov_data %<>% rowwise() %>%
+  mutate(radius = sum(c_across(Delta_Terrigenous:Lagoon_Carbonate)))
+prov_data %<>% mutate(pradius=log10(radius/1e6))
 
 ```
+
 
 ## Plot groups
 
 Check range of coordinates:
 
 ```{r}
-rsm_meow %>% summarise(range(x),range(y))
-rsm_teow %>% summarise(range(x),range(y))
-rsm_lmes %>% summarise(range(x),range(y))
+prov_data %>% summarise(range(lat),range(lon))
 ```
 
 Background world map:
@@ -96,137 +92,18 @@ world.plot <- ggplot() +
 
 ```
 
-Now we can map by terrestrial ecoregions...
+Now we can map by totals for each marine province
 
 ```{r}
-world.plot + labs(title=sprintf("Mangrove polygons (from GMW 2016) aggregated by Terrestrial Ecoregions: %s distinct units", nrow(rsm_teow)),caption="Circles indicate centroid of group",color = "Nr. of polygons",size="Area [km^2]") +
-  geom_point(data=rsm_teow,aes(x=x,y=y,size=total_area %>% drop_units,color=n_polygons))
-
-```
-
-
-... marine ecoregions...
-
-```{r}
-world.plot + labs(title=sprintf("Mangrove polygons (from GMW 2016) aggregated by Marine Ecoregions: %s distinct units", nrow(rsm_meow)),caption="Circles indicate centroid of group",color = "Nr. of polygons",size="Area [km^2]") +
-  geom_point(data=rsm_meow,aes(x=x,y=y,size=total_area %>% drop_units,color=n_polygons))
-
-
-```
-
-... or large marine ecosystems:
-
-```{r}
-
-world.plot + labs(title=sprintf("Mangrove polygons (from GMW 2016) aggregated by Large Marine Ecosystems: %s distinct units", nrow(rsm_lmes)),caption="Circles indicate centroid of group",color = "Nr. of polygons",size="Area [km^2]") +
-  geom_point(data=rsm_lmes,aes(x=x,y=y,size=total_area %>% drop_units,color=n_polygons))
-
+world.plot + geom_scatterpie(aes(x=lon, y=lat, group=PROV_CODE,r=pradius), data=prov_data, cols=colnames(prov_data)[4:9],color=NA) + labs(title=sprintf("Mangrove aggregated by Marine Provinces: %s distinct units", nrow(prov_data)),caption="Locations: centroid of unit; Size: proportional to log(Area km²)",fill = "Biophysical types") + theme(legend.position = "top",legend.key.size = unit(0.1, "cm")) -> p_provinces # +  geom_scatterpie_legend(prov_data$pradius, x=-140, y=-30,n=3)
+p_provinces
 ```
 
 Export maps using
 
 ```{r,eval=false}
-p1 <- world.plot + labs(title=sprintf("Mangrove polygons (from GMW 2016) aggregated by Large Marine Ecosystems: %s distinct units", nrow(rsm_lmes)),caption="Circles indicate centroid of group",color = "Nr. of polygons",size="Area [km^2]") + geom_point(data=rsm_lmes,aes(x=x,y=y,size=total_area %>% drop_units,color=n_polygons))
-ggsave(plot=p1,file=sprintf('%s/Mangrove-aggregated-by-LME.pdf',work.dir),device=pdf)
 
-```
-
-## Compare groups
-
-Each object includes different number of polygons:
-
-```{r}
-rslts_meow %>% summarise(total=n_distinct(oid))
-rslts_teow %>% summarise(total=n_distinct(ogc_fid))
-rslts_lmes %>% summarise(total=n_distinct(oid))
-```
-
-Join together the information from the three objects:
-```{r}
-mgv %>% mutate(area=st_area(geom),centroid=st_centroid(geom)) %>% st_drop_geometry  %>% transmute(oid=ogc_fid,area,lon=st_coordinates(centroid)[,1],lat=st_coordinates(centroid)[,2])  -> mgv_units
-
-rslts_teow %>% filter(!is.na(area)) %>% transmute(oid=ogc_fid,TEOW_ID=sprintf("T%s",ECO_ID)) %>% full_join( rslts_meow %>% transmute(oid,MEOW_ID=sprintf("M%s",ECO_CODE)) , by="oid") %>% full_join( rslts_lmes %>% transmute(oid,LME_ID=sprintf("L%s",LME_NUMBER)) , by="oid") %>% full_join(mgv_units,by="oid") -> mgv_xtab
-
-mgv_xtab %>% summarise(total=n(),units=n_distinct(oid))
-
-mgv_xtab %>% group_by(TEOW_ID,MEOW_ID,LME_ID) %>% summarise(n_poly=n_distinct(oid),total_area=sum(area) %>% set_units("km^2"), x=weighted.mean(lon,weight=area), y=weighted.mean(lat,weight=area))
-
-```
-
-Split this again in nodes and links
-
-```{r}
-
-mgv_xtab %>% filter(!is.na(MEOW_ID)) %>% group_by(node=MEOW_ID) %>% summarise(n_poly=n_distinct(oid),total_area=sum(area) %>% set_units("km^2"), x=weighted.mean(lon,weight=area), y=weighted.mean(lat,weight=area)) %>%
-   bind_rows (mgv_xtab %>% filter(!is.na(TEOW_ID)) %>% group_by(node=TEOW_ID) %>% summarise(n_poly=n_distinct(oid),total_area=sum(area) %>% set_units("km^2"), x=weighted.mean(lon,weight=area), y=weighted.mean(lat,weight=area))) %>%
-   bind_rows(mgv_xtab %>% filter(!is.na(LME_ID)) %>% group_by(node=LME_ID) %>% summarise(n_poly=n_distinct(oid),total_area=sum(area) %>% set_units("km^2"), x=weighted.mean(lon,weight=area), y=weighted.mean(lat,weight=area))) %>% mutate(group=substr(node,1,1)) -> nodes
-
-mgv_xtab %>% filter(!is.na(TEOW_ID) & !is.na(LME_ID)) %>% group_by(from=TEOW_ID,to=LME_ID) %>% summarise(n_poly=n_distinct(oid),total_area=sum(area) %>% set_units("km^2")) %>%
-   bind_rows (mgv_xtab %>% filter(!is.na(MEOW_ID) & !is.na(LME_ID)) %>% group_by(from=MEOW_ID,to=LME_ID) %>% summarise(n_poly=n_distinct(oid),total_area=sum(area) %>% set_units("km^2")))%>%
-   bind_rows (mgv_xtab %>% filter(!is.na(TEOW_ID) & !is.na(MEOW_ID)) %>% group_by(from=TEOW_ID,to=MEOW_ID) %>% summarise(n_poly=n_distinct(oid),total_area=sum(area) %>% set_units("km^2"))) -> links
-
-```
-
-Create graph object
-
-```{r}
-require(igraph)
-
-#links %<>% filter(from %in% nodes$node & to %in% nodes$node)
-#nodes %<>% filter(node %in% links$from | node %in% links$to)
-g <- graph_from_data_frame(links,nodes,directed=F)
-
-
-```
-
-
-Plot graph
-
-```{r}
-
-colrC <- c(M="skyblue",L="grey",T="palegreen")
-V(g)$color <- colrC[V(g)$group]
-#change arrow size and edge color:
-E(g)$arrow.size <- .2
-E(g)$edge.color <- "gray80"
-E(g)$width <- sqrt(E(g)$total_area /100)
-
-V(g)$size <- sqrt(V(g)$total_area/100)
-V(g)$label <- ifelse(V(g)$size > 3,V(g)$name,NA)
-
-#l <- layout_with_kk(g)
-l <- layout_with_fr(g)
-plot(g, layout=l,vertex.label.cex=.5)
-
-```
-
-
-This all looks fine!
-
-
-Still work to do: use centroids to display the nodes/links on a map
-
-```{r}
-l <- as.matrix(data.frame(V(g)$x,V(g)$y))
-
-##plot(g, layout=l,vertex.label.cex=.5)
-#require(maps)
-#plot('world')
-#map('world', fill = TRUE, col = "aliceblue")
-#plot(g, layout=l,vertex.label.cex=.5,add=T,rescale=F)
-
-unzip(sprintf("%s/admin/global/World-Bank/wb_land_10m.zip",gis.data))
-world.sf <- read_sf("WB_Land_10m/WB_Land_10m.shp")
-
-E(g)$width <- sqrt(E(g)$total_area/100)
-
-V(g)$size <- sqrt(V(g)$total_area)*10
-V(g)$label <- ifelse(V(g)$size > 3,V(g)$name,NA)
-
-par(mar=rep(0,4))
-plot(st_geometry(world.sf) %>% st_crop(xmin=-180,ymin=-40,xmax=180,ymax=40))
-plot(g, layout=l,vertex.label.cex=.5,add=T,rescale=F)
-
+ggsave(plot=p_provinces,file=sprintf('%s/Mangrove-aggregated-by-MEOW-provinces.pdf',work.dir),width=200,height=80,units="mm",device=pdf)
 ```
 
 

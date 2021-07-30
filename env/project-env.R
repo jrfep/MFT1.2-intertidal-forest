@@ -13,7 +13,7 @@ if (Sys.getenv("GISDATA") != "") {
          gis.data <- sprintf("/opt/gisdata/")
          work.dir <- sprintf("%s/tmp/%s",Sys.getenv("HOME"),projectname)
       },
-      roraima={
+      roraima.local={
          gis.data <- sprintf("%s/gisdata/",Sys.getenv("HOME"))
          work.dir <- sprintf("%s/tmp/%s",Sys.getenv("HOME"),projectname)
       },
