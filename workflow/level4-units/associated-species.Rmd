@@ -21,20 +21,26 @@ con <- dbConnect(drv, dbname = Sys.getenv("DBNAME"),
               user = Sys.getenv("DBUSER"))
 
 qry <- "SELECT taxonid,kingdom_name, phylum_name,   class_name, order_name, family_name, genus_name, scientific_name, taxonomic_authority, infra_rank, infra_name, population, category,  main_common_name, code,habitat, suitability, season, majorimportance FROM rlts_spp_taxonomy LEFT JOIN rlts_spp_habitats USING  (taxonid) where habitat like '%Mangr%'"
-
 res <- dbGetQuery(con,qry)
+dbDisconnect(con)
 
 head(res)
 table(res$kingdom_name,res$habitat)
 
 res %>% group_by(order_name) %>% summarise(total=n_distinct(scientific_name))
+res %>% group_by(order_name) %>% summarise(total=n_distinct(scientific_name)) %>% arrange(desc(total))
 
-res %>% filter(family_name %in% "ZENARCHOPTERIDAE") %>% distinct(scientific_name) %>% pull -> spps
-(occ_data <- occ(query = spps, from = 'gbif',limit=500))
+for (j in res %>% distinct(order_name) %>% pull) {
+  print(j)
+  arch <- sprintf("occ_data_%s",j)
+  if (!exists(arch)) {
+    res %>% filter(order_name %in% j) %>% distinct(scientific_name) %>% pull -> spps
+    assign(arch, occ(query = spps, from = 'gbif',limit=500))
+    save(file='occ-data.rda',list=ls(pattern="occ_data_"))
+  }
+}
 
-res %>% distinct(family_name)
 
 occ_data$gbif$data$Zenarchopterus_buffonis %>% select(longitude,latitude,countrycode,higherGeography)
 
-dbDisconnect(con)
 ```
