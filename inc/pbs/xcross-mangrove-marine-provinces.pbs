@@ -38,11 +38,10 @@ echo '<OGRVRTDataSource>
 # Use time to calculate how long it takes, this one took around 30 mins the first time
 if [ ! -e intersection-type-meow-provs.gpkg ]
 then
-  time -f "Calculate intersection with mangrove-type \nTotal time: %E\nUser Mode (s) %U\nKernel Mode (s) %S\nCPU: %P" ogr2ogr -f "GPKG" intersection-type-meow-provs.gpkg mangrove-type-data-sources.vrt -dialect sqlite -sql "SELECT a.ID,a.Class,a.Sedimentar,b.ECO_CODE,b.PROV_CODE,b.PROVINCE,a.geom AS geometry FROM mangrove_types a, meow b WHERE ST_Intersects(a.geom, b.geom)" -nln mangrove_types
+  \time -f "Calculate intersection with mangrove-type \nTotal time: %E\nUser Mode (s) %U\nKernel Mode (s) %S\nCPU: %P" ogr2ogr -f "GPKG" intersection-type-meow-provs.gpkg mangrove-type-data-sources.vrt -dialect sqlite -sql "SELECT a.ID,a.Class,a.Sedimentar,b.ECO_CODE,b.PROV_CODE,b.PROVINCE,a.geom AS geometry FROM mangrove_types a, meow b WHERE ST_Intersects(a.geom, b.geom)" -nln mangrove_types
 fi
 
-cat test_results.txt
 if [ ! -e intersection-type-meow-provs.gpkg ]
 then
-  time -f "Create convex hull per province \nTotal time: %E\nUser Mode (s) %U\nKernel Mode (s) %S\nCPU: %P" ogr2ogr -f "GPKG" convex-hull.gpkg intersection-type-meow-provs.gpkg -dialect sqlite -sql "SELECT PROV_CODE,PROVINCE,ST_ConvexHull(ST_UNION(geometry))  FROM mangrove_types GROUP BY PROV_CODE,PROVINCE"
+  \time -f "Create convex hull per province \nTotal time: %E\nUser Mode (s) %U\nKernel Mode (s) %S\nCPU: %P" ogr2ogr -f "GPKG" convex-hull.gpkg intersection-type-meow-provs.gpkg -dialect sqlite -sql "SELECT PROV_CODE,PROVINCE,ST_ConvexHull(ST_UNION(geometry))  FROM mangrove_types GROUP BY PROV_CODE,PROVINCE"
 fi
