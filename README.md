@@ -10,15 +10,16 @@ rsync -gloptrunv --delete $HOME/Cloudstor/Shared/EFTglobalmaps/* $zID@kdm.restec
 
 ```sh
 ssh $zID@katana.restech.unsw.edu.au
-source ~/proyectos/IUCN-GET/GET-indicative-maps-GIS/env/project-env.sh
+source ~/proyectos/IUCN-GET/MFT1.2-intertidal-forest/env/project-env.sh
 
 cd $WORKDIR
 
-qsub $SCRIPTDIR/inc/pbs/xcross-mangrove-ecoregions.pbs
+#qsub $SCRIPTDIR/inc/pbs/xcross-mangrove-ecoregions.pbs
+qsub $SCRIPTDIR/inc/pbs/xcross-mangrove-marine-provinces.pbs
 
 qsub -I -l select=1:ncpus=12:mem=120gb,walltime=24:00:00
 
-source ~/proyectos/IUCN-GET/GET-indicative-maps-GIS/env/project-env.sh
+source ~/proyectos/IUCN-GET/MFT1.2-intertidal-forest/env/project-env.sh
 cd $WORKDIR
 
 module add sqlite/3.31.1 spatialite/5.0.0b0 python/3.8.3 perl/5.28.0 gdal/3.2.1 geos/3.8.1
@@ -27,13 +28,13 @@ module add sqlite/3.31.1 spatialite/5.0.0b0 python/3.8.3 perl/5.28.0 gdal/3.2.1 
 
 ```sh
 ssh $zID@katana.restech.unsw.edu.au
-source ~/proyectos/IUCN-GET/GET-indicative-maps-GIS/env/project-env.sh
+source ~/proyectos/IUCN-GET/MFT1.2-intertidal-forest/env/project-env.sh
 
 cd $WORKDIR
 
 qsub -I -l select=1:ncpus=12:cpuflags=skylake-avx512:mem=120gb -l walltime=24:00:00
 
-source ~/proyectos/IUCN-GET/GET-indicative-maps-GIS/env/project-env.sh
+source ~/proyectos/IUCN-GET/MFT1.2-intertidal-forest/env/project-env.sh
 cd $WORKDIR
 
 
