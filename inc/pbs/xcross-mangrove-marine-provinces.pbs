@@ -41,15 +41,16 @@ then
   \time -f "Calculate intersection with mangrove-type \nTotal time: %E\nUser Mode (s) %U\nKernel Mode (s) %S\nCPU: %P" ogr2ogr -f "GPKG" intersection-type-meow-provs.gpkg mangrove-type-data-sources.vrt -dialect sqlite -sql "SELECT a.ID,a.Class,a.Sedimentar,b.ECO_CODE,b.PROV_CODE,b.PROVINCE,a.geom AS geometry FROM mangrove_types a, meow b WHERE ST_Intersects(a.geom, b.geom)" -nln mangrove_types # 29:05.94
 fi
 
-if [ ! -e convex-hull.gpkg ]
-then
-  \time -f "Create convex hull per province \nTotal time: %E\nUser Mode (s) %U\nKernel Mode (s) %S\nCPU: %P" ogr2ogr -f "GPKG" convex-hull.gpkg intersection-type-meow-provs.gpkg -dialect sqlite -sql "SELECT PROV_CODE,PROVINCE,ST_ConvexHull(ST_UNION(geometry))  FROM mangrove_types GROUP BY PROV_CODE,PROVINCE" # 2:49:42
-fi
 
 if [ ! -e bf-mangrove-type-provs.gpkg ]
 then
 \time -f "Project to eckert \nTotal time: %E\nUser Mode (s) %U\nKernel Mode (s) %S\nCPU: %P" ogr2ogr -f "GPKG" eck4-mangrove-type-provs.gpkg intersection-type-meow-provs.gpkg -nln mangroves -t_srs "+proj=eck4 +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m no_defs"
 ogrinfo  eck4-mangrove-type-provs.gpkg -sql "ALTER TABLE mangroves ADD COLUMN AREA_proj float"
 \time -f "add original estimate of area \nTotal time: %E\nUser Mode (s) %U\nKernel Mode (s) %S\nCPU: %P" ogrinfo eck4-mangrove-type-provs.gpkg  -sql "UPDATE mangroves SET AREA_proj =ST_Area(geometry)"
-\time -f "Summarise by class,sedimentar and province \nTotal time: %E\nUser Mode (s) %U\nKernel Mode (s) %S\nCPU: %P" ogr2ogr -f "GPKG" bf-mangrove-type-provs.gpkg eck4-mangrove-type-provs.gpkg -nln mangroves -dialect indirect_sqlite -sql "SELECT Class, Sedimentar, PROV_CODE, PROVINCE, AREA_orig=SUM(AREA_proj), ST_Union(ST_buffer(geometry,1000)) as geom FROM mangroves GROUP BY Class, Sedimentar, PROV_CODE, PROVINCE" -t_srs EPSG:4326 -nlt PROMOTE_TO_MULTI
+\time -f "Summarise by class,sedimentar and province \nTotal time: %E\nUser Mode (s) %U\nKernel Mode (s) %S\nCPU: %P" ogr2ogr -f "GPKG" bf-mangrove-type-provs.gpkg eck4-mangrove-type-provs.gpkg -nln mangroves -dialect indirect_sqlite -sql "SELECT Class, Sedimentar, PROV_CODE, PROVINCE, SUM(AREA_proj) as AREA_orig, ST_Union(ST_buffer(geometry,1000)) as geometry FROM mangroves GROUP BY Class, Sedimentar, PROV_CODE, PROVINCE" -t_srs EPSG:4326 -nlt PROMOTE_TO_MULTI
+fi
+
+if [ ! -e convex-hull.gpkg ]
+then
+  \time -f "Create convex hull per province \nTotal time: %E\nUser Mode (s) %U\nKernel Mode (s) %S\nCPU: %P" ogr2ogr -f "GPKG" convex-hull.gpkg intersection-type-meow-provs.gpkg -dialect sqlite -sql "SELECT PROV_CODE,PROVINCE,ST_ConvexHull(ST_UNION(geometry)) as geometry  FROM mangrove_types GROUP BY PROV_CODE,PROVINCE" # 2:49:42
 fi
