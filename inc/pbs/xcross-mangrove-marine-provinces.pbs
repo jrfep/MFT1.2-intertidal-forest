@@ -33,12 +33,32 @@ echo '<OGRVRTDataSource>
 </OGRVRTLayer>
 </OGRVRTDataSource>' > mangrove-type-data-sources.vrt
 
+echo '<OGRVRTDataSource>
+<OGRVRTLayer name="mangroves">
+    <SrcDataSource>'$GISDATA'/ecosystems/global/WCMC-mangroves-GMW/GMW-valid-output/GMW_2016_valid.gpkg</SrcDataSource>
+    <SrcLayer>GMW_2016_v2</SrcLayer>
+</OGRVRTLayer>
+<OGRVRTLayer name="mangrove_types">
+    <SrcDataSource>'$GISDATA'/ecosystems/global/WCMC-mangrove-types/TNC-BioPhys-Mangrove-valid-output/Mangrove_Typology_v2_2_1996_valid.gpkg</SrcDataSource>
+    <SrcLayer>Mangrove_Typology_v2_2_2016</SrcLayer>
+</OGRVRTLayer>
+<OGRVRTLayer name="meow">
+    <SrcDataSource>'$GISDATA'/ecoregions/global/MEOW/meow_ecos_valid.gpkg</SrcDataSource>
+    <SrcLayer>meow_ecos</SrcLayer>
+</OGRVRTLayer>
+</OGRVRTDataSource>' > mangrove-type-data-sources-1996.vrt
+
  # ogrinfo mangrove-type-data-sources.vrt
 
 # Use time to calculate how long it takes, this one took around 30 mins the first time
 if [ ! -e intersection-type-meow-provs.gpkg ]
 then
   \time -f "Calculate intersection with mangrove-type \nTotal time: %E\nUser Mode (s) %U\nKernel Mode (s) %S\nCPU: %P" ogr2ogr -f "GPKG" intersection-type-meow-provs.gpkg mangrove-type-data-sources.vrt -dialect sqlite -sql "SELECT a.ID,a.Class,a.Sedimentar,b.ECO_CODE,b.PROV_CODE,b.PROVINCE,a.geom AS geometry FROM mangrove_types a, meow b WHERE ST_Intersects(a.geom, b.geom)" -nln mangrove_types # 29:05.94
+fi
+
+if [ ! -e intersection-type-meow-provs-1996.gpkg ]
+then
+  \time -f "Calculate intersection with mangrove-type \nTotal time: %E\nUser Mode (s) %U\nKernel Mode (s) %S\nCPU: %P" ogr2ogr -f "GPKG" intersection-type-meow-provs-1996.gpkg mangrove-type-data-sources-1996.vrt -dialect sqlite -sql "SELECT a.ID,a.Class,a.Sedimentar,b.ECO_CODE,b.PROV_CODE,b.PROVINCE,a.geom AS geometry FROM mangrove_types a, meow b WHERE ST_Intersects(a.geom, b.geom)" -nln mangrove_types # 29:05.94
 fi
 
 
@@ -48,6 +68,15 @@ then
 ogrinfo  eck4-mangrove-type-provs.gpkg -sql "ALTER TABLE mangroves ADD COLUMN AREA_proj float"
 \time -f "add original estimate of area \nTotal time: %E\nUser Mode (s) %U\nKernel Mode (s) %S\nCPU: %P" ogrinfo eck4-mangrove-type-provs.gpkg  -sql "UPDATE mangroves SET AREA_proj =ST_Area(geometry)"
 fi
+
+
+if [ ! -e eck4-mangrove-type-provs-1996.gpkg ]
+then
+\time -f "Project to eckert \nTotal time: %E\nUser Mode (s) %U\nKernel Mode (s) %S\nCPU: %P" ogr2ogr -f "GPKG" eck4-mangrove-type-provs-1996.gpkg intersection-type-meow-provs-1996.gpkg -nln mangroves -t_srs "+proj=eck4 +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m no_defs"
+ogrinfo  eck4-mangrove-type-provs-1996.gpkg -sql "ALTER TABLE mangroves ADD COLUMN AREA_proj float"
+\time -f "add original estimate of area \nTotal time: %E\nUser Mode (s) %U\nKernel Mode (s) %S\nCPU: %P" ogrinfo eck4-mangrove-type-provs-1996.gpkg  -sql "UPDATE mangroves SET AREA_proj =ST_Area(geometry)"
+fi
+
 
 for K in Delta Lagoon Estuary OpenCoast
 do
