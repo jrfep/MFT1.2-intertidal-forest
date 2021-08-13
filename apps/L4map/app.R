@@ -4,10 +4,13 @@ library(leaflet.providers)
 library(leaflet.extras)
 library(ggplot2)
 library(dplyr)
-library(magrittr)
+library(sf)
+library(units)
+library(ggforce)
 
 load("mapdata.rda")
-prov_table %<>% mutate(Sedimentar=factor(Sedimentar),Class=factor(Class))
+prov_table$Sedimentar <- factor(prov_table$Sedimentar)
+prov_table$Class <- factor(prov_table$Class)
 
 vars <- c(
     "Area" = "total",
@@ -17,12 +20,15 @@ vars <- c(
 server <- function(input, output) {
     # create a reactive value that will store the click position
     data_of_click <- reactiveValues(clickedMarker=NULL)
-    # Leaflet map with 2 markers
+    #labels
+    my_labels = sprintf("<strong>Province</strong><br/>%s", mprovs$PROVINCE ) %>% lapply(htmltools::HTML)
+    
+    # Leaflet map 
     output$map <- renderLeaflet({
         leaflet() %>%
             addProviderTiles(providers$Esri.OceanBasemap) %>%
             setView(lng = 0, lat = 0, zoom = 2) %>%
-            addPolygons(data = mprovs, layerId= ~PROV_CODE, fillColor = "snow3", highlightOptions = highlightOptions(weight = 2, color = 'black'), color = 'grey', weight = 0.4, fillOpacity = 0.15,label=labels) %>%
+            addPolygons(data = mprovs, layerId= ~PROV_CODE, fillColor = "snow3", highlightOptions = highlightOptions(weight = 2, color = 'black'), color = 'grey', weight = 0.4, fillOpacity = 0.15,label=my_labels) %>%
             leaflet.extras::addHeatmap(data = mgt_points, blur = 20, max = 0.05, radius = 12) %>%
             addCircleMarkers(data=qs, ~x , ~y, layerId=~id, popup=~q, radius=8 , color="black",  fillColor="red", stroke = TRUE, fillOpacity = 0.8)
     })
@@ -43,7 +49,11 @@ server <- function(input, output) {
         if(is.null(my_place)){my_place="place1"}
         if(my_place=="place1"){
             dts <- prov_table %>% group_by(Class,Sedimentar) %>% summarise(total=sum(total))
-            ggplot(dts, aes(x=Class,fill=Sedimentar,y=total)) + geom_col()
+            if ( input$slcvar=='npols') {
+            ggplot(dts, aes(x=Class,fill=Sedimentar,y=npols)) + geom_col() + labs(title="All regions")
+            } else {
+                ggplot(dts, aes(x=Class,fill=Sedimentar,y=total)) + geom_col() + labs(title="All regions") + ylab("Area")
+            }
         }else{
             dts <- prov_table %>% filter(PROV_CODE==my_place)
             prov_name <- dts %>% pull(PROVINCE) %>% unique
