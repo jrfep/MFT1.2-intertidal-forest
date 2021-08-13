@@ -1,7 +1,9 @@
 library(shiny)
 library(leaflet)
+library(leaflet.providers)
 library(leaflet.extras)
 library(ggplot2)
+library(dplyr)
 library(magrittr)
 
 load("mapdata.rda")

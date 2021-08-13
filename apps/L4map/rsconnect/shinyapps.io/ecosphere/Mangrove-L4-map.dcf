@@ -1,0 +1,12 @@
+name: Mangrove-L4-map
+title: Mangrove-L4-map
+username:
+account: ecosphere
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 4488449
+bundleId: 4918302
+url: https://ecosphere.shinyapps.io/Mangrove-L4-map/
+when: 1628832106.91052
+asMultiple: FALSE
+asStatic: FALSE
