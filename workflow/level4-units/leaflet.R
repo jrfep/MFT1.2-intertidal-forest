@@ -18,6 +18,9 @@ setwd(work.dir)
 mgt.meow.its <- read_sf("intersection-type-meow-provs.gpkg")
 mgt.meow.its %>%  pull(PROV_CODE) %>% unique -> slc
 
+mgt.meow.its %>% filter(PROV_CODE %in% 20) -> mgt.slc
+
+
 meow <- read_sf("mangrove-type-data-sources.vrt","meow")
 meow %>% filter(PROV_CODE %in% slc) %>% group_by(PROV_CODE,PROVINCE) %>% summarise(geom=st_union(geom)) -> mprovs
 

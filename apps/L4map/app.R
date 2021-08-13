@@ -42,7 +42,16 @@ server <- function(input, output) {
         data_of_click$clickedMarker <- input$map_shape_click
     })
 
-
+    # output table
+    output$table <- renderTable({
+        my_place=data_of_click$clickedMarker$id
+        if(is.null(my_place)) {
+            
+        } else {
+            dts <- prov_table %>% filter(PROV_CODE==my_place) %>% ungroup %>% select(Class,Sedimentar,total,npols)
+            dts   
+        }
+    })
     # Make a barplot or scatterplot depending of the selected point
     output$plot=renderPlot({
         my_place=data_of_click$clickedMarker$id
@@ -67,12 +76,14 @@ server <- function(input, output) {
     })
 }
 ui <- fluidPage(
-    tags$img(src = "logo.png"),
-    titlePanel("MFT1.2 Intertidal forests and shrublands - level 4 units"),
-    br(),
+    titlePanel( div(column(width = 3, tags$a(href='https://global-ecosystems.org/explore/groups/MFT1.2',
+                                             tags$img(src='logo.png'))),
+                    column(width = 9, h1("MFT1.2 Intertidal forests and shrublands - level 4 units"))),
+                windowTitle="MyPage"
+    ),
     column(8,leafletOutput("map", height="600px")),
     column(4,  selectInput(inputId="slcvar", label="Variable", vars),br(),br(),
-           plotOutput("plot", height="300px"),br(),br(),plotOutput("plotPols", height="300px")),
+           plotOutput("plot", height="300px"),br(),br(),tableOutput("table")),
     br()
 )
 shinyApp(ui = ui, server = server)
