@@ -1,13 +1,15 @@
 #!R --vanilla
 projectname <- "MFT1.2-intertidal-forest"
-
+projectdir <- "proyectos/IUCN-GET"
 if (Sys.getenv("GISDATA") != "") {
    gis.data <- Sys.getenv("GISDATA")
    work.dir <- Sys.getenv("WORKDIR")
+   script.dir <- Sys.getenv("SCRIPTDIR")
 } else {
    out <- Sys.info()
    username <- out[["user"]]
    hostname <- out[["nodename"]]
+   script.dir <- sprintf("%s/%s/%s",Sys.getenv("HOME"), projectdir, projectname)
    switch(hostname,
       terra={
          gis.data <- sprintf("/opt/gisdata/")
