@@ -40,7 +40,7 @@ echo '<OGRVRTDataSource>
 </OGRVRTLayer>
 <OGRVRTLayer name="mangrove_types">
     <SrcDataSource>'$GISDATA'/ecosystems/global/WCMC-mangrove-types/TNC-BioPhys-Mangrove-valid-output/Mangrove_Typology_v2_2_1996_valid.gpkg</SrcDataSource>
-    <SrcLayer>Mangrove_Typology_v2_2_2016</SrcLayer>
+    <SrcLayer>Mangrove_Typology_v2_2_1996</SrcLayer>
 </OGRVRTLayer>
 <OGRVRTLayer name="meow">
     <SrcDataSource>'$GISDATA'/ecoregions/global/MEOW/meow_ecos_valid.gpkg</SrcDataSource>

@@ -8,6 +8,9 @@ source .profile
 rsync -gloptrunv --delete $HOME/Cloudstor/Shared/EFTglobalmaps/* $zID@kdm.restech.unsw.edu.au:/srv/scratch/$zID/DKeith-data/
 ```
 
+Here we are using Katana for some computations:
+> Katana. Published online 2010. doi:10.26190/669X-A286
+
 ```sh
 ssh $zID@katana.restech.unsw.edu.au
 source ~/proyectos/IUCN-GET/MFT1.2-intertidal-forest/env/project-env.sh
