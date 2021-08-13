@@ -17,7 +17,7 @@ cd $WORKDIR
 #qsub $SCRIPTDIR/inc/pbs/xcross-mangrove-ecoregions.pbs
 qsub $SCRIPTDIR/inc/pbs/xcross-mangrove-marine-provinces.pbs
 
-qsub -I -l select=1:ncpus=12:mem=120gb,walltime=24:00:00
+qsub -I -l select=1:ncpus=12:mem=120gb,walltime=12:00:00
 
 source ~/proyectos/IUCN-GET/MFT1.2-intertidal-forest/env/project-env.sh
 cd $WORKDIR

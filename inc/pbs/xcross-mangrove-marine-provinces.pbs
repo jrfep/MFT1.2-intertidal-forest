@@ -49,10 +49,25 @@ ogrinfo  eck4-mangrove-type-provs.gpkg -sql "ALTER TABLE mangroves ADD COLUMN AR
 \time -f "add original estimate of area \nTotal time: %E\nUser Mode (s) %U\nKernel Mode (s) %S\nCPU: %P" ogrinfo eck4-mangrove-type-provs.gpkg  -sql "UPDATE mangroves SET AREA_proj =ST_Area(geometry)"
 fi
 
-if [ ! -e bf-mangrove-type-provs.gpkg ]
-then
-\time -f "Create buffer \nTotal time: %E\nUser Mode (s) %U\nKernel Mode (s) %S\nCPU: %P" ogr2ogr -f "GPKG" bf-mangrove-type-provs.gpkg eck4-mangrove-type-provs.gpkg -nln mangroves -dialect indirect_sqlite -sql "SELECT Class, Sedimentar, PROV_CODE, PROVINCE, AREA_proj, ST_buffer(geometry,1000) as geometry FROM mangroves "  -nlt PROMOTE_TO_MULTI
-fi
+for K in Delta Lagoon Estuary OpenCoast
+do
+  if [ ! -e bf-mangrove-${K}-provs.gpkg ]
+  then
+    # about 1 to 2 hours each, problem with deltas
+    \time -f "Create buffer ${K} \nTotal time: %E\nUser Mode (s) %U\nKernel Mode (s) %S\nCPU: %P" ogr2ogr -f "GPKG" bf-mangrove-${K}-provs.gpkg eck4-mangrove-type-provs.gpkg -nln mangroves -dialect indirect_sqlite -sql "SELECT Class, Sedimentar, PROV_CODE, PROVINCE, AREA_proj, ST_buffer(geometry,1000) as geometry FROM mangroves WHERE Class='"${K}"'"  -nlt PROMOTE_TO_MULTI -makevalid
+  fi
+done
+
+# test different format
+for K in Delta Lagoon
+do
+  if [ ! -e bf-mangrove-${K}-provs.gml ]
+  then
+    # about 1 to 2 hours each, problem with deltas
+    \time -f "Create buffer ${K} \nTotal time: %E\nUser Mode (s) %U\nKernel Mode (s) %S\nCPU: %P" ogr2ogr -f "GML" bf-mangrove-${K}-provs.gml eck4-mangrove-type-provs.gpkg -nln mangroves -dialect indirect_sqlite -sql "SELECT Class, Sedimentar, PROV_CODE, PROVINCE, AREA_proj, ST_buffer(geometry,1000) as geometry FROM mangroves WHERE Class='"${K}"'"  -nlt PROMOTE_TO_MULTI -makevalid
+  fi
+done
+
 
 if [ ! -e grp-mangrove-type-provs.gpkg ]
 then
