@@ -22,8 +22,8 @@ server <- function(input, output) {
     data_of_click <- reactiveValues(clickedMarker=NULL)
     #labels
     my_labels = sprintf("<strong>Province</strong><br/>%s", mprovs$PROVINCE ) %>% lapply(htmltools::HTML)
-    
-    # Leaflet map 
+
+    # Leaflet map
     output$map <- renderLeaflet({
         leaflet() %>%
             addProviderTiles(providers$Esri.OceanBasemap) %>%
@@ -67,6 +67,7 @@ server <- function(input, output) {
     })
 }
 ui <- fluidPage(
+    tags$img(src = "logo.png"),
     titlePanel("MFT1.2 Intertidal forests and shrublands - level 4 units"),
     br(),
     column(8,leafletOutput("map", height="600px")),
