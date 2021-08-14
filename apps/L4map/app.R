@@ -81,7 +81,7 @@ server <- function(input, output) {
 }
 ui <- fluidPage(
     titlePanel( div(column(width = 3, tags$a(href='https://global-ecosystems.org/explore/groups/MFT1.2',
-                                             tags$img(src='logo.png'))),
+                                             tags$img(src='logo.png', width = 300))),
                     column(width = 9, h1("MFT1.2 Intertidal forests and shrublands"),
                     h2("Preliminary level 4 units"))),
                 windowTitle="MyPage"
@@ -98,7 +98,14 @@ ui <- fluidPage(
                         ), 
                         tabPanel("2",
                                     strong("Map"),
-                                    p("Heatmap shows density of mangrove polygons, original marine provinces shaded in grey, hover to display boundary and labels. Red markers indicate areas to review."),
+                                    p("Heatmap shows density of mangrove polygons (from",
+                                      tags$a(href='https://data.unep-wcmc.org/datasets/48',
+                                             target="_blank","Worthington et al. 2020"),
+                                      ").",
+                                      tags$a(href='https://www.worldwildlife.org/publications/marine-ecoregions-of-the-world-a-bioregionalization-of-coastal-and-shelf-areas', 
+                                             target="_blank","Marine Provinces"),
+                                      "shaded in grey, hover to display boundary and labels.",
+                                      "Red markers indicate areas to review."),
                         ), 
                         tabPanel("3",
                                  strong("Plot"),
