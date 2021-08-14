@@ -17,8 +17,8 @@ module add sqlite/3.31.1 spatialite/5.0.0b0 python/3.8.3 perl/5.28.0 gdal/3.2.1 
 module add R/4.0.2
 
 cd $TMPDIR
-cp $WORKDIR/intersection-type-meow-provs.gpkg $TMPDIR
-cp $WORKDIR/intersection-type-meow-provs-1996.gpkg $TMPDIR
+cp $WORKDIR/eck4-mangrove-type-provs.gpkg $TMPDIR
+cp $WORKDIR/eck4-mangrove-type-provs-1996.gpkg $TMPDIR
 
 
 if [ ! -e $WORKDIR/marine_provinces/list_of_codes.csv ]
@@ -38,16 +38,15 @@ do
       # input polygons
       if [ ! -e $WORKDIR/pre-assessment/PROV_CODE_${code}/mgt-2016.gpkg ]
       then
-        \time -f "Extract polygons 2016 \nTotal time: %E\nUser Mode (s) %U\nKernel Mode (s) %S\nCPU: %P" ogr2ogr -f "GPKG" mgt-2016.gpkg intersection-type-meow-provs.gpkg -where "PROV_CODE=${code}"
+        \time -f "Extract polygons 2016 \nTotal time: %E\nUser Mode (s) %U\nKernel Mode (s) %S\nCPU: %P" ogr2ogr -f "GPKG" mgt-2016.gpkg eck4-mangrove-type-provs.gpkg -where "PROV_CODE=${code}"
        fi
       if [ ! -e $WORKDIR/pre-assessment/PROV_CODE_${code}/mgt-1996.gpkg ]
       then
-        \time -f "Extract polygons 1996 \nTotal time: %E\nUser Mode (s) %U\nKernel Mode (s) %S\nCPU: %P" ogr2ogr -f "GPKG" mgt-1996.gpkg intersection-type-meow-provs-1996.gpkg -where "PROV_CODE=${code}"
+        \time -f "Extract polygons 1996 \nTotal time: %E\nUser Mode (s) %U\nKernel Mode (s) %S\nCPU: %P" ogr2ogr -f "GPKG" mgt-1996.gpkg eck4-mangrove-type-provs-1996.gpkg -where "PROV_CODE=${code}"
        fi
       # run R script
       
-      export prov_code=${code}
-      Rscript --vanilla $SCRIPTDIR/inc/R/pre-assessment.R
+      Rscript --vanilla $SCRIPTDIR/inc/R/pre-assessment.R ${code}
 
       # clean up
       mv *.rda $WORKDIR/pre-assessment/PROV_CODE_${code}/

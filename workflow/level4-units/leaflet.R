@@ -30,11 +30,18 @@ rslts_meow %>% group_by(PROV_CODE,PROVINCE,Class,Sedimentar) %>% summarise(total
 
 rslts_meow %>% group_by(PROV_CODE,PROVINCE,Class,Sedimentar) %>% summarise(npols=n(),total=sum(area) %>% set_units('km^2')) -> prov_table
 
-#
+##mgt.meow.its %>% filter(PROV_CODE %in% 17) %>% st_centroid -> mgt_points
+mgt.meow.its %>%  st_centroid -> mgt_points
+
+# questions
 qs <- tibble(id=13,y=10, x=-60.59,q="Confirm boundaries (north) of North Brazil Shelf")
 qs <- tibble(id=13,y=-0.35, x=-41.44,q="Confirm boundaries (south) of North Brazil Shelf") %>% bind_rows(qs)
 
 qs %<>% bind_rows(tibble(id=6,y=28.4590, x=-85.995,q="Boundary between tropical and temperate in North west Atlantic: merge or keep as different provinces?"))
+qs %<>% bind_rows(tibble(id=NA,y=28, x=-16,q="Are there mangroves around the Canary Islands?"))
+qs %<>% bind_rows(tibble(id=NA,y=32.3, x=-64.783333,q="Are there mangroves around Bermuda?"))
+##qs %<>% bind_rows(tibble(id=NA,y=-4.616667, x=55.45,q="Are there mangroves around the Seychelles?")) # yes
+
 
 qs %<>% bind_rows(tibble(id=6,y=-21.7575, x=-41.433,q="Boundary between tropical and temperate in South western Atlantic: merge or keep as different provinces?"))
 
@@ -51,7 +58,6 @@ qs %<>% bind_rows(tibble(id=37,y=20.30,x=-157.13,q="Status of Hawaii?"))
 qs %<>% bind_rows(tibble(id=39,y=-14.43,x=-173.130,q="Keep Central Polynesia? or merge with Tropical Southwestern Pacific"))
 
 
-
 save(file=sprintf("%s/apps/L4map/mapdata.rda",script.dir), prov_table, mgt_points, mprovs, qs)
 #save(file="~/tmp/shiny-test/mapdata.rda",prov_table,mgt_points,mprovs,qs)
 
@@ -63,8 +69,6 @@ plot(mgt_hull %>% slice(-25) %>% dplyr::select(PROV_CODE))
 
 mgt_hull %>% slice(-25) -> mgt_plgns
 ## gulf of guinea
-##mgt.meow.its %>% filter(PROV_CODE %in% 17) %>% st_centroid -> mgt_points
-mgt.meow.its %>%  st_centroid -> mgt_points
 
 
 ## providers: Stadia.OSMBright Thunderforest.Pioneer Thunderforest.Neighbourhood CyclOSM Jawg.Terrain Jawg.Light Stamen.TonerLite Esri.OceanBasemap CartoDB.VoyagerLabelsUnder Esri.NatGeoWorldMap
