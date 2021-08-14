@@ -19,7 +19,11 @@ cd $WORKDIR
 
 #qsub $SCRIPTDIR/inc/pbs/xcross-mangrove-ecoregions.pbs
 qsub $SCRIPTDIR/inc/pbs/xcross-mangrove-marine-provinces.pbs
-qsub -J 1-2 $SCRIPTDIR/inc/pbs/pre-assessment.pbs
+
+## unlock unfinished folders 
+##for k in $(grep -L DONE pre-assessment/*/*jobid); do rm $k; done
+## test: qsub -J 1-2 $SCRIPTDIR/inc/pbs/pre-assessment.pbs
+qsub -l walltime=24:00:00 $SCRIPTDIR/inc/pbs/pre-assessment.pbs
 
 qsub -I -l select=1:ncpus=12:mem=120gb,walltime=12:00:00
 

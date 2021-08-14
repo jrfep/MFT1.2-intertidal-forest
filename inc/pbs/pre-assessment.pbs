@@ -26,7 +26,12 @@ then
   ogr2ogr -f CSV $WORKDIR/marine_provinces eck4-mangrove-type-provs-1996.gpkg -sql "SELECT DISTINCT PROV_CODE,PROVINCE FROM mangroves" -nln "list_of_codes"
 fi
 
-tail -n +2 $WORKDIR/marine_provinces/list_of_codes.csv | shuf -n 5 > slc-record
+# shuffle list to run all randomly
+# and split in small groups to get jobs running quickly
+#tail -n +2 $WORKDIR/marine_provinces/list_of_codes.csv | shuf -n 5 > slc-record
+# or let them all run over the whole list
+tail -n +2 $WORKDIR/marine_provinces/list_of_codes.csv | shuf > slc-record
+
 
 while IFS="," read code name
 do  
