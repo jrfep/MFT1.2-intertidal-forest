@@ -1,0 +1,61 @@
+#!/usr/bin/bash
+
+#PBS -l select=1:ncpus=2:mem=120gb
+#PBS -l walltime=12:00:00
+#PBS -N MangL4preAsmnt
+#PBS -k eod
+#PBS -j oe
+#PBS -J 1-10
+
+sleep $((RANDOM % 240))
+
+## set up bash environment variables
+source $HOME/proyectos/IUCN-GET/MFT1.2-intertidal-forest/env/project-env.sh $code
+
+## load modules for gdal functions
+module add sqlite/3.31.1 spatialite/5.0.0b0 python/3.8.3 perl/5.28.0 gdal/3.2.1 geos/3.8.1 proj/7.2.0
+module add R/4.0.2
+
+cd $TMPDIR
+cp $WORKDIR/intersection-type-meow-provs.gpkg $TMPDIR
+cp $WORKDIR/intersection-type-meow-provs-1996.gpkg $TMPDIR
+
+
+if [ ! -e $WORKDIR/marine_provinces/list_of_codes.csv ]
+then
+  ogr2ogr -f CSV $WORKDIR/marine_provinces eck4-mangrove-type-provs-1996.gpkg -sql "SELECT DISTINCT PROV_CODE,PROVINCE FROM mangroves" -nln "list_of_codes"
+fi
+
+tail -n +2 $WORKDIR/marine_provinces/list_of_codes.csv | shuf -n 5 > slc-record
+
+while IFS="," read code name
+do  
+  echo "PROVINCE $name (PROV_CODE = $code) "; 
+  mkdir -p $WORKDIR/pre-assessment/PROV_CODE_${code}
+  if [ ! -e $WORKDIR/pre-assessment/PROV_CODE_${code}/jobid ]
+  then 
+      echo "Job started on $(date) :: Job Id ${PBS_JOBID}" > $WORKDIR/pre-assessment/PROV_CODE_${code}/jobid
+      # input polygons
+      if [ ! -e $WORKDIR/pre-assessment/PROV_CODE_${code}/mgt-2016.gpkg ]
+      then
+        \time -f "Extract polygons 2016 \nTotal time: %E\nUser Mode (s) %U\nKernel Mode (s) %S\nCPU: %P" ogr2ogr -f "GPKG" mgt-2016.gpkg intersection-type-meow-provs.gpkg -where "PROV_CODE=${code}"
+       fi
+      if [ ! -e $WORKDIR/pre-assessment/PROV_CODE_${code}/mgt-1996.gpkg ]
+      then
+        \time -f "Extract polygons 1996 \nTotal time: %E\nUser Mode (s) %U\nKernel Mode (s) %S\nCPU: %P" ogr2ogr -f "GPKG" mgt-1996.gpkg intersection-type-meow-provs-1996.gpkg -where "PROV_CODE=${code}"
+       fi
+      # run R script
+      
+      export prov_code=${code}
+      Rscript --vanilla $SCRIPTDIR/inc/R/pre-assessment.R
+
+      # clean up
+      mv *.rda $WORKDIR/pre-assessment/PROV_CODE_${code}/
+      mv mgt-2016.gpkg $WORKDIR/pre-assessment/PROV_CODE_${code}/
+      mv mgt-1996.gpkg $WORKDIR/pre-assessment/PROV_CODE_${code}/
+      echo "DONE :: $(date)" >> $WORKDIR/pre-assessment/PROV_CODE_${code}/jobid
+  else
+      echo "skipping ${code}, looks busy /8/"
+  fi
+done < slc-record
+

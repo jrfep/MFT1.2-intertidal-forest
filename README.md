@@ -19,6 +19,7 @@ cd $WORKDIR
 
 #qsub $SCRIPTDIR/inc/pbs/xcross-mangrove-ecoregions.pbs
 qsub $SCRIPTDIR/inc/pbs/xcross-mangrove-marine-provinces.pbs
+qsub -J 1-2 $SCRIPTDIR/inc/pbs/pre-assessment.pbs
 
 qsub -I -l select=1:ncpus=12:mem=120gb,walltime=12:00:00
 
