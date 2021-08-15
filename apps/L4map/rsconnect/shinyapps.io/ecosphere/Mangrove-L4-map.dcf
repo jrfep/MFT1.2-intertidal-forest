@@ -5,8 +5,8 @@ account: ecosphere
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 4488449
-bundleId: 4918363
+bundleId: 4924570
 url: https://ecosphere.shinyapps.io/Mangrove-L4-map/
-when: 1628833865.07101
+when: 1629002201.78328
 asMultiple: FALSE
 asStatic: FALSE

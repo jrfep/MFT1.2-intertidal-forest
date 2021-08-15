@@ -52,7 +52,11 @@ server <- function(input, output) {
         if(is.null(my_place)) {
             
         } else {
-            dts <- all_rslts %>% filter(PROV_CODE==my_place) %>% dplyr::select(-1)
+            if (my_place %in% all_rslts$PROV_CODE) {
+                dts <- all_rslts %>% filter(PROV_CODE==my_place) %>% dplyr::select(-1)
+            } else {
+                dts <- rslts_approx %>% filter(PROV_CODE==my_place) %>% dplyr::select(-1)
+            }
             dts   
         }
     })
@@ -84,7 +88,7 @@ ui <- fluidPage(
                                              tags$img(src='logo.png', width = 300))),
                     column(width = 9, h1("MFT1.2 Intertidal forests and shrublands"),
                     h2("Preliminary level 4 units"))),
-                windowTitle="MyPage"
+                windowTitle="MFT1.2-Intertidal-forests-preliminary-level-4"
     ),
     fluidRow(column(12,leafletOutput("map", height="400px"))),
     fluidRow(column(4,  plotOutput("plot", height="300px"),br(),
