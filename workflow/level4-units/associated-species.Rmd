@@ -1,10 +1,11 @@
 ---
 title: "Plot Level 4 units based on marine provinces (MEOW) and mangrove biophysical type data"
+editor_options:
+  chunk_output_type: console
 ---
 
 
-We intersected the polygon of _Marine ecoregions_ or [MEOW](https://www.worldwildlife.org/publications/marine-ecoregions-of-the-world-a-bioregionalization-of-coastal-and-shelf-areas) with mangrove data from _Global Mangrove Watch_ for the year 2016 (GMW, http://data.unep-wcmc.org/datasets/45) and the _Global biophysical typology of mangroves_ for the year 2016 (https://data.unep-wcmc.org/datasets/48) and we plot the number of distinct groups of mangroves.
-
+We intersected the polygon of _Marine provinces_ from [MEOW](https://www.worldwildlife.org/publications/marine-ecoregions-of-the-world-a-bioregionalization-of-coastal-and-shelf-areas) and species distribution records from GBIF
 
 Load libraries
 
@@ -20,10 +21,10 @@ setwd(work.dir)
 Check species associated with mangroves:
 ```{r}
 drv <- dbDriver("PostgreSQL") ## remember to update .pgpass file
-con <- dbConnect(drv, dbname = Sys.getenv("DBNAME"),
-              host = Sys.getenv("DBHOST"),
-              port = Sys.getenv("DBPORT"),
-              user = Sys.getenv("DBUSER"))
+con <- dbConnect(drv, dbname = iucn.dbinfo[["database"]],
+              host = iucn.dbinfo[["host"]],
+              port = iucn.dbinfo[["port"]],
+              user = iucn.dbinfo[["user"]])
 
 qry <- "SELECT taxonid,kingdom_name, phylum_name,   class_name, order_name, family_name, genus_name, scientific_name, taxonomic_authority, infra_rank, infra_name, population, category,  main_common_name, code,habitat, suitability, season, majorimportance FROM rlts_spp_taxonomy LEFT JOIN rlts_spp_habitats USING  (taxonid) where habitat like '%Mangr%'"
 res <- dbGetQuery(con,qry)
@@ -35,25 +36,109 @@ Preview list of associated species
 head(res)
 table(res$kingdom_name,res$habitat)
 
+res %>% group_by(class_name) %>% summarise(total=n_distinct(scientific_name))
+
 res %>% group_by(order_name) %>% summarise(total=n_distinct(scientific_name))
 res %>% group_by(order_name) %>% summarise(total=n_distinct(scientific_name)) %>% arrange(desc(total))
 ```
 
-Download data from GBIF for each order:
+Check first how many records are available in GBIF for each species:
 
 ```{r}
 
+# quick query to know how many records to download for each species
+res$gbif_records <- NA
+res$gbif_xy_records <- NA
+for (j in 1:nrow(res)) {
+  cat(sprintf("Species %s: ",j))
+  if (is.na(res[j,"gbif_records"])) {
+    tst <- occ(query = res$scientific_name[j], from = 'gbif',limit=1)
+    res[j,"gbif_records"] <- tst$gbif$meta$found
+    cat(sprintf("/ with %s GBIF records",tst$gbif$meta$found))
+  }
+  if (is.na(res[j,"gbif_xy_records"])) {
+    tst <- occ(query = res$scientific_name[j], from = 'gbif',limit=1,has_coords = TRUE)
+    res[j,"gbif_xy_records"] <- tst$gbif$meta$found
+    cat(sprintf("/ %s records with coordinates",tst$gbif$meta$found))
+  }
+ cat(sprintf("/ %0.2f %% ready\n ",j*100/nrow(res)))
+ 
+}
+
+summary(res$gbif_records)
+summary(res$gbif_xy_records)
+```
+
+Download data from GBIF according to the amount of records available, first species with few records
+
+```{r}
+mi.rda <- 'occ-data-spps-few-records.rda'
+
+res %>% filter(gbif_records>0 & gbif_records<500) %>% pull(scientific_name) -> spps
+spps.lt500 <- occ(query = spps, from = 'gbif',limit=500)
+
+res %>% filter(gbif_records>499 & gbif_records<1000) %>% pull(scientific_name) -> spps
+spps.lt1000 <- occ(query = spps, from = 'gbif',limit=1000)
+save(file=mi.rda,spps.lt1000,spps.lt500)
+```
+
+For species with more than 1000 records, we focus on the georeferenced records:
+
+```{r}
+mi.rda <- 'occ-data-spps-mids-records.rda'
+res %>% filter(gbif_records>999 & gbif_xy_records<1500) %>% pull(scientific_name) -> spps
+spps.lt1500 <- occ(query = spps, from = 'gbif',limit=5000,has_coords = TRUE)
+save(file=mi.rda,spps.lt1500)
+
+```
+
+For species with more than 1500 records, we download species by species:
+
+```{r}
+res %>% filter(gbif_xy_records>1499 & gbif_xy_records<10000) %>% pull(scientific_name) -> spps
+for (spp in spps) {
+  mi.rda <- sprintf('occ-data-spp-%s.rda',gsub(" ","_",spp))
+  spp_occ_data <- occ(query = spp, from = 'gbif',limit=10000,has_coords = TRUE)
+  save(file=mi.rda,spp_occ_data)
+}
+
+
+```
+
+and other species...
+
+```{r}
+
+
+
+table(cut(res$gbif_records,breaks=c(-1,500,1000,5000,10000,1e6,Inf)))
+
+if (file.exists(mi.rda)) {
+  load(mi.rda)
+}
 for (j in res %>% distinct(order_name) %>% pull) {
   print(j)
   arch <- sprintf("occ_data_%s",j)
   if (!exists(arch)) {
     res %>% filter(order_name %in% j) %>% distinct(scientific_name) %>% pull -> spps
     assign(arch, occ(query = spps, from = 'gbif',limit=500))
-    save(file='occ-data.rda',list=ls(pattern="occ_data_"))
+    save(file=mi.rda,list=ls(pattern="occ_data_"))
   }
 }
 
+all_occs <- ls(pattern="occ_data")
+lst <- mget(all_occs)
 
-occ_data$gbif$data$Zenarchopterus_buffonis %>% select(longitude,latitude,countrycode,higherGeography)
+gbif_qry <- bind_cols(
+  order_names=gsub("occ_data_","",names(lst)),
+  found=sapply(lst,function(x) x$gbif$meta$found,simplify=T), returned=sapply(lst,function(x) x$gbif$meta$returned,simplify=T))
+
+gbif_qry %>% filter(found<=returned) %>% pull(order_names) -> listos
+gbif_qry %>% filter(found<(2*returned) & !(order_names %in% listos))
+
+tst <- occ2df(occ_data_ACCIPITRIFORMES) 
+plot(latitude~longitude,tst)
+
+#occ_data$gbif$data$Zenarchopterus_buffonis %>% select(longitude,latitude,countrycode,higherGeography)
 
 ```

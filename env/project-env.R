@@ -28,9 +28,12 @@ if (Sys.getenv("GISDATA") != "") {
          }
       })
       if (file.exists("~/.database.ini")) {
-          tmp <-     system("grep -A4 psqlaws $HOME/.database.ini",intern=TRUE)[-1]
-          dbinfo <- gsub("[a-z]+=","",tmp)
-          names(dbinfo) <- gsub("([a-z]+)=.*","\\1",tmp)
-          rm(tmp)
+         tmp <-     system("grep -A4 psqlaws $HOME/.database.ini",intern=TRUE)[-1]
+         dbinfo <- gsub("[a-z]+=","",tmp)
+         names(dbinfo) <- gsub("([a-z]+)=.*","\\1",tmp)
+         tmp <-     system("grep -A4 IUCNdb $HOME/.database.ini",intern=TRUE)[-1]
+         iucn.dbinfo <- gsub("[a-z]+=","",tmp)
+         names(iucn.dbinfo) <- gsub("([a-z]+)=.*","\\1",tmp)
+         rm(tmp)
       }
 }
