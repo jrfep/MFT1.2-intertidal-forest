@@ -1,5 +1,5 @@
 ---
-title: "Plot Level 4 units based on marine provinces (MEOW) and mangrove biophysical type data"
+title: "Analyse species distribution data per province "
 editor_options:
   chunk_output_type: console
 ---
@@ -7,12 +7,23 @@ editor_options:
 
 We intersected the polygon of _Marine provinces_ from [MEOW](https://www.worldwildlife.org/publications/marine-ecoregions-of-the-world-a-bioregionalization-of-coastal-and-shelf-areas) and species distribution records from GBIF
 
-Load libraries
+We run a script to download GBIF data in the background.
 
-```{r}
+```sh
+cd $WORKDIR
+nohup Rscript $SCRIPTDIR/inc/R/download-from-GBIF.R > nohup-gbif-qries.out &
 ```
 
+We then use rsync to update the results in the shared drive
 
+```sh
+export srcdir=$GISDATA/species-dist/global/GBIF/
+export dstdir=$zID@kdm.restech.unsw.edu.au:/srv/scratch/cesdata/gisdata/species-dist/global/GBIF
+# this is a dry run: remove -n flag for actual syncing
+rsync -gloptrunv $srcdir/* $dstdir 
+```
+
+We create a 1-degree grid on top of marine provinces. For the cells belonging to those we count the number of records per species and create a matrix species by grid cell.
 
 Preview list of associated species
 ```{r}
