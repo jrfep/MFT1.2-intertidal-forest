@@ -23,6 +23,18 @@ export dstdir=$zID@kdm.restech.unsw.edu.au:/srv/scratch/cesdata/gisdata/species-
 rsync -gloptrunv $srcdir/* $dstdir 
 ```
 
+
+```{r}
+require(dplyr)
+require(magrittr)
+require(sf)
+require(units)
+
+source(sprintf("%s/proyectos/IUCN-GET/MFT1.2-intertidal-forest/env/project-env.R",Sys.getenv("HOME")))
+setwd(work.dir)
+mgt.2016.pols <- read_sf("eck4-mangrove-type-provs.gpkg")
+
+```
 We create a 1-degree grid on top of marine provinces. For the cells belonging to those we count the number of records per species and create a matrix species by grid cell.
 
 Preview list of associated species
