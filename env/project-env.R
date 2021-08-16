@@ -27,13 +27,15 @@ if (Sys.getenv("GISDATA") != "") {
             stop("Can't figure out where I am, please customize `project-env.R` script\n")
          }
       })
-      if (file.exists("~/.database.ini")) {
-         tmp <-     system("grep -A4 psqlaws $HOME/.database.ini",intern=TRUE)[-1]
-         dbinfo <- gsub("[a-z]+=","",tmp)
-         names(dbinfo) <- gsub("([a-z]+)=.*","\\1",tmp)
-         tmp <-     system("grep -A4 IUCNdb $HOME/.database.ini",intern=TRUE)[-1]
-         iucn.dbinfo <- gsub("[a-z]+=","",tmp)
-         names(iucn.dbinfo) <- gsub("([a-z]+)=.*","\\1",tmp)
-         rm(tmp)
-      }
+    
+}
+
+if (file.exists("~/.database.ini")) {
+   tmp <-     system("grep -A4 psqlaws $HOME/.database.ini",intern=TRUE)[-1]
+   dbinfo <- gsub("[a-z]+=","",tmp)
+   names(dbinfo) <- gsub("([a-z]+)=.*","\\1",tmp)
+   tmp <-     system("grep -A4 IUCNdb $HOME/.database.ini",intern=TRUE)[-1]
+   iucn.dbinfo <- gsub("[a-z]+=","",tmp)
+   names(iucn.dbinfo) <- gsub("([a-z]+)=.*","\\1",tmp)
+   rm(tmp)
 }
