@@ -14,7 +14,7 @@ system(sprintf("mkdir -p %s",target.dir))
 
 
 mi.rda <- sprintf('%s/mangrove-species-overview.rda',target.dir)
-if (!file.exists(mi.rda)) {
+if (file.exists(mi.rda)) {
   load(mi.rda)
 } else {
   
