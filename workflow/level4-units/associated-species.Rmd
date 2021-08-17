@@ -33,11 +33,115 @@ require(units)
 source(sprintf("%s/proyectos/IUCN-GET/MFT1.2-intertidal-forest/env/project-env.R",Sys.getenv("HOME")))
 setwd(work.dir)
 mgt.2016.pols <- read_sf("eck4-mangrove-type-provs.gpkg")
+mgt.2016.pols %>%  pull(PROV_CODE) %>% unique -> slc
+
+meow <- read_sf("mangrove-type-data-sources.vrt","meow")
+meow %>% filter(PROV_CODE %in% slc) %>% group_by(PROV_CODE,PROVINCE) %>% summarise(geom=st_union(geom)) -> mprovs
+
+## st_wrap_dateline to solve the international date line problem:
+# mprovs  %>% st_wrap_dateline %>% plot
+# mprovs %>% st_wrap_dateline(c("WRAPDATELINE=YES", "DATELINEOFFSET=50")) %>% st_geometry %>% plot
+
+mprov.xy <- mprovs %>% st_wrap_dateline() %>% st_transform(crs=st_crs(mgt.2016.pols))
+plot(st_geometry(mprov.xy))
 
 ```
-We create a 1-degree grid on top of marine provinces. For the cells belonging to those we count the number of records per species and create a matrix species by grid cell.
 
-Preview list of associated species
+We create a equal area grid on top of marine provinces. 
+
+```{r}
+raw.grid <- st_make_grid(mprov.xy,cellsize=500000)
+
+spp.grid <- st_as_sf(tibble(code=1:length(raw.grid)),raw.grid)
+spp.grid %>% plot
+plot(st_geometry(spp.grid))
+plot(mprov.xy['PROV_CODE'],add=T)
+```
+
+
+```{r}
+archs <- list.files(sprintf("%s/species-dist/global/GBIF/%s",gis.data,projectname),recursive=T,pattern='.rda$',full.names=T)
+sppXprov <- tibble(.rows=nrow(mprov.xy))
+sppXcell <- tibble(.rows=length(raw.grid))
+
+for (arch in grep("occ-data-spp",archs,value=T)) {
+  objs <- (load(arch))  
+  for (oo in objs) {
+    gbif.data <- get(oo)
+    names(gbif.data$gbif$data)
+    for (spp in unique(names(gbif.data$gbif$data))) {
+      if (nrow(gbif.data$gbif$data[[spp]])>0) {
+        xys <- gbif.data$gbif$data[[spp]] %>% select(name,latitude,longitude,key) %>% filter(!is.na(longitude)& !is.na(latitude))
+        if (nrow(xys)>0) {
+          spps <- st_as_sf(xys,coords=c("longitude","latitude"),crs=st_crs(meow)) %>% st_transform(st_crs(mgt.2016.pols))
+          mat <- spps %>% st_intersects(mprov.xy,sparse=F) 
+          sppXprov %<>% bind_cols(tibble(colSums(mat),.name_repair=~c(spp)))
+          mat <- spps %>% st_intersects(spp.grid,sparse=F) 
+          sppXcell %<>% bind_cols(tibble(colSums(mat),.name_repair=~c(spp)))
+        }
+      }
+    }
+  }
+}
+
+dim(sppXcell)
+dim(sppXprov)
+
+
+## not sure why it produces duplicated names: but they seem to include the same records...
+#names(spps.lt1500$gbif$data)[duplicated(names(spps.lt1500$gbif$data))]
+#grep("Lycaon_pictus",names(spps.lt1500$gbif$data))
+
+
+```
+
+Measure biotic simmilarity between provinces:
+
+```{r}
+require(vegan)
+ss <- rowSums(sppXprov)>0
+
+## this looks like a good combination (homogeneous groupings)
+d1 <- vegdist(sppXprov[ss,],'kulczynski',binary=T)
+h1 <- hclust(d1,method='ward.D2')
+
+lbls <- gsub("West|Western|west|western","W",mprov.xy$PROVINCE)
+lbls %<>% gsub("East|Eastern|east|eastern","E",.)
+lbls %<>% gsub("North","N",.)
+lbls %<>% gsub("South","S",.)
+lbls %<>% gsub("Central","C",.)
+lbls %<>% gsub("Tropical","Trop",.)
+lbls %<>% gsub("Temperate","Temp",.)
+
+
+plot(h1,labels=lbls)
+table(cutree(h1,h=.5))
+
+mprov.xy$k_group <- cutree(h1,h=.5) 
+mprov.xy %>%  group_by(k_group) %>% summarise -> tst
+plot(tst)
+```
+
+
+
+Cluster analysis for grid cells
+
+```{r}
+require(vegan)
+ss <- rowSums(sppXcell)>0
+
+## this looks like a good combination (homogeneous groupings)
+d1 <- vegdist(sppXcell[ss,],'kulczynski',binary=T)
+h1 <- hclust(d1,method='ward.D2')
+plot(h1)
+table(cutree(h1,k=35))
+
+spp.grid %>% filter(ss) %>% transmute(k_group=cutree(h1,k=35)) %>% plot
+spp.grid %>% filter(ss) %>% transmute(k_group=cutree(h1,k=35)) %>% group_by(k_group) %>% summarise -> tst
+plot(tst)
+```
+
+
 ```{r}
 head(res)
 table(res$kingdom_name,res$habitat)
@@ -51,49 +155,9 @@ res %>% group_by(order_name) %>% summarise(total=n_distinct(scientific_name)) %>
 Check first how many records are available in GBIF for each species:
 
 ```{r}
-
-
 summary(res$gbif_records)
 summary(res$gbif_xy_records)
 ```
 
 
-```{r}
-```
 
-
-```{r}
-
-```
-
-
-```{r}
-
-
-```
-
-and other species...
-
-```{r}
-```
-
-
-```{r}
-
-
-all_occs <- ls(pattern="occ_data")
-lst <- mget(all_occs)
-
-gbif_qry <- bind_cols(
-  order_names=gsub("occ_data_","",names(lst)),
-  found=sapply(lst,function(x) x$gbif$meta$found,simplify=T), returned=sapply(lst,function(x) x$gbif$meta$returned,simplify=T))
-
-gbif_qry %>% filter(found<=returned) %>% pull(order_names) -> listos
-gbif_qry %>% filter(found<(2*returned) & !(order_names %in% listos))
-
-tst <- occ2df(occ_data_ACCIPITRIFORMES) 
-plot(latitude~longitude,tst)
-
-#occ_data$gbif$data$Zenarchopterus_buffonis %>% select(longitude,latitude,countrycode,higherGeography)
-
-```
