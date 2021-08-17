@@ -12,11 +12,13 @@ knitr::opts_chunk$set(echo = FALSE)
 
 # Mangroves in the IUCN Global Ecosystem typology
 
-Mangroves are classified as a level 3 unit called *MFT1.2 Intertidal forests and shrublands*. The full profile is located at <https://global-ecosystems.org/explore/groups/MFT1.2>.
+Mangroves are classified as a level 3 unit called *MFT1.2 Intertidal forests and shrublands*. The full profile of this ecosystem functional group can be located at <https://global-ecosystems.org/explore/groups/MFT1.2>.
 
 Mangroves create structurally complex and productive ecosystems in the intertidal zone of depositional coasts, around tropical and warm temperate regions. The biota includes aquatic and terrestrial species, and intertidal specialists. Large volumes of mangrove leaves and twigs are decomposed by fungi and bacteria, mobilising carbon and nutrients for invertebrates such as crabs, worms and snails. Shellfish and juvenile fish are protected from desiccation and predators amongst mangrove roots. Mangrove canopies support many terrestrial species, particularly birds. These forests are important carbon sinks, retaining organic matter in sediments and living biomass.
 
 ## Regional eco-types (level 4 units)
+
+
 
 ### Data sources 
 
