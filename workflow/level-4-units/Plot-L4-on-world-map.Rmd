@@ -101,13 +101,23 @@ world.plot + geom_scatterpie(aes(x=lon, y=lat, group=PROV_CODE,r=pradius), data=
 p_provinces
 ```
 
-Export maps using
+Export maps using:
 
 ```{r,eval=false}
 
 ggsave(plot=p_provinces,file=sprintf('%s/Mangrove-aggregated-by-MEOW-provinces.pdf',work.dir),width=200,height=80,units="mm",device=pdf)
 ```
 
+Save data to Rdata file:
+
+```{r}
+
+
+meow %>% filter(PROV_CODE %in% slc) %>% group_by(PROV_CODE,PROVINCE) %>% summarise(geom=st_union(geom)) -> mprovs
+
+save(file=sprintf("%s/www/prov-data.rda",script.dir), prov_table, mprovs)
+
+```
 
 
 #### Session information:
