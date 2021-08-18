@@ -11,6 +11,8 @@ runtime: shiny
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+require(dplyr)
+require(units)
 ```
 
 # Mangroves in the IUCN Global Ecosystem typology
@@ -32,7 +34,7 @@ Data from mangroves intersect with several 35 / ... provinces.
 
 ```{r}
 load("prov-data.rda")
-prov_data
+prov_data %>% transmute(PROV_CODE,`Area 2020`=area_2020 %>% set_units('km^2'),`Area 2016`=radius %>% set_units('m^2') %>% set_units('km^2'))
 ```
 
 
