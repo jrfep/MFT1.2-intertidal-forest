@@ -34,7 +34,22 @@ Data from mangroves intersect with several 35 / ... provinces.
 
 ```{r}
 load("prov-data.rda")
-prov_data %>% transmute(PROV_CODE,`Area 2020`=area_2020 %>% set_units('km^2'),`Area 2016`=radius %>% set_units('m^2') %>% set_units('km^2'))
+prov_data %>% transmute(PROV_CODE,`Area 2020`=area_2020 %>% set_units('km^2'),`Area 2016`=radius %>% set_units('m^2') %>% set_units('km^2')) -> dts
+
+library(DT)
+
+ui <- basicPage(
+  h2("The mtcars data"),
+  DT::dataTableOutput("mytable")
+)
+
+server <- function(input, output) {
+  output$mytable = DT::renderDataTable({
+    dts
+  })
+}
+  
+shinyApp(ui, server)
 ```
 
 
