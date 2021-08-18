@@ -1,5 +1,5 @@
 ---
-title: "MFT1.2 Intertidal Forest - Level 4 maps"
+title: "MFT1.2 Intertidal Forest and Shrublands - Level 4 maps"
 author: "JR Ferrer-Paris"
 date: "17/08/2021"
 output: html_document
@@ -12,25 +12,24 @@ knitr::opts_chunk$set(echo = FALSE)
 
 # Mangroves in the IUCN Global Ecosystem typology
 
-Mangroves are classified as a level 3 unit called *MFT1.2 Intertidal forests and shrublands*. The full profile of this ecosystem functional group can be located at <https://global-ecosystems.org/explore/groups/MFT1.2>.
+Mangroves are classified as a level 3 unit called *MFT1.2 Intertidal forests and shrublands*:
 
-Mangroves create structurally complex and productive ecosystems in the intertidal zone of depositional coasts, around tropical and warm temperate regions. The biota includes aquatic and terrestrial species, and intertidal specialists. Large volumes of mangrove leaves and twigs are decomposed by fungi and bacteria, mobilising carbon and nutrients for invertebrates such as crabs, worms and snails. Shellfish and juvenile fish are protected from desiccation and predators amongst mangrove roots. Mangrove canopies support many terrestrial species, particularly birds. These forests are important carbon sinks, retaining organic matter in sediments and living biomass.
+> Mangroves create structurally complex and productive ecosystems in the intertidal zone of depositional coasts, around tropical and warm temperate regions. The biota includes aquatic and terrestrial species, and intertidal specialists. Large volumes of mangrove leaves and twigs are decomposed by fungi and bacteria, mobilising carbon and nutrients for invertebrates such as crabs, worms and snails. Shellfish and juvenile fish are protected from desiccation and predators amongst mangrove roots. Mangrove canopies support many terrestrial species, particularly birds. These forests are important carbon sinks, retaining organic matter in sediments and living biomass.
+
+The full profile of this ecosystem functional group can be located at <https://global-ecosystems.org/explore/groups/MFT1.2>. Please check the IUCN Global Ecosystem Typology report (Keith et al. 2020) for more details on the typology.
+
 
 ## Regional eco-types (level 4 units)
 
+We used marine provinces from the [Marine Ecoregions of the World](/MangrovesData/MEOW-ecoregions.Rmd) as templates for ecoregionalization of level 4 units. 
+
+We intersected the distribution of mangrove occurrence polygons from several sources with the marine provinces described above. You can check the documentation of data sources in the [Data Folder](/MangrovesData/).
+
+Data from mangroves intersect with several 35 / ... provinces. 
 
 
-### Data sources 
 
-Check documentation in the [Data Folder](/MangrovesData/)
-- [USGS global mangrove data](/MangrovesData/USGS-global-mangrove.Rmd)
-- [or here](/data/USGS-global-mangrove.md)
-- [Marine ecoregions](data/MEOW-ecoregions.md)
-- [Biophysical types](/data/WCMC-mangrove-types.md)
-- [GMW](data/WCMC-mangrove-GMW.md)
-
-In terms of data sources I am using the marine ecoregion data from this source: https://www.worldwildlife.org/publications/marine-ecoregions-of-the-world-a-bioregionalization-of-coastal-and-shelf-areas
-snd the Global biophysical typology of mangroves from this source: https://data.unep-wcmc.org/datasets/48
+### Marine provinces with mangrove occurrences
 
 
 In the Global biophysical typology of mangroves there are two columns: “Class” and “Sedimentar”, I have to use BOTH columns together to get the biophysical type, right? Or should I use only one?

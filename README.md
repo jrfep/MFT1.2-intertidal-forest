@@ -20,4 +20,6 @@ This contains the markdown documents explaining the steps of the workflow from t
 ## _www_ folder
 This folder contains the markdown documents and web app used in the workshop to showcase preliminary results at:
 - <https://ecosphere.shinyapps.io/Mangrove-L4-map/>
-- and <http://ec2-13-236-200-14.ap-southeast-2.compute.amazonaws.com:3838/GET-apps/MangroveL4units/>
+- <http://ec2-13-236-200-14.ap-southeast-2.compute.amazonaws.com:3838/Mangroves/>
+- <http://ec2-13-236-200-14.ap-southeast-2.compute.amazonaws.com:3838/MangrovesData/>
+- and <http://ec2-13-236-200-14.ap-southeast-2.compute.amazonaws.com:3838/MangrovesMap/>
