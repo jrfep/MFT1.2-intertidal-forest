@@ -1,7 +1,7 @@
 ---
 title: |
   ![](logo.png){width=1in}
-  "MFT1.2 Intertidal Forest and Shrublands"
+  MFT1.2 Intertidal Forest and Shrublands
 subtitle: "Level 4 maps"
 author: "JR Ferrer-Paris"
 date: "17/08/2021"
@@ -42,8 +42,7 @@ I am attaching a map where I cross tabulate the area of these biophysical types 
 
 ### Interactive map
 
-We prepared an interactive map available in the following websites:
-
+We prepared an interactive map available [here](/MangrovesMap/) and in the following addresses:
 - <https://bit.ly/3CWBaZt>
 - <https://ecosphere.shinyapps.io/Mangrove-L4-map/>
  
