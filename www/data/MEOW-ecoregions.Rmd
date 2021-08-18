@@ -1,14 +1,35 @@
+---
+title: |
+  ![](logo.png){width=1in}
+  MFT1.2 Intertidal Forest and Shrublands
+subtitle: "Data sources"
+author: "JR Ferrer-Paris"
+date: "17/08/2021"
+output: html_document
+runtime: shiny
+---
+
+[Back to Mangrove project folder](/Mangroves/) / [Interactive map](/MangrovesMap/)
+
 #  MEOW : Marine ecoregions of the world
 
-#### CITATION
->  Spalding MD et al. (2008) Marine ecoregions of the world: a bioregionalization of coastal and shelf areas. Bioscience 57: 573–583.
+#### Citation
 
-#### data availability
+>  Spalding MD, Fox HE, Allen GR, Davidson N, Ferdaña ZA, Finlayson M, Halpern BS, Jorge MA, Lombana A, Lourie SA, Martin KD, McManus E, Molnar J, Recchia CA, Robertson J (2007). Marine Ecoregions of the World: a bioregionalization of coast and shelf areas. BioScience 57: 573-583. doi: 10.1641/B570707. Data URL: http://data.unep-wcmc.org/datasets/38
 
-https://www.worldwildlife.org/publications/marine-ecoregions-of-the-world-a-bioregionalization-of-coastal-and-shelf-areas
+> The Nature Conservancy (2012). Marine Ecoregions and Pelagic Provinces of the World. GIS layers developed by The Nature Conservancy with multiple partners, combined from Spalding et al. (2007) and Spalding et al. (2012). Cambridge (UK): The Nature Conservancy. DOIs: 10.1641/B570707; 10.1016/j.ocecoaman.2011.12.016. Data URL: http://data.unep-wcmc.org/datasets/38
 
+> Spalding MD, Agostini VN, Rice J, Grant SM (2012). Pelagic provinces of the world): a biogeographic classification of the world’s surface pelagic waters. Ocean and Coastal Management 60: 19-30. DOI: 10.1016/j.ocecoaman.2011.12.016. Data URL: http://data.unep-wcmc.org/datasets/38
+ 
 
 #### Data download and preparation
+
+We used the version available at: 
+* <https://www.worldwildlife.org/publications/marine-ecoregions-of-the-world-a-bioregionalization-of-coastal-and-shelf-areas>
+
+An alternative version is available at:
+* <https://data.unep-wcmc.org/datasets/38>
+
 
 ```sh
 source ~/proyectos/UNSW/cesdata/env/project-env.sh
@@ -21,12 +42,12 @@ wget --continue 'https://c402277.ssl.cf1.rackcdn.com/publications/351/files/orig
 ```
 
 
+Check download and use *ogr*-functions to `makevalid` to avoid problems when intersecting this layer 
+
+
 ```sh
-qsub -I -l select=1:ncpus=2:mem=120gb,walltime=12:00:00
 
 source ~/proyectos/UNSW/cesdata/env/project-env.sh
-
-module add sqlite/3.31.1 spatialite/5.0.0b0 python/3.8.3 perl/5.28.0 gdal/3.2.1 geos/3.8.1
 
 export WD=$GISDATA/ecoregions/global/MEOW/
 cd  $WD
@@ -40,12 +61,3 @@ fi
 ```
 
 
-```sh
-cd $WORKDIR
-unzip $GISDATA/biogeografia/MEOW/MEOW_FINAL.zip
-
-psql gisdata -c "CREATE SCHEMA MEOW"
-ogr2ogr -overwrite -f "PostgreSQL" PG:"host=localhost user=jferrer dbname=gisdata" -lco SCHEMA=meow MEOW/meow_ecos.shp  -nlt PROMOTE_TO_MULTI
-
-
-```
