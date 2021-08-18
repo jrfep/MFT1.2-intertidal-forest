@@ -1,5 +1,7 @@
 ---
 title: "Plot Level 4 units based on marine provinces (MEOW) and mangrove biophysical type data"
+editor_options: 
+  chunk_output_type: console
 ---
 
 

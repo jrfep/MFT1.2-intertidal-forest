@@ -1,0 +1,65 @@
+---
+title: |
+  ![](logo.png){width=1in}
+  MFT1.2 Intertidal Forest and Shrublands
+subtitle: "Data sources"
+author: "JR Ferrer-Paris"
+date: "17/08/2021"
+output: html_document
+runtime: shiny
+---
+
+[Back to data source index](/MangrovesData/) / [Back to Mangrove project folder](/Mangroves/) / [Interactive map](/MangrovesMap/)
+
+#  MEOW : Marine ecoregions of the world
+
+#### Citation
+
+>  Spalding MD, Fox HE, Allen GR, Davidson N, Ferdaña ZA, Finlayson M, Halpern BS, Jorge MA, Lombana A, Lourie SA, Martin KD, McManus E, Molnar J, Recchia CA, Robertson J (2007). Marine Ecoregions of the World: a bioregionalization of coast and shelf areas. BioScience 57: 573-583. doi: 10.1641/B570707. Data URL: http://data.unep-wcmc.org/datasets/38
+
+> The Nature Conservancy (2012). Marine Ecoregions and Pelagic Provinces of the World. GIS layers developed by The Nature Conservancy with multiple partners, combined from Spalding et al. (2007) and Spalding et al. (2012). Cambridge (UK): The Nature Conservancy. DOIs: 10.1641/B570707; 10.1016/j.ocecoaman.2011.12.016. Data URL: http://data.unep-wcmc.org/datasets/38
+
+> Spalding MD, Agostini VN, Rice J, Grant SM (2012). Pelagic provinces of the world): a biogeographic classification of the world’s surface pelagic waters. Ocean and Coastal Management 60: 19-30. DOI: 10.1016/j.ocecoaman.2011.12.016. Data URL: http://data.unep-wcmc.org/datasets/38
+ 
+
+#### Data download and preparation
+
+We used the version available at: 
+
+* <https://www.worldwildlife.org/publications/marine-ecoregions-of-the-world-a-bioregionalization-of-coastal-and-shelf-areas>
+
+An alternative version is available at:
+
+* <https://data.unep-wcmc.org/datasets/38>
+
+
+```sh
+source ~/proyectos/UNSW/cesdata/env/project-env.sh
+
+mkdir -p $GISDATA/ecoregions/global/MEOW/
+cd $GISDATA/ecoregions/global/MEOW/
+
+wget --continue 'https://c402277.ssl.cf1.rackcdn.com/publications/351/files/original/MEOW_FINAL.zip?1349120553' --output-document=MEOW_FINAL.zip
+
+```
+
+
+Check download and use *ogr*-functions to `makevalid` to avoid problems when intersecting this layer 
+
+
+```sh
+
+source ~/proyectos/UNSW/cesdata/env/project-env.sh
+
+export WD=$GISDATA/ecoregions/global/MEOW/
+cd  $WD
+unzip -u $WD/MEOW_FINAL.zip
+
+if [ $(ogrinfo --version | grep "GDAL 3.2" -c) -eq 1 ]
+then
+     ogr2ogr -f "GPKG" meow_ecos_valid.gpkg $WD/MEOW/meow_ecos.shp meow_ecos -nlt PROMOTE_TO_MULTI -t_srs "+proj=longlat +datum=WGS84" -makevalid
+fi
+
+```
+
+
