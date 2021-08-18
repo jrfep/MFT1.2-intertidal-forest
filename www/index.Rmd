@@ -1,5 +1,7 @@
 ---
-title: "MFT1.2 Intertidal Forest and Shrublands"
+title: |
+  ![](logo.png){width=1in}
+  "MFT1.2 Intertidal Forest and Shrublands"
 subtitle: "Level 4 maps"
 author: "JR Ferrer-Paris"
 date: "17/08/2021"
