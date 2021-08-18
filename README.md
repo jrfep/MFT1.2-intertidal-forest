@@ -5,7 +5,10 @@ This repository showcases the data of products of a IUCN workshop on the delimit
 The repository has the following structure:
 
 ## _env_ folder
-Defining the programming environment variables for working in Linux/MacOS
+Defining the programming environment variables for working in Linux/MacOS.
+
+## _config_ folder
+Includes example configuration files for some applications.
 
 ## _inc_ folder
 Holds the scripts used for specific tasks. Mostly R and (bash) shell scrips, includes the PBS scripts for scheduling jobs in the HPC nodes. 
