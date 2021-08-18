@@ -9,7 +9,7 @@ output: html_document
 runtime: shiny
 ---
 
-[Back to Mangrove project folder](/Mangroves/) / [Interactive map](/MangrovesMap/)
+[Back to data source index](/MangrovesData/) / [Back to Mangrove project folder](/Mangroves/) / [Interactive map](/MangrovesMap/)
 
 # Global Distribution of Mangroves USGS, version 1.4
 
