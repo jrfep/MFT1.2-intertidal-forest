@@ -3,14 +3,20 @@
 require(spocc)
 require(dplyr)
 require(RPostgreSQL)
+require(sf)
 
 # source project env variables
 source(sprintf("%s/proyectos/IUCN-GET/MFT1.2-intertidal-forest/env/project-env.R",Sys.getenv("HOME")))
 setwd(work.dir)
 
 # Define target directory
-target.dir <- sprintf("%s/species-dist/global/GBIF/%s/spocc/%s", gis.data, projectname, Sys.Date())
-system(sprintf("mkdir -p %s",target.dir))
+target.dir <- sprintf("%s/species-dist/global/GBIF/%s/spocc", gis.data, projectname)
+if (length(dir(target.dir))==0) {
+  system(sprintf("mkdir -p %s/%s",target.dir,Sys.Date()))
+} else { 
+    target.dir <- last(dir(target.dir,full.names=T))
+  }
+
 
 
 mi.rda <- sprintf('%s/mangrove-species-overview.rda',target.dir)
@@ -94,5 +100,26 @@ for (spp in spps) {
 }
 
 ## what to do with species with more than 100000 records?
-mangrove_species %>% filter(gbif_xy_records>9999 & gbif_xy_records>100000)
+mangrove_species %>% filter(gbif_xy_records>9999 & gbif_xy_records>100000) %>% pull(scientific_name) -> spps
 
+## load a grid of cells 
+load(sprintf("%s/Rdata/grid-for-gbif-query.rda",script.dir))
+
+## search records per gridcell for all species 
+for (k in 1:length(ll.grid)) {
+  cat(sprintf("Grid %s from %s (%0.2f %%)\n",k,length(ll.grid),k*100/length(ll.grid)))
+  mi.rda <- sprintf('%s/occ-data-grid-%s.rda',target.dir,k)
+  if (!file.exists(mi.rda)) {
+    tst <- occ(query = spps, geometry=ll.grid[k],from = 'gbif',limit=1)
+      maxnumber=tst$gbif$meta$found
+      if (maxnumber>0) {
+        # filter species with at least one record
+        slc <- sapply(tst$gbif$data,nrow)
+        slc <- gsub("_"," ",names(slc[slc>0]))
+        # save results of complete search
+        spp_occ_data <- occ(query=slc,geometry=ll.grid[k],from = 'gbif',limit=maxnumber)
+        save(file=mi.rda,spp_occ_data)
+      }
+  }
+}
+  

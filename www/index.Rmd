@@ -1,0 +1,57 @@
+---
+title: |
+  ![](logo.png){width=1in}
+  MFT1.2 Intertidal Forest and Shrublands
+subtitle: "Level 4 maps"
+author: "JR Ferrer-Paris"
+date: "17/08/2021"
+output: html_document
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+# Mangroves in the IUCN Global Ecosystem typology
+
+Mangroves are classified as a level 3 unit called *MFT1.2 Intertidal forests and shrublands*:
+
+> Mangroves create structurally complex and productive ecosystems in the intertidal zone of depositional coasts, around tropical and warm temperate regions. The biota includes aquatic and terrestrial species, and intertidal specialists. Large volumes of mangrove leaves and twigs are decomposed by fungi and bacteria, mobilising carbon and nutrients for invertebrates such as crabs, worms and snails. Shellfish and juvenile fish are protected from desiccation and predators amongst mangrove roots. Mangrove canopies support many terrestrial species, particularly birds. These forests are important carbon sinks, retaining organic matter in sediments and living biomass.
+
+The full profile of this ecosystem functional group can be located at <https://global-ecosystems.org/explore/groups/MFT1.2>. Please check the IUCN Global Ecosystem Typology report (Keith et al. 2020) for more details on the typology.
+
+
+## Regional eco-types (level 4 units)
+
+We used marine provinces from the [Marine Ecoregions of the World](/MangrovesData/MEOW-ecoregions.Rmd) as templates for ecoregionalization of level 4 units. 
+
+We intersected the distribution of mangrove occurrence polygons from several sources with the marine provinces described above. You can check the documentation of data sources in the [Data Folder](/MangrovesData/).
+
+Data from mangroves intersect with several 35 / ... provinces. 
+
+
+
+### Marine provinces with mangrove occurrences
+
+
+In the Global biophysical typology of mangroves there are two columns: “Class” and “Sedimentar”, I have to use BOTH columns together to get the biophysical type, right? Or should I use only one?
+ 
+I am attaching a map where I cross tabulate the area of these biophysical types for each of the marine provinces. There are 37 provinces with mangroves: the circles are located over the centroid of the mangrove polygons in the province, size is proportional to the combined area of the mangrove polygons (the ones over Hawaii and Polynesia are really small), the pie-charts show the proportion of each biophysical type in that province. Hope this make sense.
+ 
+
+### Interactive map
+
+We prepared an interactive map available [here](/MangrovesMap/) and in the following addresses:
+- <https://bit.ly/3CWBaZt>
+- <https://ecosphere.shinyapps.io/Mangrove-L4-map/>
+ 
+The maps shows the distribution of Marine Provinces (from Marine Ecoregion of the World) with mangrove occurrence (from Worthington et al. 2020). The density of mangrove polygons is shown as a heat map (warmer colors indicate higher density) and it changes with the zoom level. You can zoom using the plus and minus bottoms in the upper left corner of the map or by double clicking in a location of the map. You can pan over the map using the keyboard arrows or by holding the mouse button and dragging the mouse. 
+ 
+Hovering the mouse over a province will highlight its boundaries and show the name. When you click on the province it will update the plot and table at the bottom of the screen. Plot shows the breakdown of area or number of polygons per combination of class and sedimentar in the selected province. 
+ 
+The table shows preliminary statistics calculated for the mangrove polygons within each province. Area is given in km^2 for the year 2016, Area change in % (between 1996 and 2016); EOO: extent of occurrence in km^2; AOO: area of occupancy (number of 10x10 km cells); AOO_m: AOO cells with > 1km^2 occupancy. These statistics are used in assessment of spatial criteria and give an idea of decline and exposure to threats.
+ 
+We encourage you to explore the map and think about questions and suggestions you want to discuss during the workshop. We have highlighted some issues on the map using red round markers. When you click on the markers you will see our suggestions or questions. For example we ask you to confirm the absence of mangrove in some areas, whether some provinces with small occurrences should be merged with neighbouring provinces, etc.
+
+ 

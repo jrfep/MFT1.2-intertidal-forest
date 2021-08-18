@@ -1,0 +1,19 @@
+---
+title: |
+  ![](logo.png){width=1in}
+  MFT1.2 Intertidal Forest and Shrublands
+subtitle: "Data sources"
+author: "JR Ferrer-Paris"
+date: "17/08/2021"
+output: html_document
+runtime: shiny
+---
+
+# Index of Mangroves Data Sources
+
+* [USGS global mangrove data](/MangrovesData/USGS-global-mangrove.Rmd)
+* [Global biophysical typology of mangroves](/MangrovesData/WCMC-mangrove-types.Rmd)
+* [Global Mangrove Watch](WCMC-mangrove-GMW.Rmd)
+* [Marine ecoregions](MEOW-ecoregions.Rmd)
+
+[Back to Mangrove project folder](/Mangroves/) / [Interactive map](/MangrovesMap/)

@@ -1,0 +1,81 @@
+---
+title: |
+  ![](logo.png){width=1in}
+  MFT1.2 Intertidal Forest and Shrublands
+subtitle: "Data sources"
+author: "JR Ferrer-Paris"
+date: "17/08/2021"
+output: html_document
+runtime: shiny
+---
+
+[Back to data source index](/MangrovesData/) / [Back to Mangrove project folder](/Mangroves/) / [Interactive map](/MangrovesMap/)
+
+# Global Distribution of Mangroves USGS, version 1.4
+
+Description from original source:
+
+> This dataset shows the global distribution of mangrove forests, derived from earth observation satellite imagery. The dataset was created using Global Land Survey (GLS) data and the Landsat archive. Approximately 1,000 Landsat scenes were interpreted using hybrid supervised and unsupervised digital image classification techniques. See Giri et al. (2011) for full details.
+
+
+#### Citation
+
+> Giri C, Ochieng E, Tieszen LL, Zhu Z, Singh A, Loveland T, Masek J, Duke N (2011). *Status and distribution of mangrove forests of the world using earth observation satellite data* (version 1.3, updated by UNEP-WCMC). **Global Ecology and Biogeography** 20: 154-159. doi: [10.1111/j.1466-8238.2010.00584.x] .
+
+> Giri, C., E. Ochieng, L.L.Tieszen, Z. Zhu, A. Singh, T. Loveland, J. Masek, and N. Duke. 2013. **Global Mangrove Forests Distribution, 2000**. Palisades, NY: NASA Socioeconomic Data and Applications Center (SEDAC). https://doi.org/10.7927/H4J67DW8. Accessed DAY MONTH YEAR
+
+
+#### Data download and preparation
+
+Available at:
+
+* <http://data.unep-wcmc.org/datasets/4>
+* <https://sedac.ciesin.columbia.edu/data/set/lulc-global-mangrove-forests-distribution-2000>
+
+To download this data:
+
+```sh
+source ~/proyectos/UNSW/cesdata/env/project-env.sh
+mkdir -p $GISDATA/ecosystems/global/WCMC-mangroves-2000
+cd $GISDATA/ecosystems/global/WCMC-mangroves-2000
+
+wget --continue http://wcmc.io/WCMC_010 --output-document=WCMC-mangroves-2000.zip
+```
+
+Check download and use *ogr*-functions to `makevalid` to avoid problems when intersecting this layer 
+
+```sh
+source ~/proyectos/UNSW/cesdata/env/project-env.sh
+cd $GISDATA/ecosystems/global/WCMC-mangroves-2000
+unzip $GISDATA/ecosystems/global/WCMC-mangroves-2000/WCMC-mangroves-2000.zip
+
+tree WCMC010_MangrovesUSGS2011_v1_4/
+
+export WD=$GISDATA/ecosystems/global/WCMC-mangroves-2000/
+export OUTPUT=$WD/USGS-valid-output
+mkdir -p $OUTPUT
+cd $OUTPUT
+
+if [ $(ogrinfo --version | grep "GDAL 3.2" -c) -eq 1 ]
+ then
+    ogr2ogr -f "GPKG" MangroveUSGS2011_valid.gpkg $WD/WCMC010_MangrovesUSGS2011_v1_4/01_Data/14_001_WCMC010_MangroveUSGS2011_v1_4.shp 14_001_WCMC010_MangroveUSGS2011_v1_4 -nlt PROMOTE_TO_MULTI -makevalid
+ else
+    echo " check if ogr version does support -makevalid flag"
+ fi      
+```
+
+
+#### Alternative in Google earth engine
+
+This dataset is available as [Global Mangrove Forests Distribution, v1 (2000)](https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_MANGROVE_FORESTS).
+
+```js
+var dataset = ee.ImageCollection('LANDSAT/MANGROVE_FORESTS');
+var mangrovesVis = {
+  min: 0,
+  max: 1.0,
+  palette: ['d40115'],
+};
+Map.setCenter(-44.5626, -2.0164, 9);
+Map.addLayer(dataset, mangrovesVis, 'Mangroves');
+```

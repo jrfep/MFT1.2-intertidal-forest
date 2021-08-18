@@ -84,7 +84,7 @@ server <- function(input, output) {
     })
 }
 ui <- fluidPage(
-    titlePanel( div(column(width = 3, tags$a(href='https://global-ecosystems.org/explore/groups/MFT1.2',
+    titlePanel( div(column(width = 3, tags$a(href='/Mangroves/',
                                              tags$img(src='logo.png', width = 300))),
                     column(width = 9, h1("MFT1.2 Intertidal forests and shrublands"),
                     h2("Preliminary level 4 units"))),
