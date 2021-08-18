@@ -23,6 +23,10 @@ echo '<OGRVRTDataSource>
     <SrcDataSource>'$GISDATA'/ecosystems/global/WCMC-mangroves-GMW/GMW-valid-output/GMW_2016_valid.gpkg</SrcDataSource>
     <SrcLayer>GMW_2016_v2</SrcLayer>
 </OGRVRTLayer>
+<OGRVRTLayer name="mangroves_usgs">
+    <SrcDataSource>'$GISDATA'/ecosystems/global/WCMC-mangroves-2000/USGS-valid-output/MangroveUSGS2011_valid.gpkg</SrcDataSource>
+    <SrcLayer>14_001_WCMC010_MangroveUSGS2011_v1_4</SrcLayer>
+</OGRVRTLayer>
 <OGRVRTLayer name="mangrove_types">
     <SrcDataSource>'$GISDATA'/ecosystems/global/WCMC-mangrove-types/TNC-BioPhys-Mangrove-valid-output/Mangrove_Typology_v2_2_2016_valid.gpkg</SrcDataSource>
     <SrcLayer>Mangrove_Typology_v2_2_2016</SrcLayer>
@@ -54,6 +58,12 @@ echo '<OGRVRTDataSource>
 if [ ! -e intersection-type-meow-provs.gpkg ]
 then
   \time -f "Calculate intersection with mangrove-type \nTotal time: %E\nUser Mode (s) %U\nKernel Mode (s) %S\nCPU: %P" ogr2ogr -f "GPKG" intersection-type-meow-provs.gpkg mangrove-type-data-sources.vrt -dialect sqlite -sql "SELECT a.ID,a.Class,a.Sedimentar,b.ECO_CODE,b.PROV_CODE,b.PROVINCE,a.geom AS geometry FROM mangrove_types a, meow b WHERE ST_Intersects(a.geom, b.geom)" -nln mangrove_types # 29:05.94
+fi
+
+# 
+if [ ! -e intersection-usgs-meow-provs.gpkg ]
+then
+  \time -f "Calculate intersection with mangrove layer from Giri et al. 2011 \nTotal time: %E\nUser Mode (s) %U\nKernel Mode (s) %S\nCPU: %P" ogr2ogr -f "GPKG" intersection-usgs-meow-provs.gpkg mangrove-type-data-sources.vrt -dialect sqlite -sql "SELECT a.ID,,b.ECO_CODE,b.PROV_CODE,b.PROVINCE,a.geom AS geometry FROM mangrove_usgs a, meow b WHERE ST_Intersects(a.geom, b.geom)" -nln mangrove_usgs # 
 fi
 
 if [ ! -e intersection-type-meow-provs-1996.gpkg ]
