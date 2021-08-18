@@ -30,7 +30,19 @@ setwd(work.dir)
 
 First we read spatial data from our data sources. Steps for download from the original data sources, and preparation of the data (repairing topological invalid polygons, etc) is documented in the repo https://github.com/unsw-edu-au/cesdata.
 
-We use package `sf` to read the spatial data for the biophysical typology of mangroves:
+We use package `sf` to read the spatial data for the marine ecoregions:
+
+```{r}
+meow <- read_sf(sprintf("%secoregions/global/MEOW/meow_ecos_valid.gpkg",gis.data))
+#meow %>% st_geometry %>% plot
+
+## this one does not include the terrestrial part
+#meow_ppow <- read_sf(sprintf("%secoregions/global/MEOW/meow_ppow_valid.gpkg",gis.data))
+meow_ppow2 <- read_sf(sprintf("%secoregions/global/MEOW/meow_ppow_noCoast_valid.gpkg",gis.data))
+# meow_ppow2 %>% filter(TYPE=="MEOW") %>% st_geometry %>% plot
+```
+
+... the biophysical typology of mangroves:
 
 ```{r}
 
@@ -44,24 +56,45 @@ And for the intersection with MEOW provinces:
 mgt.meow.its <- read_sf("intersection-type-meow-provs.gpkg")
 ```
 
-And extract the data summaries we need:
+The different sources of ecoregions have different areas for the provinces. This are likely due to the combination with pelagic provinces:
 
 ```{r}
+meow_ppow2 %>% filter(TYPE=="MEOW") %>% mutate(area=st_area(geom)) %>% st_drop_geometry() %>% group_by(PROVINCE=PROVINC) %>% summarise(area=sum(area)) -> a1
 
-mgt.meow.its %>% mutate(area=st_area(geometry),centroid=st_centroid(geometry)) %>% st_drop_geometry  %>% transmute(ID,PROV_CODE,ECO_CODE, Class, Sedimentar,area,lon=st_coordinates(centroid)[,1],lat=st_coordinates(centroid)[,2]) -> rslts_meow
+meow %>% mutate(area=st_area(geom)) %>% st_drop_geometry() %>% group_by(PROVINCE) %>% summarise(area=sum(area)) -> a2
+
+dts <- full_join(a1,a2,by='PROVINCE')
+dts %>% filter(is.na(area.y) | is.na(area.x))
+ggplot(dts,aes(area.x,area.y)) + geom_point()
 
 ```
 
+Will keep using the first version from WWF because the pelagic provinces are not relevant for mangrove.
+
+## Mangroves per province
+
+We extract the data summaries from the object with the spatial intersection:
+
+```{r}
+mgt.meow.its %>% mutate(area=st_area(geometry),centroid=st_centroid(geometry)) %>% st_drop_geometry  %>% transmute(ID,PROV_CODE,ECO_CODE, Class, Sedimentar,area,lon=st_coordinates(centroid)[,1],lat=st_coordinates(centroid)[,2]) -> rslts_meow
+```
 
 Let's compare this with the intersection between the GMW layer and MEOW ecoregions 
 
 ```{r}
 mgv.meow.its <- read_sf("intersection-meow.gpkg")
 mgv.meow.its %>% mutate(area=st_area(geometry),centroid=st_centroid(geometry)) %>% st_drop_geometry  %>% transmute(ECO_CODE,area,lon=st_coordinates(centroid)[,1],lat=st_coordinates(centroid)[,2]) -> rslts_gmw_meow
-
 ```
 
-For example:
+
+And the intersection between the USGS layer and MEOW ecoregions 
+
+```{r}
+mgu.meow.its <- read_sf("intersection-usgs-meow-provs.gpkg")
+mgu.meow.its %>% mutate(area=st_area(geometry),centroid=st_centroid(geometry)) %>% st_drop_geometry  %>% transmute(OBJECTID,PROV_CODE,ECO_CODE,area,lon=st_coordinates(centroid)[,1],lat=st_coordinates(centroid)[,2]) -> rslts_usgs_meow
+```
+
+For example there is not much difference between the GMW and biophysical type layers from the same year: 
 
 ```{r}
 rslts_meow %>% group_by(ECO_CODE) %>% summarise(area=sum(area)) -> a1 
@@ -74,6 +107,22 @@ full_join(a1,a2,by="ECO_CODE") %>% mutate(difference=area.x/area.y) %>% arrange(
 
 ```
 
+But there is considerable difference between the USGS layer from 2000 and the latest layers:
+
+```{r}
+rslts_meow %>% group_by(PROV_CODE) %>% summarise(area=sum(area)) -> a1 
+rslts_usgs_meow %>% group_by(PROV_CODE) %>% summarise(area=sum(area)) -> a2 
+
+## not much difference here:
+full_join(a1,a2,by="PROV_CODE") %>% mutate(difference=area.x/area.y) %>% arrange(difference) %>% print.AsIs()
+```
+
+Did Mangrove disappeared from these provinces?
+
+```{r}
+meow %>% filter(PROV_CODE %in% c(3,22,38,40,45)) %>% st_drop_geometry() %>% distinct(PROVINCE)
+```
+
 
 ## Summarise data by province
 
@@ -83,7 +132,7 @@ Now we can summarise by province id and mangrove type:
 
 rslts_meow %>% group_by(PROV_CODE,Class,Sedimentar) %>% summarise(total=sum(area) %>% drop_units) %>% pivot_wider(id=c(PROV_CODE), names_from=c(Class,Sedimentar), values_from=total) %>% replace(is.na(.), 0) -> prov_areas
 
-rslts_meow %>% group_by(PROV_CODE) %>% summarise(lon=weighted.mean(lon,drop_units(area)), lat=weighted.mean(lat,drop_units(area))) -> prov_xys
+rslts_usgs_meow %>% group_by(PROV_CODE) %>% summarise(lon=weighted.mean(lon,drop_units(area)), lat=weighted.mean(lat,drop_units(area)),area_2020=sum(area)) -> prov_xys
 
 prov_data <- prov_xys %>% full_join(prov_areas)
 
@@ -99,7 +148,7 @@ prov_data %<>% mutate(pradius=log10(radius/1e6))
 Check range of coordinates:
 
 ```{r}
-prov_data %>% summarise(range(lat),range(lon))
+prov_data %>% ungroup %>% summarise(range(lat),range(lon))
 ```
 
 Background world map:
@@ -119,17 +168,26 @@ world.plot <- ggplot() +
 Now we can map by totals for each marine province
 
 ```{r}
-world.plot + geom_scatterpie(aes(x=lon, y=lat, group=PROV_CODE,r=pradius), data=prov_data, cols=colnames(prov_data)[4:9],color=NA) + labs(title=sprintf("Mangrove aggregated by Marine Provinces: %s distinct units", nrow(prov_data)),caption="Locations: centroid of unit; Size: proportional to log(Area km²)",fill = "Biophysical types") + theme(legend.position = "top",legend.key.size = unit(0.1, "cm")) -> p_provinces # +  geom_scatterpie_legend(prov_data$pradius, x=-140, y=-30,n=3)
+world.plot + geom_scatterpie(aes(x=lon, y=lat, group=PROV_CODE,r=pradius), data=prov_data, cols=colnames(prov_data)[5:10],color=NA) + labs(title=sprintf("Mangrove aggregated by Marine Provinces: %s distinct units", nrow(prov_data)),caption="Locations: centroid of unit; Size: proportional to log(Area km²)",fill = "Biophysical types") + theme(legend.position = "top",legend.key.size = unit(0.1, "cm")) -> p_provinces # +  geom_scatterpie_legend(prov_data$pradius, x=-140, y=-30,n=3)
 p_provinces
 ```
 
-Export maps using
+Export maps using:
 
 ```{r,eval=false}
 
 ggsave(plot=p_provinces,file=sprintf('%s/Mangrove-aggregated-by-MEOW-provinces.pdf',work.dir),width=200,height=80,units="mm",device=pdf)
 ```
 
+Save data to Rdata file:
+
+```{r}
+prov_data %>% pull(PROV_CODE) -> slc
+meow %>% filter(PROV_CODE %in% slc) %>% group_by(PROV_CODE,PROVINCE) %>% summarise(geom=st_union(geom)) -> mprovs
+
+save(file=sprintf("%s/www/prov-data.rda",script.dir), prov_data, mprovs)
+
+```
 
 
 #### Session information:
