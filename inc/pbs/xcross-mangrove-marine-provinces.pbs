@@ -23,6 +23,10 @@ echo '<OGRVRTDataSource>
     <SrcDataSource>'$GISDATA'/ecosystems/global/WCMC-mangroves-GMW/GMW-valid-output/GMW_2016_valid.gpkg</SrcDataSource>
     <SrcLayer>GMW_2016_v2</SrcLayer>
 </OGRVRTLayer>
+<OGRVRTLayer name="mangroves_usgs">
+    <SrcDataSource>'$GISDATA'/ecosystems/global/WCMC-mangroves-2000/USGS-valid-output/MangroveUSGS2011_valid.gpkg</SrcDataSource>
+    <SrcLayer>14_001_WCMC010_MangroveUSGS2011_v1_4</SrcLayer>
+</OGRVRTLayer>
 <OGRVRTLayer name="mangrove_types">
     <SrcDataSource>'$GISDATA'/ecosystems/global/WCMC-mangrove-types/TNC-BioPhys-Mangrove-valid-output/Mangrove_Typology_v2_2_2016_valid.gpkg</SrcDataSource>
     <SrcLayer>Mangrove_Typology_v2_2_2016</SrcLayer>
@@ -54,6 +58,12 @@ echo '<OGRVRTDataSource>
 if [ ! -e intersection-type-meow-provs.gpkg ]
 then
   \time -f "Calculate intersection with mangrove-type \nTotal time: %E\nUser Mode (s) %U\nKernel Mode (s) %S\nCPU: %P" ogr2ogr -f "GPKG" intersection-type-meow-provs.gpkg mangrove-type-data-sources.vrt -dialect sqlite -sql "SELECT a.ID,a.Class,a.Sedimentar,b.ECO_CODE,b.PROV_CODE,b.PROVINCE,a.geom AS geometry FROM mangrove_types a, meow b WHERE ST_Intersects(a.geom, b.geom)" -nln mangrove_types # 29:05.94
+fi
+
+# 
+if [ ! -e intersection-usgs-meow-provs.gpkg ]
+then
+  \time -f "Calculate intersection with mangrove layer from Giri et al. 2011 \nTotal time: %E\nUser Mode (s) %U\nKernel Mode (s) %S\nCPU: %P" ogr2ogr -f "GPKG" intersection-usgs-meow-provs.gpkg mangrove-type-data-sources.vrt -dialect sqlite -sql "SELECT a.OBJECTID,a.grid_code,a.CTYPE,b.ECO_CODE,b.PROV_CODE,b.PROVINCE,a.geom AS geometry FROM mangroves_usgs a, meow b WHERE ST_Intersects(a.geom, b.geom)" -nln mangroves_usgs # Total time: 2:08:25
 fi
 
 if [ ! -e intersection-type-meow-provs-1996.gpkg ]
@@ -98,12 +108,12 @@ do
 done
 
 
-if [ ! -e grp-mangrove-type-provs.gpkg ]
-then
-\time -f "Summarise by class,sedimentar and province \nTotal time: %E\nUser Mode (s) %U\nKernel Mode (s) %S\nCPU: %P" ogr2ogr -f "GPKG" grp-mangrove-type-provs.gpkg bf-mangrove-type-provs.gpkg -nln mangroves -dialect indirect_sqlite -sql "SELECT Class, Sedimentar, PROV_CODE, PROVINCE, SUM(AREA_proj) as AREA_orig, ST_Union(geometry) as geometry FROM mangroves GROUP BY Class, Sedimentar, PROV_CODE, PROVINCE" -t_srs EPSG:4326 -nlt PROMOTE_TO_MULTI
-fi
+#if [ ! -e grp-mangrove-type-provs.gpkg ]
+#then
+#\time -f "Summarise by class,sedimentar and province \nTotal time: %E\nUser Mode (s) %U\nKernel Mode (s) %S\nCPU: %P" ogr2ogr -f "GPKG" grp-mangrove-type-provs.gpkg bf-mangrove-type-provs.gpkg -nln mangroves -dialect indirect_sqlite -sql "SELECT Class, Sedimentar, PROV_CODE, PROVINCE, SUM(AREA_proj) as AREA_orig, ST_Union(geometry) as geometry FROM mangroves GROUP BY Class, Sedimentar, PROV_CODE, PROVINCE" -t_srs EPSG:4326 -nlt PROMOTE_TO_MULTI
+#fi
 
-if [ ! -e convex-hull.gpkg ]
-then
-  \time -f "Create convex hull per province \nTotal time: %E\nUser Mode (s) %U\nKernel Mode (s) %S\nCPU: %P" ogr2ogr -f "GPKG" convex-hull.gpkg intersection-type-meow-provs.gpkg -dialect sqlite -sql "SELECT PROV_CODE,PROVINCE,ST_ConvexHull(ST_UNION(geometry)) as geometry  FROM mangrove_types GROUP BY PROV_CODE,PROVINCE" # 2:49:42
-fi
+#if [ ! -e convex-hull.gpkg ]
+#then
+#  \time -f "Create convex hull per province \nTotal time: %E\nUser Mode (s) %U\nKernel Mode (s) %S\nCPU: %P" ogr2ogr -f "GPKG" convex-hull.gpkg intersection-type-meow-provs.gpkg -dialect sqlite -sql "SELECT PROV_CODE,PROVINCE,ST_ConvexHull(ST_UNION(geometry)) as geometry  FROM mangrove_types GROUP BY PROV_CODE,PROVINCE" # 2:49:42
+#fi
