@@ -22,11 +22,12 @@ Mangroves create structurally complex and productive ecosystems in the intertida
 
 ### Data sources 
 
-- [USGS global mangrove data](./data/USGS-global-mangrove.md)
-- [/data/USGS-global-mangrove.md]
-- [data/MEOW-ecoregions.md]
-- [/data/WCMC-mangrove-types.md]
-- [data/WCMC-mangrove-GMW.md]
+Check documentation in the [Data Folder](/MangrovesData/)
+- [USGS global mangrove data](/MangrovesData/USGS-global-mangrove.Rmd)
+- [or here](/data/USGS-global-mangrove.md)
+- [Marine ecoregions](data/MEOW-ecoregions.md)
+- [Biophysical types](/data/WCMC-mangrove-types.md)
+- [GMW](data/WCMC-mangrove-GMW.md)
 
 In terms of data sources I am using the marine ecoregion data from this source: https://www.worldwildlife.org/publications/marine-ecoregions-of-the-world-a-bioregionalization-of-coastal-and-shelf-areas
 snd the Global biophysical typology of mangroves from this source: https://data.unep-wcmc.org/datasets/48
