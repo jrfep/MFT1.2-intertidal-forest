@@ -30,6 +30,10 @@ We intersected the distribution of mangrove occurrence polygons from several sou
 
 Data from mangroves intersect with several 35 / ... provinces. 
 
+```{r}
+load("prov-data.rda")
+prov_data
+```
 
 
 ### Marine provinces with mangrove occurrences
