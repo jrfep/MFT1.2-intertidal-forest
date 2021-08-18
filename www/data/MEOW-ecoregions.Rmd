@@ -9,7 +9,7 @@ output: html_document
 runtime: shiny
 ---
 
-[Back to Mangrove project folder](/Mangroves/) / [Interactive map](/MangrovesMap/)
+[Back to data source index](/MangrovesData/) / [Back to Mangrove project folder](/Mangroves/) / [Interactive map](/MangrovesMap/)
 
 #  MEOW : Marine ecoregions of the world
 
@@ -25,9 +25,11 @@ runtime: shiny
 #### Data download and preparation
 
 We used the version available at: 
+
 * <https://www.worldwildlife.org/publications/marine-ecoregions-of-the-world-a-bioregionalization-of-coastal-and-shelf-areas>
 
 An alternative version is available at:
+
 * <https://data.unep-wcmc.org/datasets/38>
 
 

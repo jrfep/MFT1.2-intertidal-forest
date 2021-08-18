@@ -12,7 +12,7 @@ runtime: shiny
 # Index of Mangroves Data Sources
 
 * [USGS global mangrove data](/MangrovesData/USGS-global-mangrove.Rmd)
-* [Global biophysical typology of mangroves](/MangrovesData/WCMC-mangrove-types.md)
+* [Global biophysical typology of mangroves](/MangrovesData/WCMC-mangrove-types.Rmd)
 * [Global Mangrove Watch](WCMC-mangrove-GMW.Rmd)
 * [Marine ecoregions](MEOW-ecoregions.Rmd)
 
