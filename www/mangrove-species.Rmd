@@ -1,0 +1,32 @@
+---
+title: |
+  ![](logo.png){width=1in}
+  MFT1.2 Intertidal Forest and Shrublands
+subtitle: "Species associated with mangroves"
+author: "JR Ferrer-Paris"
+date: "19/08/2021"
+output: html_document
+runtime: shiny
+---
+
+[Back to Mangrove project folder](/Mangroves/) / [Data Sources](/MangrovesData/) / [Interactive map](/MangrovesMap/)
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+require(dplyr)
+require(units)
+library(DT)
+require(sf)
+options(dplyr.summarise.inform = FALSE)
+
+```
+
+### Species associated with mangrove
+
+```{r,echo=FALSE}
+load('species-occurrence.rda')
+mangrove_species %>% group_by(code,habitat,kingdom_name,class_name) %>% summarise(`Nr. of species`=n_distinct(taxonid),`Records in GBIF`=sum(gbif_xy_records)) -> dts2
+
+DT::renderDataTable({dts2})
+```
+
