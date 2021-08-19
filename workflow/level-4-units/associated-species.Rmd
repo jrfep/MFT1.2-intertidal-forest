@@ -93,16 +93,65 @@ for (arch in grep("occ-data-spp",archs,value=T)) {
     }
   }
 }
-
-dim(sppXcell)
-dim(sppXprov)
-
-
-## not sure why it produces duplicated names: but they seem to include the same records...
+#
+# not sure why it produces duplicated names: but they seem to include the same records...
 #names(spps.lt1500$gbif$data)[duplicated(names(spps.lt1500$gbif$data))]
 #grep("Lycaon_pictus",names(spps.lt1500$gbif$data))
 
+dim(sppXcell)
+dim(sppXprov)
+```
 
+For species with very large number of records, we have to summarise data with a different approach
+```{r}
+grdXprov <- tibble(.rows=nrow(mprov.xy))
+grdXcell <- tibble(.rows=length(raw.grid))
+list_spps <- c()
+for (arch in grep("occ-data-grid",archs,value=T)) {
+  objs <- try(load(arch))  
+  if (any(class(objs)=='try-error')) {
+    cat(sprintf('error with %s!\n',basename(arch)))
+    next
+  }
+  for (oo in objs) {
+    gbif.data <- get(oo)
+    for (spp in unique(names(gbif.data$gbif$data))) {
+      if ((nrow(gbif.data$gbif$data[[spp]])>0)) {
+        xys <- gbif.data$gbif$data[[spp]] %>% dplyr::select(name,latitude,longitude,key) %>% filter(!is.na(longitude)& !is.na(latitude))
+        if (nrow(xys)>0) {
+          list_spps <- unique(c(list_spps,spp))
+          spps <- st_as_sf(xys,coords=c("longitude","latitude"),crs=st_crs(meow)) %>% st_transform(st_crs(mgt.2016.pols))
+          mat <- spps %>% st_intersects(mprov.xy,sparse=F) 
+          grdXprov %<>% bind_cols(tibble(colSums(mat),.name_repair=~c(spp)))
+          mat <- spps %>% st_intersects(spp.grid,sparse=F) 
+          grdXcell %<>% bind_cols(tibble(colSums(mat),.name_repair=~c(spp)))
+        }
+      }
+    }
+  }
+}
+
+grd2Xprov <- tibble(.rows=nrow(mprov.xy))
+grd2Xcell <- tibble(.rows=length(raw.grid))
+
+for (spp in list_spps) {
+  grd2Xprov %<>% bind_cols(
+    grdXprov %>% rowwise() %>% transmute( "{spp}" := sum(c_across(starts_with(spp))))
+  )
+  grd2Xcell %<>% bind_cols(
+    grdXcell %>% rowwise() %>% transmute( "{spp}" := sum(c_across(starts_with(spp))))
+  )
+  save(file=mi.rda,sppXcell,sppXprov,grd2Xcell,grd2Xprov,mangrove_species)
+   
+} 
+
+sppXcell %>% bind_cols(grd2Xcell)
+
+sppXcell %>% bind_cols(grd2Xcell) -> mtzXcell
+sppXprov %>% bind_cols(grd2Xprov) -> mtzXprov
+
+save(file=mi.rda,mtzXcell,mtzXprov,mangrove_species)
+ 
 ```
 
 Measure biotic simmilarity between provinces:
