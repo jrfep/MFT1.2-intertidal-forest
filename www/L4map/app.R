@@ -84,7 +84,7 @@ server <- function(input, output) {
     })
 }
 ui <- fluidPage(
-    titlePanel( div(column(width = 3, tags$a(href='/Mangroves/',
+    titlePanel( div(column(width = 3, tags$a(href='http://ec2-13-236-200-14.ap-southeast-2.compute.amazonaws.com:3838/Mangroves/',
                                              tags$img(src='logo.png', width = 300))),
                     column(width = 9, h1("MFT1.2 Intertidal forests and shrublands"),
                     h2("Preliminary level 4 units"))),
