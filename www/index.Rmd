@@ -79,11 +79,11 @@ mangrove_species %>% group_by(code,habitat,kingdom_name,class_name) %>% summaris
 ui <- basicPage(
   h2("Species associated with mangrove habitats"),
   h3("According to IUCN Red List of Threatened Species"),
-  DT::dataTableOutput("mytable")
+  DT::dataTableOutput("spptable")
 )
 
 server <- function(input, output) {
-  output$mytable = DT::renderDataTable({
+  output$spptable = DT::renderDataTable({
     dts
   })
 }
