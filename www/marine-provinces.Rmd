@@ -30,7 +30,7 @@ Mangroves are present in at least 37 and at most 42 marine provinces, depending 
 
 Area in the table are expressed in km^2.
 
-```{r}
+```{r, echo=FALSE}
 load("prov-data.rda")
 prov_summary %>% st_drop_geometry %>% transmute(PROV_CODE,PROVINCE,`Area 2020`=area_2020 %>% set_units('km^2') %>% round(2),`Area 2016`=radius %>% set_units('m^2') %>% set_units('km^2') %>%  round(2)) -> dts
 
