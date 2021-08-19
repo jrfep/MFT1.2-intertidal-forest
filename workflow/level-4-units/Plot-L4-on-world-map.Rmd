@@ -123,7 +123,6 @@ Did Mangrove disappeared from these provinces?
 meow %>% filter(PROV_CODE %in% c(3,22,38,40,45)) %>% st_drop_geometry() %>% distinct(PROVINCE)
 ```
 
-
 ## Summarise data by province
 
 Now we can summarise by province id and mangrove type:
@@ -184,8 +183,8 @@ Save data to Rdata file:
 ```{r}
 prov_data %>% pull(PROV_CODE) -> slc
 meow %>% filter(PROV_CODE %in% slc) %>% group_by(PROV_CODE,PROVINCE) %>% summarise(geom=st_union(geom)) -> mprovs
-
-save(file=sprintf("%s/www/prov-data.rda",script.dir), prov_data, mprovs)
+full_join(mprovs,prov_data,by='PROV_CODE') -> prov_summary
+save(file=sprintf("%s/www/prov-data.rda",script.dir), prov_summary)
 
 ```
 

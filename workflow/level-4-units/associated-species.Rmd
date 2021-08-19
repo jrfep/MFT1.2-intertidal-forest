@@ -32,17 +32,20 @@ require(units)
 
 source(sprintf("%s/proyectos/IUCN-GET/MFT1.2-intertidal-forest/env/project-env.R",Sys.getenv("HOME")))
 setwd(work.dir)
+
 mgt.2016.pols <- read_sf("eck4-mangrove-type-provs.gpkg")
 mgt.2016.pols %>%  pull(PROV_CODE) %>% unique -> slc
 
-meow <- read_sf("mangrove-type-data-sources.vrt","meow")
-meow %>% filter(PROV_CODE %in% slc) %>% group_by(PROV_CODE,PROVINCE) %>% summarise(geom=st_union(geom)) -> mprovs
+#meow <- read_sf("mangrove-type-data-sources.vrt","meow")
+#meow %>% filter(PROV_CODE %in% slc) %>% group_by(PROV_CODE,PROVINCE) %>% summarise(geom=st_union(geom)) -> mprovs
+load(sprintf("%s/www/prov-data.rda",script.dir))
 
 ## st_wrap_dateline to solve the international date line problem:
 # mprovs  %>% st_wrap_dateline %>% plot
 # mprovs %>% st_wrap_dateline(c("WRAPDATELINE=YES", "DATELINEOFFSET=50")) %>% st_geometry %>% plot
 
-mprov.xy <- mprovs %>% st_wrap_dateline() %>% st_transform(crs=st_crs(mgt.2016.pols))
+## filter provinces with data in 2016 + Lusitania
+mprov.xy <- prov_summary %>% filter(PROV_CODE %in% c(3,slc)) %>% st_wrap_dateline() %>% st_transform(crs=st_crs(mgt.2016.pols))
 plot(st_geometry(mprov.xy))
 
 ```
@@ -61,23 +64,30 @@ plot(mprov.xy['PROV_CODE'],add=T)
 
 ```{r}
 archs <- list.files(sprintf("%s/species-dist/global/GBIF/%s",gis.data,projectname),recursive=T,pattern='.rda$',full.names=T)
-sppXprov <- tibble(.rows=nrow(mprov.xy))
-sppXcell <- tibble(.rows=length(raw.grid))
+
+mi.rda <- sprintf("%s/www/species-occurrence.rda",script.dir)
+if (file.exists(mi.rda)) {
+  load(mi.rda)
+} else {
+  load(grep("overview",archs,value=T))
+  sppXprov <- tibble(.rows=nrow(mprov.xy))
+  sppXcell <- tibble(.rows=length(raw.grid))
+}
 
 for (arch in grep("occ-data-spp",archs,value=T)) {
   objs <- (load(arch))  
   for (oo in objs) {
     gbif.data <- get(oo)
-    names(gbif.data$gbif$data)
     for (spp in unique(names(gbif.data$gbif$data))) {
-      if (nrow(gbif.data$gbif$data[[spp]])>0) {
-        xys <- gbif.data$gbif$data[[spp]] %>% select(name,latitude,longitude,key) %>% filter(!is.na(longitude)& !is.na(latitude))
+      if (!(spp %in% colnames(sppXprov)) & !(spp %in% colnames(sppXcell)) & (nrow(gbif.data$gbif$data[[spp]])>0)) {
+        xys <- gbif.data$gbif$data[[spp]] %>% dplyr::select(name,latitude,longitude,key) %>% filter(!is.na(longitude)& !is.na(latitude))
         if (nrow(xys)>0) {
           spps <- st_as_sf(xys,coords=c("longitude","latitude"),crs=st_crs(meow)) %>% st_transform(st_crs(mgt.2016.pols))
           mat <- spps %>% st_intersects(mprov.xy,sparse=F) 
           sppXprov %<>% bind_cols(tibble(colSums(mat),.name_repair=~c(spp)))
           mat <- spps %>% st_intersects(spp.grid,sparse=F) 
           sppXcell %<>% bind_cols(tibble(colSums(mat),.name_repair=~c(spp)))
+          save(file=mi.rda,sppXcell,sppXprov,mangrove_species)
         }
       }
     }
