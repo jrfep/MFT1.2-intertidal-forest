@@ -37,7 +37,9 @@ mgt.2016.pols <- read_sf("eck4-mangrove-type-provs.gpkg")
 mgt.2016.pols %>%  pull(PROV_CODE) %>% unique -> slc
 
 #unzip(sprintf("%s/admin/global/World-Bank/wb_land_10m.zip",gis.data)) 
-wbland <- read_sf("WB_Land_10m/WB_Land_10m.shp")
+#unzip(sprintf("%s/admin/global/World-Bank/wb_boundaries_geojson_lowres.zip",gis.data)) 
+#wbland <- read_sf("WB_Land_10m/WB_Land_10m.shp")
+wbland <- read_sf("WB_Boundaries_GeoJSON_lowres/WB_Coastlines_10m_lowres.geojson")
 
 #meow <- read_sf("mangrove-type-data-sources.vrt","meow")
 #meow %>% filter(PROV_CODE %in% slc) %>% group_by(PROV_CODE,PROVINCE) %>% summarise(geom=st_union(geom)) -> mprovs
@@ -51,7 +53,7 @@ load(sprintf("%s/www/prov-data.rda",script.dir))
 mprov.xy <- prov_summary %>% filter(PROV_CODE %in% c(3,slc)) %>% st_wrap_dateline() %>% st_transform(crs=st_crs(mgt.2016.pols))
 plot(st_geometry(mprov.xy))
 
-wbland %>% st_transform(crs=st_crs(mgt.2016.pols)) -> world.xy
+wbland %>% st_transform(crs=st_crs(mgt.2016.pols)) %>% st_simplify(dTolerance=4) -> world.xy
 mi.rda <- sprintf("%s/www/gis.rda",script.dir)
 save(file=mi.rda,world.xy)
 
