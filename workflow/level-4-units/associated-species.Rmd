@@ -87,7 +87,7 @@ for (arch in grep("occ-data-spp",archs,value=T)) {
           sppXprov %<>% bind_cols(tibble(colSums(mat),.name_repair=~c(spp)))
           mat <- spps %>% st_intersects(spp.grid,sparse=F) 
           sppXcell %<>% bind_cols(tibble(colSums(mat),.name_repair=~c(spp)))
-          save(file=mi.rda,sppXcell,sppXprov,mangrove_species)
+          save(file=mi.rda,sppXcell,sppXprov,mangrove_species,mprov.xy)
         }
       }
     }
@@ -141,7 +141,7 @@ for (spp in list_spps) {
   grd2Xcell %<>% bind_cols(
     grdXcell %>% rowwise() %>% transmute( "{spp}" := sum(c_across(starts_with(spp))))
   )
-  save(file=mi.rda,sppXcell,sppXprov,grd2Xcell,grd2Xprov,mangrove_species)
+  save(file=mi.rda,sppXcell,sppXprov,grd2Xcell,grd2Xprov,mangrove_species,mprov.xy)
    
 } 
 
@@ -150,7 +150,7 @@ sppXcell %>% bind_cols(grd2Xcell)
 sppXcell %>% bind_cols(grd2Xcell) -> mtzXcell
 sppXprov %>% bind_cols(grd2Xprov) -> mtzXprov
 
-save(file=mi.rda,mtzXcell,mtzXprov,mangrove_species)
+save(file=mi.rda,mtzXcell,mtzXprov,mangrove_species,mprov.xy)
  
 ```
 
@@ -158,7 +158,7 @@ Measure biotic simmilarity between provinces:
 
 ```{r}
 require(vegan)
-ss <- rowSums(sppXprov)>0
+ss <- rowSums(mtzXprov)>0
 
 ## this looks like a good combination (homogeneous groupings)
 d1 <- vegdist(sppXprov[ss,],'kulczynski',binary=T)
@@ -166,8 +166,8 @@ h1 <- hclust(d1,method='ward.D2')
 
 lbls <- gsub("West|Western|west|western","W",mprov.xy$PROVINCE)
 lbls %<>% gsub("East|Eastern|east|eastern","E",.)
-lbls %<>% gsub("North","N",.)
-lbls %<>% gsub("South","S",.)
+lbls %<>% gsub("North|Northern","N",.)
+lbls %<>% gsub("South|Southern","S",.)
 lbls %<>% gsub("Central","C",.)
 lbls %<>% gsub("Tropical","Trop",.)
 lbls %<>% gsub("Temperate","Temp",.)
@@ -175,6 +175,7 @@ lbls %<>% gsub("Temperate","Temp",.)
 
 plot(h1,labels=lbls)
 table(cutree(h1,h=.5))
+abline(h=.5,lty=2,col=2)
 
 mprov.xy$k_group <- cutree(h1,h=.5) 
 mprov.xy %>%  group_by(k_group) %>% summarise -> tst
