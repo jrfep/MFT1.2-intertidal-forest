@@ -13,6 +13,8 @@ runtime: shiny
 knitr::opts_chunk$set(echo = FALSE)
 require(dplyr)
 require(units)
+library(DT)
+require(sf)
 ```
 
 # Mangroves in the IUCN Global Ecosystem typology
@@ -34,12 +36,12 @@ Data from mangroves intersect with several 35 / ... provinces.
 
 ```{r}
 load("prov-data.rda")
-prov_data %>% transmute(PROV_CODE,`Area 2020`=area_2020 %>% set_units('km^2'),`Area 2016`=radius %>% set_units('m^2') %>% set_units('km^2')) -> dts
+prov_summary %>% st_drop_geometry %>% transmute(PROV_CODE,PROVINCE,`Area 2020`=area_2020 %>% set_units('km^2') %>% round(2),`Area 2016`=radius %>% set_units('m^2') %>% set_units('km^2') %>%  round(2)) -> dts
 
-library(DT)
 
 ui <- basicPage(
-  h2("The mtcars data"),
+  h2("Marine provinces with occurrence of mangroves"),
+  h3("Area in km^2"),
   DT::dataTableOutput("mytable")
 )
 
@@ -64,7 +66,6 @@ I am attaching a map where I cross tabulate the area of these biophysical types 
 ### Interactive map
 
 We prepared an interactive map available [here](/MangrovesMap/) and in the following addresses:
-- <https://bit.ly/3CWBaZt>
 - <https://ecosphere.shinyapps.io/Mangrove-L4-map/>
  
 The maps shows the distribution of Marine Provinces (from Marine Ecoregion of the World) with mangrove occurrence (from Worthington et al. 2020). The density of mangrove polygons is shown as a heat map (warmer colors indicate higher density) and it changes with the zoom level. You can zoom using the plus and minus bottoms in the upper left corner of the map or by double clicking in a location of the map. You can pan over the map using the keyboard arrows or by holding the mouse button and dragging the mouse. 
