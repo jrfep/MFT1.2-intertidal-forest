@@ -92,7 +92,7 @@ tabsetPanel(
             renderPlot({
               mprov.xy$k_group <- cutree(h1,h=input$h_value)
               mprov.xy %>%  group_by(k_group) %>% summarise -> tst
-              plot(st_geometry(world.xy),col="antiquewhite",border="tomato4",
+              plot(st_geometry(world.xy),col="tomato4",border="tomato4",
                    main=sprintf('With cut-off of h=%s there are %s groups',
                               input$h_value,nrow(tst)))
               plot(tst,col=clrs[1:n_distinct(cutree(h1,h=input$h_value))],
