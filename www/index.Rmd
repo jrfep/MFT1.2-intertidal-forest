@@ -27,9 +27,11 @@ Mangroves are classified as a ecosystem functional group (level 3 unit) named *M
 
 The full profile of this ecosystem functional group can be located at <https://global-ecosystems.org/explore/groups/MFT1.2>. Please check the IUCN Global Ecosystem Typology report (Keith et al. 2020) for more details on the typology.
 
-## Global map (level 3)
+## Global mangroves distribution
 
-Currently the global map of this ecosystem functional group is based on the mangrove distribution data of Giri et al. (2011). But this will be updated after this workshop. 
+Currently the indicative map of this ecosystem functional group is based on the mangrove distribution data of Giri et al. (2011). But this will be updated after this workshop. 
+
+So far the *IUCN Red List of Ecosystem* assessments that focus on mangrove are mostly concerned with local or national units. The continental assessment of forest of the Americas (Ferrer-Paris et al. 2019) include two large mangrove units (Atlantic and Caribbean vs. Pacific Mangroves), but did not consider further subdivision of the units, and did not consider the marine components of the mangrove ecosystems.
 
 ```{r, fig.height=4, fig.width=10 }
 load('dbquery.rda')
@@ -69,7 +71,7 @@ leaflet() %>% setView(lng = 0, lat = 0, zoom = 2) %>%
             title = "Occurrence", position = "topright") 
 ```
 
-
+[You can view more details of the RLE assessments in this link](rle-assessments.Rmd).
 
 ## Regional ecosystem subgroups (level 4 units)
 
@@ -77,7 +79,7 @@ In order to define the boundaries of ecoregional units we evaluate two aspects:
 
 - [Intersection of mangrove occurrences with Marine provinces](marine-provinces.Rmd)
 - [Biotic similarity of mangrove associated biota between Marine provinces](mangrove-species.Rmd)
-- [Red List of Ecosystem assessments and lower level units](rle-assessments.Rmd)
+
 
 ---
 
