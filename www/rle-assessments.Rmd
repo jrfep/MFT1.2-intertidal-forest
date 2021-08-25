@@ -20,7 +20,12 @@ options(dplyr.summarise.inform = FALSE)
 load('dbquery.rda')
 ```
 
-Let's have a look at the assessments
+# IUCN RLE database
+The [IUCN Red List of Ecosystems database](https://assessments.iucnrle.org) is an on-going effort to document all IUCN RLE assessments. 
+
+## List of publications with assessments 
+
+Here we show a selection of references that include assessments of Mangrove units. Some of these references are systematic assessments of terrestrial or marine ecosystems at a national or continental scale. Other references describe strategic assessment of selected local/regional units. 
 
 ```{r}
 lks <- asm_links %>% filter(is.na(eco_id)) %>% transmute(asm_id, url=sprintf("<a href='%s' target='_blank'>%s</a>",URLdecode(url),url_description)) %>% group_by(asm_id) %>% summarise(links=paste(url,collapse=" :: ")) 
@@ -30,8 +35,8 @@ asms <- assessments %>% left_join(lks,by="asm_id") %>% transmute(`Reference`=ref
 DT::datatable(asms,escape=FALSE)
 ```
 
-
-These are the assessment units included
+## Assessment units
+Some of the assessments above include multiple units, and some units are distributed across multiple countries. The list of assessment units can be filtered by country using the ISO two letter code. The table includes links to assessment information or documents where these are available.
 
 ```{r}
 
@@ -60,10 +65,4 @@ DT::renderDataTable({
     filter(ss) %>%
     transmute(name=eco_name_orig, lang=eco_name_lang, Reference=ref_code, level, category=overall_risk_category, bounds=risk_category_bounds, links)
   },escape=FALSE)
-```
-
-Add map with locations? countries?
-
-```{r}
-plot(st_geometry(asm_xy))
 ```
