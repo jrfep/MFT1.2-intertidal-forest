@@ -13,6 +13,7 @@ runtime: shiny
 knitr::opts_chunk$set(echo = FALSE)
 require(dplyr)
 require(units)
+require(leaflet)
 library(DT)
 require(sf)
 options(dplyr.summarise.inform = FALSE)
@@ -26,13 +27,58 @@ Mangroves are classified as a ecosystem functional group (level 3 unit) named *M
 
 The full profile of this ecosystem functional group can be located at <https://global-ecosystems.org/explore/groups/MFT1.2>. Please check the IUCN Global Ecosystem Typology report (Keith et al. 2020) for more details on the typology.
 
+## Global map (level 3)
+
+Currently the global map of this ecosystem functional group is based on the mangrove distribution data of Giri et al. (2011). But this will be updated after this workshop. 
+
+```{r, fig.height=4, fig.width=10 }
+load('dbquery.rda')
+bf <- read_sf("MFT1.2_buffer.topo.json")
+mb.style <- "jrfep/ckspr4rl70jch17pg3rnix3fz"
+mb.token <- "pk.eyJ1IjoianJmZXAiLCJhIjoiY2s5N3RxZWhwMTl5NjNnbjFmdzhubTFjdiJ9.KFBzgxBPjKnERRfR9awR_g"
+
+my_url <- sprintf("https://api.mapbox.com/styles/v1/%s/tiles/{z}/{x}/{y}?access_token=%s",mb.style,mb.token)
+
+my_attribution <- "© <a href='https://www.mapbox.com/map-feedback/'>Mapbox</a> CC-BY-4.0 <a href='https://global-ecosystems.org/explore/groups/MFT1.2'>IUCN Global Ecosystem Typology</a>"
+
+occ <- factor(c("major","minor"))
+DPcolors <- c(rgb(193,15,2,255,max=255), rgb(247,157,150,255,max=255))
+
+
+  st_labels <- sprintf("<strong>%s</strong><br/>%s<br/>Category: <strong>%s</strong>",
+                        asm_xy$eco_name_orig, asm_xy$ref_code, asm_xy$overall_risk_category ) %>%
+      lapply(htmltools::HTML)
+    st_icons <- icons(
+      iconUrl = sprintf("icons/%s.png",tolower(asm_xy$overall_risk_category)),
+      iconWidth = 20, iconHeight = 20
+    )
+
+leaflet() %>% setView(lng = 0, lat = 0, zoom = 2) %>% 
+  addTiles(urlTemplate=my_url,attribution=my_attribution) %>% 
+  addPolygons(data = bf, color = 'yellow', fill=FALSE, weight = 2, fillOpacity = 0.15, group='Outline') %>%
+  addMarkers(data = asm_xy,icon = st_icons, 
+                   label=st_labels,
+                   # clusterOptions = st_cluster,
+                   group="RLE assessments") %>%
+  addLayersControl(
+          overlayGroups = c("Outline","RLE assessments"),
+          options = layersControlOptions(collapsed = FALSE),
+          position = "topright"
+        ) %>% 
+  addLegend(colors = DPcolors, labels = c("major","minor"), opacity = 1.0, 
+            title = "Occurrence", position = "topright") 
+```
+
+
+
 ## Regional ecosystem subgroups (level 4 units)
 
 In order to define the boundaries of ecoregional units we evaluate two aspects:
 
 - [Intersection of mangrove occurrences with Marine provinces](marine-provinces.Rmd)
 - [Biotic similarity of mangrove associated biota between Marine provinces](mangrove-species.Rmd)
+- [Red List of Ecosystem assessments and lower level units](rle-assessments.Rmd)
 
---- 
+---
 
 [Data Sources](/MangrovesData/) / [Interactive map](/MangrovesMap/)
