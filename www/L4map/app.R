@@ -32,10 +32,15 @@ server <- function(input, output) {
         leaflet() %>%
             addProviderTiles(providers$Esri.OceanBasemap) %>%
             setView(lng = 0, lat = 0, zoom = 2) %>%
-            addPolygons(data = mprovs, layerId= ~PROV_CODE, fillColor = "snow3", highlightOptions = highlightOptions(weight = 2, color = 'black'), color = 'grey', weight = 0.4, fillOpacity = 0.15,label=my_labels) %>%
-            leaflet.extras::addHeatmap(data = mgt_points, blur = 20, max = 0.05, radius = 12) %>%
-            addCircleMarkers(data=qs, ~x , ~y, layerId=~id, popup=~q, radius=8 , color="black",  fillColor="red", stroke = TRUE, fillOpacity = 0.8)
-    })
+            addPolygons(data = mprovs, layerId= ~PROV_CODE, fillColor = "snow3", highlightOptions = highlightOptions(weight = 2, color = 'black'), color = 'grey', weight = 0.4, fillOpacity = 0.15,label=my_labels, group="Marine provinces") %>%
+            leaflet.extras::addHeatmap(data = mgt_points, blur = 20, max = 0.05, radius = 12,group="Heatmap mangrove polygons") %>%
+            addCircleMarkers(data=qs, ~x , ~y, layerId=~id, popup=~q, radius=8 , color="black",  fillColor="red", stroke = TRUE, fillOpacity = 0.8,group="Issues")  %>% 
+            addLayersControl(
+                overlayGroups = c("Marine provinces","Heatmap mangrove polygons","Issues" ),
+                options = layersControlOptions(collapsed = FALSE),
+                position = "topright"
+            ) 
+    }) 
     # store the click
     observeEvent(input$map_marker_click,{
         data_of_click$clickedMarker <- input$map_marker_click
