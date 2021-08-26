@@ -38,9 +38,11 @@ Area in the table are expressed in km^2.
 
 ```{r, echo=FALSE}
 load("Rdata/prov-data.rda")
-meow %>% st_drop_geometry %>% filter(ECO_CODE %in% colnames(mat)) %>% group_by(PROVINCE) %>% summarise(`Nr. of ecoregions`=n_distinct(ECO_CODE))
+load("Rdata/mgv-species-occurrence.rda")
 
-prov_summary %>% st_drop_geometry %>% transmute(PROV_CODE,PROVINCE,`Area 2020`=area_2020 %>% set_units('km^2') %>% round(2),`Area 2016`=radius %>% set_units('m^2') %>% set_units('km^2') %>%  round(2)) -> dts
+prov.mgv.spp %>% st_drop_geometry %>% group_by(PROV_CODE,PROVINCE) %>% summarise(across(Dolichandrone.spathacea:Ceriops.australis, max)) -> mtz
+
+mtz %>% rowwise() %>% transmute(PROV_CODE,PROVINCE,sum=sum(c_across(Dolichandrone.spathacea:Ceriops.australis))) %>% full_join(prov_summary,by=c('PROV_CODE','PROVINCE'))  %>% transmute(PROVINCE,`Area 2020`=area_2020 %>% set_units('km^2') %>% round(2),`Area 2016`=radius %>% set_units('m^2') %>% set_units('km^2') %>%  round(2),`Mangrove species`=sum) -> dts
 
  DT::renderDataTable({dts})
 ```

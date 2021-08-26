@@ -18,8 +18,9 @@ require(sf)
 require(vegan)
 require(magrittr)
 options(dplyr.summarise.inform = FALSE)
-load('species-occurrence.rda')
-load('gis.rda')
+load('Rdata/species-occurrence.rda')
+load('Rdata/mgv-species-occurrence.rda')
+load('Rdata/gis.rda')
 
 ```
 
