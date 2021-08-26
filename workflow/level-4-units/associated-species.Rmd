@@ -4,8 +4,107 @@ editor_options:
   chunk_output_type: console
 ---
 
+Load libraries and set-up working environment:
 
-We intersected the polygon of _Marine provinces_ from [MEOW](https://www.worldwildlife.org/publications/marine-ecoregions-of-the-world-a-bioregionalization-of-coastal-and-shelf-areas) and species distribution records from GBIF
+```{r}
+require(dplyr)
+require(magrittr)
+require(sf)
+require(units)
+require(vegan)
+
+
+source(sprintf("%s/proyectos/IUCN-GET/MFT1.2-intertidal-forest/env/project-env.R",Sys.getenv("HOME")))
+setwd(work.dir)
+```
+
+Here we will intersect the polygon of _Marine provinces_ from [MEOW](https://www.worldwildlife.org/publications/marine-ecoregions-of-the-world-a-bioregionalization-of-coastal-and-shelf-areas) with species distribution ranges from the RLTS database and records from GBIF.
+
+```{r}
+
+mgt.2016.pols <- read_sf(sprintf("%s/eck4-mangrove-type-provs.gpkg",work.dir))
+mgt.2016.pols %>%  pull(PROV_CODE) %>% unique -> slc
+mgt.2016.pols %>%  pull(ECO_CODE) %>% unique -> ecos
+
+meow <- read_sf(sprintf("%s/mangrove-type-data-sources.vrt",work.dir),"meow")
+#meow %>% filter(PROV_CODE %in% slc) %>% group_by(PROV_CODE,PROVINCE) %>% summarise(geom=st_union(geom)) -> mprovs
+
+#unzip(sprintf("%s/admin/global/World-Bank/wb_land_10m.zip",gis.data)) 
+#unzip(sprintf("%s/admin/global/World-Bank/wb_boundaries_geojson_lowres.zip",gis.data)) 
+#wbland <- read_sf("WB_Land_10m/WB_Land_10m.shp")
+wbland <- read_sf("WB_Boundaries_GeoJSON_lowres/WB_Coastlines_10m_lowres.geojson")
+
+#meow <- read_sf("mangrove-type-data-sources.vrt","meow")
+#meow %>% filter(PROV_CODE %in% slc) %>% group_by(PROV_CODE,PROVINCE) %>% summarise(geom=st_union(geom)) -> mprovs
+```
+
+# Mangrove species 
+
+Data on mangroves was requested to RLTS and the file downloaded.
+
+```{r}
+mangroves <- read_sf(sprintf("%s/species-dist/global/IUCN_RLTS/MANGROVES.shp",gis.data))
+mangroves %>% st_drop_geometry %>% group_by(kingdom,phylum,class,order_) %>% summarise(nspp=n_distinct(id_no))
+
+ mat <- mangroves %>% st_intersects(meow,sparse=F) 
+ colnames(mat) <- meow$ECO_CODE
+ rownames(mat) <- mangroves$id_no
+ 
+ mat <- mat[,colSums(mat)>0]
+ meow %>% filter(ECO_CODE %in% colnames(mat)) %>% group_by(PROV_CODE) %>% summarise %>% st_geometry %>% plot
+         
+```
+
+Measure biotic simmilarity between provinces:
+
+```{r}
+
+## this looks like a good combination (homogeneous groupings)
+d1 <- vegdist(t(mat),'kulczynski',binary=T)
+h1 <- hclust(d1,method='ward.D2')
+
+plot(h1)
+
+```
+
+The larger scale groups are consistent with provinces, except for these
+
+```{r}
+hc <- as.dendrogram(h1)
+tt <- table(meow$PROVINCE[match(h1$labels,meow$ECO_CODE)],cutree(h1,k=6))
+table(rowSums(tt>0))
+
+
+labelColors = c("#CDB380", "#036564", "#EB6841", "#EDC951")
+
+# ls <- meow[match(h1$labels,meow$ECO_CODE),c("PROVINCE","ECOREGION")]
+#clusLabel = if_else(ls$PROVINCE %in% rownames(tt)[rowSums(tt>0)>1],ls$PROVINCE,"o")
+clusMember = cutree(h1, 6)
+
+# function to get color labels
+colLab <- function(n) {
+  if (is.leaf(n)) {
+    a <- attributes(n)
+    qry <- meow %>% st_drop_geometry %>% filter(ECO_CODE %in% a$label) %>% pull(PROVINCE) 
+    newLabel <- if_else(qry %in% rownames(tt)[rowSums(tt>0)>1],qry,"o")
+    labCol <- labelColors[clusMember[which(names(clusMember) == a$label)]]
+    attr(n, "nodePar") <- c(a$nodePar, lab.col = labCol)
+    attr(n,"label")  <- newLabel
+  }
+  n
+}
+
+# using dendrapply
+clusDendro = dendrapply(hc, colLab)
+
+# make plot
+plot(clusDendro, main = "Cool Dendrogram")
+
+```
+
+
+
+# All (other) species
 
 We run a script to download GBIF data in the background.
 
@@ -25,24 +124,7 @@ rsync -gloptrunv $srcdir/* $dstdir
 
 
 ```{r}
-require(dplyr)
-require(magrittr)
-require(sf)
-require(units)
 
-source(sprintf("%s/proyectos/IUCN-GET/MFT1.2-intertidal-forest/env/project-env.R",Sys.getenv("HOME")))
-setwd(work.dir)
-
-mgt.2016.pols <- read_sf("eck4-mangrove-type-provs.gpkg")
-mgt.2016.pols %>%  pull(PROV_CODE) %>% unique -> slc
-
-#unzip(sprintf("%s/admin/global/World-Bank/wb_land_10m.zip",gis.data)) 
-#unzip(sprintf("%s/admin/global/World-Bank/wb_boundaries_geojson_lowres.zip",gis.data)) 
-#wbland <- read_sf("WB_Land_10m/WB_Land_10m.shp")
-wbland <- read_sf("WB_Boundaries_GeoJSON_lowres/WB_Coastlines_10m_lowres.geojson")
-
-#meow <- read_sf("mangrove-type-data-sources.vrt","meow")
-#meow %>% filter(PROV_CODE %in% slc) %>% group_by(PROV_CODE,PROVINCE) %>% summarise(geom=st_union(geom)) -> mprovs
 load(sprintf("%s/www/prov-data.rda",script.dir))
 
 ## st_wrap_dateline to solve the international date line problem:
