@@ -29,8 +29,8 @@ mgt.2016.pols %>%  pull(ECO_CODE) %>% unique -> ecos
 meow <- read_sf(sprintf("%s/mangrove-type-data-sources.vrt",work.dir),"meow")
 #meow %>% filter(PROV_CODE %in% slc) %>% group_by(PROV_CODE,PROVINCE) %>% summarise(geom=st_union(geom)) -> mprovs
 
-#unzip(sprintf("%s/admin/global/World-Bank/wb_land_10m.zip",gis.data)) 
-#unzip(sprintf("%s/admin/global/World-Bank/wb_boundaries_geojson_lowres.zip",gis.data)) 
+#unzip(sprintf("%s/admin/global/World-Bank/wb_land_10m.zip",gis.data))
+#unzip(sprintf("%s/admin/global/World-Bank/wb_boundaries_geojson_lowres.zip",gis.data))
 #wbland <- read_sf("WB_Land_10m/WB_Land_10m.shp")
 wbland <- read_sf("WB_Boundaries_GeoJSON_lowres/WB_Coastlines_10m_lowres.geojson")
 
@@ -38,7 +38,7 @@ wbland <- read_sf("WB_Boundaries_GeoJSON_lowres/WB_Coastlines_10m_lowres.geojson
 #meow %>% filter(PROV_CODE %in% slc) %>% group_by(PROV_CODE,PROVINCE) %>% summarise(geom=st_union(geom)) -> mprovs
 ```
 
-# Mangrove species 
+# Mangrove species
 
 Data on mangroves was requested to RLTS and the file downloaded.
 
@@ -46,13 +46,15 @@ Data on mangroves was requested to RLTS and the file downloaded.
 mangroves <- read_sf(sprintf("%s/species-dist/global/IUCN_RLTS/MANGROVES.shp",gis.data))
 mangroves %>% st_drop_geometry %>% group_by(kingdom,phylum,class,order_) %>% summarise(nspp=n_distinct(id_no))
 
- mat <- mangroves %>% st_intersects(meow,sparse=F) 
+ mat <- mangroves %>% st_intersects(meow,sparse=F)
  colnames(mat) <- meow$ECO_CODE
  rownames(mat) <- mangroves$id_no
- 
- mat <- mat[,colSums(mat)>0]
- meow %>% filter(ECO_CODE %in% colnames(mat)) %>% group_by(PROV_CODE) %>% summarise %>% st_geometry %>% plot
-         
+
+ mgv.spp <- t(mat[,colSums(mat)>0])
+ meow %>% filter(ECO_CODE %in% rownames(mgv.spp)) %>% group_by(PROV_CODE) %>% summarise %>% st_geometry %>% plot
+
+ mi.rda <- sprintf("%s/www/Rdata/mgv-species-occurrence.rda",script.dir)
+
 ```
 
 Measure biotic simmilarity between provinces:
@@ -60,7 +62,7 @@ Measure biotic simmilarity between provinces:
 ```{r}
 
 ## this looks like a good combination (homogeneous groupings)
-d1 <- vegdist(t(mat),'kulczynski',binary=T)
+d1 <- vegdist(mgv.spp,'kulczynski',binary=T)
 h1 <- hclust(d1,method='ward.D2')
 
 plot(h1)
@@ -85,7 +87,7 @@ clusMember = cutree(h1, 6)
 colLab <- function(n) {
   if (is.leaf(n)) {
     a <- attributes(n)
-    qry <- meow %>% st_drop_geometry %>% filter(ECO_CODE %in% a$label) %>% pull(PROVINCE) 
+    qry <- meow %>% st_drop_geometry %>% filter(ECO_CODE %in% a$label) %>% pull(PROVINCE)
     newLabel <- if_else(qry %in% rownames(tt)[rowSums(tt>0)>1],qry,"o")
     labCol <- labelColors[clusMember[which(names(clusMember) == a$label)]]
     attr(n, "nodePar") <- c(a$nodePar, lab.col = labCol)
@@ -99,6 +101,7 @@ clusDendro = dendrapply(hc, colLab)
 
 # make plot
 plot(clusDendro, main = "Cool Dendrogram")
+save(file=mi.rda, mangroves, mgv.spp)
 
 ```
 
@@ -119,7 +122,7 @@ We then use rsync to update the results in the shared drive
 export srcdir=$GISDATA/species-dist/global/GBIF/
 export dstdir=$zID@kdm.restech.unsw.edu.au:/srv/scratch/cesdata/gisdata/species-dist/global/GBIF
 # this is a dry run: remove -n flag for actual syncing
-rsync -gloptrunv $srcdir/* $dstdir 
+rsync -gloptrunv $srcdir/* $dstdir
 ```
 
 
@@ -136,12 +139,12 @@ mprov.xy <- prov_summary %>% filter(PROV_CODE %in% c(3,slc)) %>% st_wrap_datelin
 plot(st_geometry(mprov.xy))
 
 wbland %>% st_transform(crs=st_crs(mgt.2016.pols)) %>% st_simplify(dTolerance=4) -> world.xy
-mi.rda <- sprintf("%s/www/gis.rda",script.dir)
+mi.rda <- sprintf("%s/www/Rdata/gis.rda",script.dir)
 save(file=mi.rda,world.xy)
 
 ```
 
-We create a equal area grid on top of marine provinces. 
+We create a equal area grid on top of marine provinces.
 
 ```{r}
 raw.grid <- st_make_grid(mprov.xy,cellsize=500000)
@@ -156,7 +159,7 @@ plot(mprov.xy['PROV_CODE'],add=T)
 ```{r}
 archs <- list.files(sprintf("%s/species-dist/global/GBIF/%s",gis.data,projectname),recursive=T,pattern='.rda$',full.names=T)
 
-mi.rda <- sprintf("%s/www/species-occurrence.rda",script.dir)
+mi.rda <- sprintf("%s/www/Rdata/species-occurrence.rda",script.dir)
 if (file.exists(mi.rda)) {
   load(mi.rda)
 } else {
@@ -166,7 +169,7 @@ if (file.exists(mi.rda)) {
 }
 
 for (arch in grep("occ-data-spp",archs,value=T)) {
-  objs <- (load(arch))  
+  objs <- (load(arch))
   for (oo in objs) {
     gbif.data <- get(oo)
     for (spp in unique(names(gbif.data$gbif$data))) {
@@ -174,9 +177,9 @@ for (arch in grep("occ-data-spp",archs,value=T)) {
         xys <- gbif.data$gbif$data[[spp]] %>% dplyr::select(name,latitude,longitude,key) %>% filter(!is.na(longitude)& !is.na(latitude))
         if (nrow(xys)>0) {
           spps <- st_as_sf(xys,coords=c("longitude","latitude"),crs=st_crs(meow)) %>% st_transform(st_crs(mgt.2016.pols))
-          mat <- spps %>% st_intersects(mprov.xy,sparse=F) 
+          mat <- spps %>% st_intersects(mprov.xy,sparse=F)
           sppXprov %<>% bind_cols(tibble(colSums(mat),.name_repair=~c(spp)))
-          mat <- spps %>% st_intersects(spp.grid,sparse=F) 
+          mat <- spps %>% st_intersects(spp.grid,sparse=F)
           sppXcell %<>% bind_cols(tibble(colSums(mat),.name_repair=~c(spp)))
           save(file=mi.rda,sppXcell,sppXprov,mangrove_species,mprov.xy)
         }
@@ -199,7 +202,7 @@ grdXprov <- tibble(.rows=nrow(mprov.xy))
 grdXcell <- tibble(.rows=length(raw.grid))
 list_spps <- c()
 for (arch in grep("occ-data-grid",archs,value=T)) {
-  objs <- try(load(arch))  
+  objs <- try(load(arch))
   if (any(class(objs)=='try-error')) {
     cat(sprintf('error with %s!\n',basename(arch)))
     next
@@ -212,9 +215,9 @@ for (arch in grep("occ-data-grid",archs,value=T)) {
         if (nrow(xys)>0) {
           list_spps <- unique(c(list_spps,spp))
           spps <- st_as_sf(xys,coords=c("longitude","latitude"),crs=st_crs(meow)) %>% st_transform(st_crs(mgt.2016.pols))
-          mat <- spps %>% st_intersects(mprov.xy,sparse=F) 
+          mat <- spps %>% st_intersects(mprov.xy,sparse=F)
           grdXprov %<>% bind_cols(tibble(colSums(mat),.name_repair=~c(spp)))
-          mat <- spps %>% st_intersects(spp.grid,sparse=F) 
+          mat <- spps %>% st_intersects(spp.grid,sparse=F)
           grdXcell %<>% bind_cols(tibble(colSums(mat),.name_repair=~c(spp)))
         }
       }
@@ -233,8 +236,8 @@ for (spp in list_spps) {
     grdXcell %>% rowwise() %>% transmute( "{spp}" := sum(c_across(starts_with(spp))))
   )
   save(file=mi.rda,sppXcell,sppXprov,grd2Xcell,grd2Xprov,mangrove_species,mprov.xy)
-   
-} 
+
+}
 
 sppXcell %>% bind_cols(grd2Xcell)
 
@@ -242,13 +245,12 @@ sppXcell %>% bind_cols(grd2Xcell) -> mtzXcell
 sppXprov %>% bind_cols(grd2Xprov) -> mtzXprov
 
 save(file=mi.rda,mtzXcell,mtzXprov,mangrove_species,mprov.xy)
- 
+
 ```
 
 Measure biotic simmilarity between provinces:
 
 ```{r}
-require(vegan)
 ss <- rowSums(mtzXprov)>0
 
 ## this looks like a good combination (homogeneous groupings)
@@ -268,7 +270,7 @@ plot(h1,labels=lbls)
 table(cutree(h1,h=.5))
 abline(h=.5,lty=2,col=2)
 
-mprov.xy$k_group <- cutree(h1,h=.5) 
+mprov.xy$k_group <- cutree(h1,h=.5)
 mprov.xy %>%  group_by(k_group) %>% summarise -> tst
 plot(tst)
 ```
@@ -278,7 +280,6 @@ plot(tst)
 Cluster analysis for grid cells
 
 ```{r}
-require(vegan)
 ss <- rowSums(sppXcell)>0
 
 ## this looks like a good combination (homogeneous groupings)
@@ -309,6 +310,3 @@ Check first how many records are available in GBIF for each species:
 summary(res$gbif_records)
 summary(res$gbif_xy_records)
 ```
-
-
-

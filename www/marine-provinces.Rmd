@@ -1,6 +1,6 @@
 ---
 title: |
-  ![](logo.png){width=1in}
+  ![](assets/logo.png){width=1in}
   MFT1.2 Intertidal Forest and Shrublands
 subtitle: "Occurrence in Marine Provinces"
 author: "JR Ferrer-Paris"
@@ -20,18 +20,26 @@ options(dplyr.summarise.inform = FALSE)
 ```
 [Back to Mangrove project folder](/Mangroves/) / [Data Sources](/MangrovesData/) / [Interactive map](/MangrovesMap/)
 
-# Marine provinces with occurrence of mangroves
+# Step 1: Marine provinces with occurrence of mangrove species and mangrove forest
 
-We used marine provinces from the [Marine Ecoregions of the World](/MangrovesData/MEOW-ecoregions.Rmd) as templates for ecoregionalization of level 4 units. 
+As suggested in the guidelines we used marine provinces from the [Marine Ecoregions of the World](/MangrovesData/MEOW-ecoregions.Rmd) as templates for ecoregionalization of level 4 units.
 
-We intersected the distribution of mangrove occurrence polygons from several sources with the marine provinces described above. You can check the documentation of data sources in the [Data Folder](/MangrovesData/).
+We intersected the distribution of marine provinces and ecoregions described above with:
+- a) Range maps of 77 key mangrove species from the Red List of Threatened Species database, and
+- b) Mangrove ecosystem occurrence polygons from several sources (Giri et al. 2011; Worthington et al. 2020)
 
-Mangroves are present in at least 37 and at most 42 marine provinces, depending on the source. This table shows the approx. area totals for the USGS mangrove data from 2000 (Giri et al. 2011) and the Biophysical typology map for the year 2016 (Worthington et al. 2020):
+Documentation of data sources in the [Data Folder](/MangrovesData/).
+
+Mangrove species distribution intersects with at least 47 marine provinces, while mangrove ecosystem are present in at least 37 and at most 42 marine provinces, depending on the source.
+
+This table shows the number of key mangrove species, and approx. area totals for the USGS mangrove data from 2000 (Giri et al. 2011) and the Biophysical typology map for the year 2016 (Worthington et al. 2020):
 
 Area in the table are expressed in km^2.
 
 ```{r, echo=FALSE}
-load("prov-data.rda")
+load("Rdata/prov-data.rda")
+meow %>% st_drop_geometry %>% filter(ECO_CODE %in% colnames(mat)) %>% group_by(PROVINCE) %>% summarise(`Nr. of ecoregions`=n_distinct(ECO_CODE))
+
 prov_summary %>% st_drop_geometry %>% transmute(PROV_CODE,PROVINCE,`Area 2020`=area_2020 %>% set_units('km^2') %>% round(2),`Area 2016`=radius %>% set_units('m^2') %>% set_units('km^2') %>%  round(2)) -> dts
 
  DT::renderDataTable({dts})
@@ -41,14 +49,68 @@ There are four provinces with very small areas in 2000 and no occurrences in the
 
 The Central Polynesia and Hawaii provinces also have very small occurrences. According to Mark Spalding these are non-native.
 
+## List of questions
+
 ### Interactive map
 
 We show the intersection between the 2016 occurrences from Worthington et al. (2020) and the Marine Provinces in the [interactive map](/MangrovesMap/) (also available at <https://ecosphere.shinyapps.io/Mangrove-L4-map/>).
- 
-The density of mangrove polygons is shown as a heat map (warmer colors indicate higher density) and it changes with the zoom level. You can zoom using the plus and minus bottoms in the upper left corner of the map or by double clicking in a location of the map. You can pan over the map using the keyboard arrows or by holding the mouse button and dragging the mouse. 
- 
-Hovering the mouse over a province will highlight its boundaries and show the name. When you click on the province it will update the plot and table at the bottom of the screen. Plot shows the breakdown of area or number of polygons per combination of class and sedimentar in the selected province. 
- 
+
+The density of mangrove polygons is shown as a heat map (warmer colors indicate higher density) and it changes with the zoom level. You can zoom using the plus and minus bottoms in the upper left corner of the map or by double clicking in a location of the map. You can pan over the map using the keyboard arrows or by holding the mouse button and dragging the mouse.
+
+Hovering the mouse over a province will highlight its boundaries and show the name. When you click on the province it will update the plot and table at the bottom of the screen. Plot shows the breakdown of area or number of polygons per combination of class and sedimentar in the selected province.
+
 The table shows preliminary statistics calculated for the mangrove polygons within each province. Area is given in km^2 for the year 2016, Area change in % (between 1996 and 2016); EOO: extent of occurrence in km^2; AOO: area of occupancy (number of 10x10 km cells); AOO_m: AOO cells with > 1km^2 occupancy. These statistics are used in assessment of spatial criteria and give an idea of decline and exposure to threats.
- 
+
 We have highlighted some issues on the map using red round markers. Click on the markers to see the suggestions or questions.
+
+
+Specific comments from the mangrove experts (discussion):
+Gulf of Aden – either a) retain with Red Sea, or b) define separate unit for south Oman and Gulf of Aden or c) excise Gulf of Aden from red Sea province and include with Gulf of Oman to north
+West and South India Shelf – distinct from the Bay of Bengal, different climate. Consider split based on ecoregion to identify Sri Lanka as distinctive unit from west India
+Southwest Aust shelf – Extent the boundary slightly eastwards to include all South Australian patches, which are disjunct from those in Victoria.
+SW Australia – Bunbury patch (unmapped) may be distinctive relict that should be treated as a separate unit from SW Aust shelf
+Bermuda – retain as separate
+West African Transition Province: Retain – Its northern boundary represents the northern limit of one mangrove tree species. Small unmapped occurrences extend to Mauritania. This is distinct from Gulf of Guinea to the south
+Hawaii and Central Polynesia – Retain units with isolated and small occurrences but mark them clearly as non-native (introduced/invasive) ecosystems.
+General comments from the mangrove experts (miro board):
+Guiding principles: Biota composition (not only plants) + Continuity/ discontinuity of homogenous units + Exceptional characteristics
+In almost every edge of range location mangroves extend into the adjacent temperate realm. I think the only case for combining these back into a tropical realm would be if there are literally only a few trees/tiny stands that spill over
+Specific comments from the mangrove experts (miro board):
+TO DO: Comments were added to all questions, JR will go through all of them and send another e-mail if there are any open questions.
+
+Tropical southwestern atlantic: I'd suggest keeping as this is another tropical/temperate boundary...it also matches the S limit of one species (A germinans)
+North Brazil shelf (southern boundary): Yes - this is the edge of the extensive deltaic/mangrove coast (northern boundary): This is probably fine - the N coast of Trinidad is distinct from the continental shelf margins of the rest of the island, with much more in common with the Caribbean Islands
+Keep Galapagos: I think so - these are very distinctive from mainland coast
+Central Polynesia: World Mangrove Atlas Ch 10: it is generally accepted that Rhizophora stylosa was introduced to French Polynesia, Bruguiera gymnorhiza may have been introduced in the Marshall islands (Spenneman, 1998) and perhaps even Nypa into eastern Micronesia (Duke, 2008). More recently introductions have brought mangroves to most of the main islands of Hawaii (Smith, 1996).
+Hawaii: DF: keeping them in but not doing N RLE assessment seems a good compromise
+for The Bahamas: There are mangroves along the east coast of Andros, The south tip of Eleuthera (Deep Creek) and along the Exuma Keys chain (and probably on other islands more than shown - but only have personal experience with these islands) - Kate Kincaid.
+Tropical and temperate north west atlantic: Keep as different - this is another REALM boundary which is very distinctive
+Bermuda: MSi: yes, based on  (https://environment.bm/mangroves) // keep it as separate group
+Canary Island: No mangroves  // FDG: Northern mangrove limit is/was in the Park National du Banc d'Arguin  in Mauritania on the mainland a few kms north of Iouik. These were individual trees. The northernmost patches were located around Nouamghar (Cape Timirist), still within the PNBA.
+
+Australia: CL: there are mangroves in Bunbury, Western Australia
+West African Transition: This is in a different realm so keep distinct. No mangroves in Cape Verde
+Gulf of Arden/Red Sea: coral modelling of connectivity https://www.nature.com/articles/s41598-019-53126-0 // This is a poorly understood region, but was largely defined based on marine fish. I am tempted to suggest that we split this - place the inner Gulf of Aden with the Red Sea and then put outer Gulf of Aden into Somali/Arabian Province. Alternative (Tom's suggestion) would be to create a new province of Central Somali Coast and Western Arabian Sea with outer Gulf of Aden // Potentially move the patch in southern Oman in to Red Sea province // FDG: ocean currents (in the different seasons) can be a proxy on how genetically unique the monospecific populations may be.
+Kuroshio: Yes - these are tropical outliers, very distinct from any adjacent provinces
+Australian shelves: CL: I think the mangroves to the east of of the Southwestern Australian Shelf  province should be included within that province - the shelf narrows - so that narrowing of the shelf probably separates those populations - but I might have to chase down the genetic data - FLindersia region vs. Maugea and Peronia regions  Sinclair, E.A., Anthony, J.M., Greer, D., Ruiz‐Montoya, L., Evans, S.M., Krauss, S.L. and Kendrick, G.A., 2016. Genetic signatures of Bassian glacial refugia and contemporary connectivity in a marine foundation species. Journal of Biogeography, 43(11), pp.2209-2222.
+
+
+Sri Lanka: Katherisan (in mangrove specialist group) has written a lot on the differences in Indian mangrove flora/fauna. Perhaps split W coast using ecoregion boundary: Kathiresan K, Qasim SZ. Biodiversity of Mangrove Ecosystems. New Dehli, India: Hindustan Publishing Corporation; 2005. 251 p. // Maybe split the Western Indian Shelf based on the MEOW boundary so you have a Sri Lanka and S India as one and West India and Pakistan as another // FDG: Observation: within Sri Lanka there is a lot of variability with different mangrove areas displaying very different numbers of species because of the climate zones going from arid to wet. Together with Kenya and Malaysia, Sri Lanka is our historic core research area. // DF: not sure Sri Lanka/E India mangroves are similar to Bay of Bengal (drier, lagoonal vs wetter, deltaic)
+
+Agulhas: I think this is correct - it is drawn at Cape Vidal and changes in coastal vegetation were part of definition of this boundary
+
+
+
+
+
+```{r}
+url <- "https://earth.nullschool.net/#current/ocean/surface/currents/overlay=sea_surface_temp/orthographic=-310.42,10.36,1280/loc=48.500,12.665"
+
+
+output$frame <- renderUI({
+  test_frame <- tags$iframe(src=url,height=405,width=720)
+  print(test_frame)
+  test_frame
+})
+htmlOutput("frame")
+```

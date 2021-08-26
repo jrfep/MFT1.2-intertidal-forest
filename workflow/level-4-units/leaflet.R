@@ -75,6 +75,27 @@ mgt_hull %>% slice(-25) -> mgt_plgns
 m <- leaflet(options = leafletOptions(worldCopyJump = TRUE,zoomControl = TRUE))  %>%  addProviderTiles(providers$Esri.OceanBasemap) %>%
   setView(lng = 0, lat = 0, zoom = 2)
 
+
+leaflet() %>% addTiles() %>% setView(-93.65, 42.0285, zoom = 7) %>%addWMSTiles(
+   "http://basemap.nationalmap.gov/arcgis/services/USGSHydroNHD/MapServer/WMSServer?",
+   layers = "0",
+   options = WMSTileOptions(format = "image/png", transparent = TRUE),
+   attribution = "") 
+
+leaflet() %>% addTiles() %>% setView(-70, 13, zoom = 4) %>% addWMSTiles(
+   "https://svs.gsfc.nasa.gov/cgi-bin/wms",
+   layers="3191_21982",
+   options = WMSTileOptions(format = "image/png", transparent = TRUE,version = "1.3.0"),
+   attribution = "")  
+
+leaflet() %>% addTiles() %>% #setView(-70, 13, zoom = 8) %>%
+   setView(9, 50, 5) %>%
+addWMSTiles(baseUrl = "https://maps.dwd.de/geoserver/dwd/wms",
+       layers = "dwd:BRD_1km_winddaten_10m",
+       options = WMSTileOptions(
+          transparent = TRUE,
+          format = "image/png",
+          info_format = "text/html"))
 #bin_pal = colorFactor('Accent', factor(mprovs$PROV_CODE ))
 #bin_pal = colorFactor(sample(colors(),10), factor(mprovs$PROV_CODE ))
 labels = sprintf("<strong>Province</strong><br/>%s", mprovs$PROVINCE ) %>% lapply(htmltools::HTML)

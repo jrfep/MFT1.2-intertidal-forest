@@ -1,6 +1,6 @@
 ---
 title: "Plot Level 4 units based on marine provinces (MEOW) and mangrove biophysical type data"
-editor_options: 
+editor_options:
   chunk_output_type: console
 ---
 
@@ -79,7 +79,7 @@ We extract the data summaries from the object with the spatial intersection:
 mgt.meow.its %>% mutate(area=st_area(geometry),centroid=st_centroid(geometry)) %>% st_drop_geometry  %>% transmute(ID,PROV_CODE,ECO_CODE, Class, Sedimentar,area,lon=st_coordinates(centroid)[,1],lat=st_coordinates(centroid)[,2]) -> rslts_meow
 ```
 
-Let's compare this with the intersection between the GMW layer and MEOW ecoregions 
+Let's compare this with the intersection between the GMW layer and MEOW ecoregions
 
 ```{r}
 mgv.meow.its <- read_sf("intersection-meow.gpkg")
@@ -87,22 +87,22 @@ mgv.meow.its %>% mutate(area=st_area(geometry),centroid=st_centroid(geometry)) %
 ```
 
 
-And the intersection between the USGS layer and MEOW ecoregions 
+And the intersection between the USGS layer and MEOW ecoregions
 
 ```{r}
 mgu.meow.its <- read_sf("intersection-usgs-meow-provs.gpkg")
 mgu.meow.its %>% mutate(area=st_area(geometry),centroid=st_centroid(geometry)) %>% st_drop_geometry  %>% transmute(OBJECTID,PROV_CODE,ECO_CODE,area,lon=st_coordinates(centroid)[,1],lat=st_coordinates(centroid)[,2]) -> rslts_usgs_meow
 ```
 
-For example there is not much difference between the GMW and biophysical type layers from the same year: 
+For example there is not much difference between the GMW and biophysical type layers from the same year:
 
 ```{r}
-rslts_meow %>% group_by(ECO_CODE) %>% summarise(area=sum(area)) -> a1 
-rslts_gmw_meow %>% group_by(ECO_CODE) %>% summarise(area=sum(area)) -> a2 
+rslts_meow %>% group_by(ECO_CODE) %>% summarise(area=sum(area)) -> a1
+rslts_gmw_meow %>% group_by(ECO_CODE) %>% summarise(area=sum(area)) -> a2
 
 ## not much difference here:
 full_join(a1,a2,by="ECO_CODE") %>% mutate(difference=area.x/area.y) %>% arrange(difference) %>% slice_head(n=6)
-## but a couple with large differences here 
+## but a couple with large differences here
 full_join(a1,a2,by="ECO_CODE") %>% mutate(difference=area.x/area.y) %>% arrange(difference) %>% slice_tail(n=6)
 
 ```
@@ -110,8 +110,8 @@ full_join(a1,a2,by="ECO_CODE") %>% mutate(difference=area.x/area.y) %>% arrange(
 But there is considerable difference between the USGS layer from 2000 and the latest layers:
 
 ```{r}
-rslts_meow %>% group_by(PROV_CODE) %>% summarise(area=sum(area)) -> a1 
-rslts_usgs_meow %>% group_by(PROV_CODE) %>% summarise(area=sum(area)) -> a2 
+rslts_meow %>% group_by(PROV_CODE) %>% summarise(area=sum(area)) -> a1
+rslts_usgs_meow %>% group_by(PROV_CODE) %>% summarise(area=sum(area)) -> a2
 
 ## not much difference here:
 full_join(a1,a2,by="PROV_CODE") %>% mutate(difference=area.x/area.y) %>% arrange(difference) %>% print.AsIs()
@@ -184,7 +184,7 @@ Save data to Rdata file:
 prov_data %>% pull(PROV_CODE) -> slc
 meow %>% filter(PROV_CODE %in% slc) %>% group_by(PROV_CODE,PROVINCE) %>% summarise(geom=st_union(geom)) -> mprovs
 full_join(mprovs,prov_data,by='PROV_CODE') -> prov_summary
-save(file=sprintf("%s/www/prov-data.rda",script.dir), prov_summary)
+save(file=sprintf("%s/www/Rdata/prov-data.rda",script.dir), prov_summary)
 
 ```
 

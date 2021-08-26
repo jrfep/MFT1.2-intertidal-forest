@@ -1,9 +1,9 @@
 ---
 title: |
-  ![](logo.png){width=1in}
+  ![](assets/logo.png){width=1in}
   MFT1.2 Intertidal Forest and Shrublands
 subtitle: "Level 4 maps"
-author: "JR Ferrer-Paris"
+author: "JR Ferrer-Paris and David Keith"
 date: "17/08/2021"
 output: html_document
 runtime: shiny
@@ -19,68 +19,41 @@ require(sf)
 options(dplyr.summarise.inform = FALSE)
 ```
 
-# Mangroves in the IUCN Global Ecosystem typology
+# Towards a global assessment of mangrove ecosystems
 
-Mangroves are classified as a ecosystem functional group (level 3 unit) named *MFT1.2 Intertidal forests and shrublands*:
+## Aim
+The project aims to produce the first global Red List assessment of mangrove ecosystems. This will add value to Red List assessments of individual mangrove species because it takes into account whole assemblages of species associated with mangroves, as well as the ecological processes that sustain the functioning of mangrove ecosystems. Individual mangrove species may be ranked Least Concern, but some of their populations may be components of threatened ecosystems. Conversely, some species that live in mangrove ecosystems may be ranked as threatened in the Red List of Threatened Species, even if they occur within non threatened mangrove ecosystems.
 
-> Mangroves create structurally complex and productive ecosystems in the intertidal zone of depositional coasts, around tropical and warm temperate regions. The biota includes aquatic and terrestrial species, and intertidal specialists. Large volumes of mangrove leaves and twigs are decomposed by fungi and bacteria, mobilising carbon and nutrients for invertebrates such as crabs, worms and snails. Shellfish and juvenile fish are protected from desiccation and predators amongst mangrove roots. Mangrove canopies support many terrestrial species, particularly birds. These forests are important carbon sinks, retaining organic matter in sediments and living biomass.
+## Units of assessment.
 
-The full profile of this ecosystem functional group can be located at <https://global-ecosystems.org/explore/groups/MFT1.2>. Please check the IUCN Global Ecosystem Typology report (Keith et al. 2020) for more details on the typology.
+The units to be assessed for Red Listing first need to be defined and mapped. The Global Ecosystem Typology provides a useful framework to guide this task. The world’s mangrove ecosystem share a number of functional features and, for this reason, are grouped together in a single Ecosystem Functional Group at Level 3 of the typology <https://global-ecosystems.org/explore/groups/MFT1.2>. Please check the IUCN Global Ecosystem Typology report (Keith et al. 2020) for more details on the typology.
 
-## Global mangroves distribution
+Level 4 of the Global Ecosystem Typology allows mangroves to be subdivided to recognise different ecoregional expressions of mangrove ecosystems. The Global Mangrove Atlas provides globally consistent spatial information on the distribution of these ecosystems.
+To support a useful global Red List of Mangrove ecosystems, we need a manageable number of assessment units that are informative about important variation in biodiversity associated with mangroves around the world. A workable number of global assessment units could be in the range of 20-60 units. Marine ecoregions and provinces (Spalding et al. 2008) provide a useful starting point for delineating these mangrove units. Marine provinces and the marine ecoregions within them were developed to represent biogeographic patterns in all coastal marine biota (not only mangrove systems), with appropriate adjustment, they should be suitable for Red List assessment because they serve as biogeographic proxies for compositionally different mangrove ecosystems.
 
-Currently the indicative map of this ecosystem functional group is based on the mangrove distribution data of Giri et al. (2011). But this will be updated after this workshop. 
+### Guiding principles for definition of assessment units
 
-So far the *IUCN Red List of Ecosystem* assessments that focus on mangrove are mostly concerned with local or national units. The continental assessment of forest of the Americas (Ferrer-Paris et al. 2019) include two large mangrove units (Atlantic and Caribbean vs. Pacific Mangroves), but did not consider further subdivision of the units, and did not consider the marine components of the mangrove ecosystems.
+To guide experts in making adjustments, we propose the following criteria:
 
-```{r, fig.height=4, fig.width=10 }
-load('dbquery.rda')
-bf <- read_sf("MFT1.2_buffer.topo.json")
-mb.style <- "jrfep/ckspr4rl70jch17pg3rnix3fz"
-mb.token <- "pk.eyJ1IjoianJmZXAiLCJhIjoiY2s5N3RxZWhwMTl5NjNnbjFmdzhubTFjdiJ9.KFBzgxBPjKnERRfR9awR_g"
+  1. Preferably use marine provinces instead of ecoregions to define mangrove ecosystem assessment units, except in the cases mentioned below;
+  2. Lump adjacent provinces to define larger mangrove ecosystem assessment units where: a) one province has a relative small number of mangrove occurrences, b) there is reasonable evidence that are no discernible differences in species composition (not only of mangroves themselves but of major groups of associated biota) and no reason to assess their status separately, and c) both provinces share similar climatic conditions (avoid merging one temperate with one tropical province); Example: Should the Tropical Central Polynesia be lumped with Tropical Southwestern Pacific?
+  3. Split an marine province to define separate mangrove ecosystem assessment units where there is reasonable evidence of large differences or heterogeneity in species composition (or where it could be inferred by ecological barriers, currents or disjunctions, or climatic gradients) such that the resulting units of mangroves should be assessed separately (i.e. loss of either of the resulting units would result in a significant loss of biodiversity). Consider whether splitting provinces according to ecoregion boundaries resolves issues of heterogeneity; Example: Split West and South Indian shelf province along ecoregional boundary to treat Sri Lankan mangroves as a separate unit to west Indian coast to recognise contrasting biota in those regions.
+  4. Shift boundaries of provinces to refine delineation of mangrove ecosystem assessment units where it aligns better with discontinuities in mangrove distribution. Consider whether merging one province with and adjacent ecoregion will resolve the issue; Example: Shift eastern boundary of Southwest Australian shelf province to the east so it includes nearby mangroves associated with the Coorong lagoon and Murray River mouth.
+  5.	Where knowledge of mangrove local ecosystems is uncertain, the default option should be to leave ecoregion boundaries as they stand.
 
-my_url <- sprintf("https://api.mapbox.com/styles/v1/%s/tiles/{z}/{x}/{y}?access_token=%s",mb.style,mb.token)
+The implementation of these steps is documented in detail in the following documents:
 
-my_attribution <- "© <a href='https://www.mapbox.com/map-feedback/'>Mapbox</a> CC-BY-4.0 <a href='https://global-ecosystems.org/explore/groups/MFT1.2'>IUCN Global Ecosystem Typology</a>"
+| Step | | LINK |
+|---|---|---|
+|Step 1| Intersection of mangrove occurrences with Marine provinces | [marine-provinces.Rmd]
+|Step 2| Merges |
+|Step 3| Splits |
+|Step 4| Boundary shifts |
 
-occ <- factor(c("major","minor"))
-DPcolors <- c(rgb(193,15,2,255,max=255), rgb(247,157,150,255,max=255))
 
-
-  st_labels <- sprintf("<strong>%s</strong><br/>%s<br/>Category: <strong>%s</strong>",
-                        asm_xy$eco_name_orig, asm_xy$ref_code, asm_xy$overall_risk_category ) %>%
-      lapply(htmltools::HTML)
-    st_icons <- icons(
-      iconUrl = sprintf("icons/%s.png",tolower(asm_xy$overall_risk_category)),
-      iconWidth = 20, iconHeight = 20
-    )
-
-leaflet() %>% setView(lng = 0, lat = 0, zoom = 2) %>% 
-  addTiles(urlTemplate=my_url,attribution=my_attribution) %>% 
-  addPolygons(data = bf, color = 'yellow', fill=FALSE, weight = 2, fillOpacity = 0.15, group='Outline') %>%
-  addMarkers(data = asm_xy,icon = st_icons, 
-                   label=st_labels,
-                   # clusterOptions = st_cluster,
-                   group="RLE assessments") %>%
-  addLayersControl(
-          overlayGroups = c("Outline","RLE assessments"),
-          options = layersControlOptions(collapsed = FALSE),
-          position = "topright"
-        ) %>% 
-  addLegend(colors = DPcolors, labels = c("major","minor"), opacity = 1.0, 
-            title = "Occurrence", position = "topright") 
-```
-
-[You can view more details of the RLE assessments in this link](rle-assessments.Rmd).
-
-## Regional ecosystem subgroups (level 4 units)
-
-In order to define the boundaries of ecoregional units we evaluate two aspects:
-
-- [Intersection of mangrove occurrences with Marine provinces](marine-provinces.Rmd)
 - [Biotic similarity of mangrove associated biota between Marine provinces](mangrove-species.Rmd)
 
 
 ---
 
-[Data Sources](/MangrovesData/) / [Interactive map](/MangrovesMap/)
+[Data Sources](/MangrovesData/) / [Interactive map](/MangrovesMap/) / [Local RLE assessments of Mangroves](rle-assessments.Rmd)

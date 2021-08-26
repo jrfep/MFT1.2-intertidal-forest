@@ -1,6 +1,6 @@
 ---
 title: |
-  ![](logo.png){width=1in}
+  ![](assets/logo.png){width=1in}
   MFT1.2 Intertidal Forest and Shrublands
 subtitle: "Species associated with mangroves"
 author: "JR Ferrer-Paris"
@@ -45,13 +45,13 @@ DT::renderDataTable({dts2})
 
 ## Biotic dissimilarity between provinces
 
-We downloaded distribution records for `r ncol(mtzXprov)` of these species from GBIF. 
+We downloaded distribution records for `r ncol(mtzXprov)` of these species from GBIF.
 
 A total of `r round(sum(mtzXprov)/1e6,2)` million records fall within the boundaries of the marine provinces.
 
-We used this records to create a matrix of mangrove-associated species per marine province. 
+We used this records to create a matrix of mangrove-associated species per marine province.
 
-We then calculated the biotic dissimilarity between marine provinces using the binary version of the _Kulczynski_ index and applied a hierarchical cluster analysis using Ward's agglomeration method. 
+We then calculated the biotic dissimilarity between marine provinces using the binary version of the _Kulczynski_ index and applied a hierarchical cluster analysis using Ward's agglomeration method.
 
 The provinces can be combined according to a selected cut-off dissimilarity value in the cluster analysis:
 
@@ -71,7 +71,7 @@ lbls %<>% gsub("Central","C",.)
 lbls %<>% gsub("Tropical","Trop",.)
 lbls %<>% gsub("Temperate","Temp",.)
 
- # clrs <- sample(rainbow(38)) 
+ # clrs <- sample(rainbow(38))
  clrs <- sample(hcl.colors(38, "Set 2"))
 
 inputPanel(
@@ -82,12 +82,12 @@ tabsetPanel(
         tabPanel("Cluster", {
            renderPlot({
              kgroups <- n_distinct(cutree(h1,h=input$h_value))
-             plot(h1,labels=lbls,main="Cluster dendrogram (Ward's method)", 
+             plot(h1,labels=lbls,main="Cluster dendrogram (Ward's method)",
                   sub=sprintf('With cut-off of h=%s there are %s groups',
                               input$h_value,kgroups),xlab="Marine provinces")
              abline(h=input$h_value,lty=2,col=2)
          })
-      }), 
+      }),
         tabPanel("Map", {
             renderPlot({
               mprov.xy$k_group <- cutree(h1,h=input$h_value)
@@ -100,5 +100,3 @@ tabsetPanel(
         })
       )
 ```
-
-
