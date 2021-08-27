@@ -1,0 +1,100 @@
+---
+title: |
+  ![](assets/logo.png){width=1in}
+  MFT1.2 Intertidal Forest and Shrublands
+subtitle: "Occurrence in Marine Provinces"
+author: "JR Ferrer-Paris"
+date: "19/08/2021"
+output: html_document
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+require(dplyr)
+require(units)
+library(DT)
+require(sf)
+options(dplyr.summarise.inform = FALSE)
+
+```
+[Back to Mangrove project folder](/Mangroves/) / [Data Sources](/MangrovesData/) / [Interactive map](/MangrovesMap/)
+
+# Step 2: Merging provinces
+
+
+## North and South New Zealand Provinces: MERGED into ONE
+
+All the ecoregions with Mangrove ecosystems in New Zealand share the same two species .
+```{r}
+(load('Rdata/species-occurrence.rda'))
+
+prov.mgv.spp %>%  filter(grepl("New Zealand",PROVINCE)) -> NZ
+
+NZ %>% st_transform("EPSG:2193") -> NZ.xy
+
+NZ2 <- st_wrap_dateline(NZ, options = c("WRAPDATELINE=YES", "DATELINEOFFSET=100"))
+st_geometry(NZ2) = (st_geometry(NZ) + c(360,90)) %% c(360) - c(0,90)
+plot(NZ2, axes = TRUE)
+
+NZ %>% st_drop_geometry %>% select(Dolichandrone.spathacea:Ceriops.australis) -> mtz
+m1 <- mtz[,colSums(mtz)>0]
+rownames(m1) <- NZ %>% st_drop_geometry %>% transmute(ecoregion=paste(PROVINCE," / ",ECOREGION)) %>% pull
+m1
+
+mtz <- mtzXprov[grepl('New Zealand',mprov.xy$PROVINCE ),]
+m2 <- mtz[,colSums(mtz)>0]
+
+d1 <- vegdist(m2,'kulczynski',binary=T)
+h1 <- hclust(d1,method='ward.D2')
+
+mb.style <- "jrfep/ckspr4rl70jch17pg3rnix3fz"
+mb.token <- "pk.eyJ1IjoianJmZXAiLCJhIjoiY2s5N3RxZWhwMTl5NjNnbjFmdzhubTFjdiJ9.KFBzgxBPjKnERRfR9awR_g"
+
+my_url <- sprintf("https://api.mapbox.com/styles/v1/%s/tiles/{z}/{x}/{y}?access_token=%s",mb.style,mb.token)
+
+my_attribution <- "© <a href='https://www.mapbox.com/map-feedback/'>Mapbox</a> CC-BY-4.0 <a href='https://global-ecosystems.org/explore/groups/MFT1.2'>IUCN Global Ecosystem Typology</a>"
+
+leaflet() %>%
+  addTiles(urlTemplate=my_url,attribution=my_attribution) %>%
+  addPolygons(data = NZ2 %>% filter(Avicennia.marina), color = 'yellow', fill=FALSE, weight = 2, fillOpacity = 0.15, group='Outline')
+
+```
+
+They also appear to have similar conditions of sea surface temperature (SST) and appear connected by ocean currents (Visualiztion from
+[earth.nullschool.net](https://earth.nullschool.net/about.html)).
+
+```{r}
+url <- "https://earth.nullschool.net/#current/ocean/surface/currents/overlay=sea_surface_temp/orthographic=-186.34,-38.41,2825/loc=173.927,-37.663
+"
+output$frame <- renderUI({
+  test_frame <- tags$iframe(src=url,height=405,width=720)
+  print(test_frame)
+  test_frame
+})
+htmlOutput("frame")
+```
+
+
+We decided to keep all the divisions between temperate and tropical regions:
+
+In almost every edge of range location mangroves extend into the adjacent temperate realm. I think the only case for combining these back into a tropical realm would be if there are literally only a few trees/tiny stands that spill over.
+
+Tropical southwestern atlantic: I'd suggest keeping as this is another tropical/temperate boundary...it also matches the S limit of one species (A germinans)
+
+
+West African Transition Province: Retain – Its northern boundary represents the northern limit of one mangrove tree species. Small unmapped occurrences extend to Mauritania. This is distinct from Gulf of Guinea to the south
+
+Hawaii and Central Polynesia – Retain units with isolated and small occurrences but mark them clearly as non-native (introduced/invasive) ecosystems.
+
+West African Transition: This is in a different realm so keep distinct. No mangroves in Cape Verde
+
+Kuroshio: Yes - these are tropical outliers, very distinct from any adjacent provinces
+
+Tropical and temperate north west atlantic: Keep as different - this is another REALM boundary which is very distinctive
+
+Keep Galapagos: I think so - these are very distinctive from mainland coast
+
+Central Polynesia: World Mangrove Atlas Ch 10: it is generally accepted that Rhizophora stylosa was introduced to French Polynesia, Bruguiera gymnorhiza may have been introduced in the Marshall islands (Spenneman, 1998) and perhaps even Nypa into eastern Micronesia (Duke, 2008). More recently introductions have brought mangroves to most of the main islands of Hawaii (Smith, 1996).
+
+Hawaii: DF: keeping them in but not doing N RLE assessment seems a good compromise

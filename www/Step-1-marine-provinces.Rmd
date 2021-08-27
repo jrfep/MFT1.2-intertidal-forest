@@ -1,0 +1,77 @@
+---
+title: |
+  ![](assets/logo.png){width=1in}
+  MFT1.2 Intertidal Forest and Shrublands
+subtitle: "Occurrence in Marine Provinces"
+author: "JR Ferrer-Paris"
+date: "19/08/2021"
+output: html_document
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+require(dplyr)
+require(units)
+library(DT)
+require(sf)
+options(dplyr.summarise.inform = FALSE)
+
+```
+[Back to Mangrove project folder](/Mangroves/) / [Data Sources](/MangrovesData/) / [Interactive map](/MangrovesMap/)
+
+# Step 1: Marine provinces with occurrence of mangrove species and mangrove forest
+
+As suggested in the guidelines we used marine provinces from the [Marine Ecoregions of the World](/MangrovesData/MEOW-ecoregions.Rmd) as templates for ecoregionalization of level 4 units.
+
+We intersected the distribution of marine provinces and ecoregions described above with:
+- a) Range maps of 77 key mangrove species from the Red List of Threatened Species database, and
+- b) Mangrove ecosystem occurrence polygons from several sources (Giri et al. 2011; Worthington et al. 2020)
+
+Documentation of data sources in the [Data Folder](/MangrovesData/).
+
+Mangrove species distribution intersects with at least 47 marine provinces, while mangrove ecosystem are present in at least 37 and at most 42 marine provinces, depending on the source.
+
+This table shows the number of key mangrove species, and approx. area totals for the USGS mangrove data from 2000 (Giri et al. 2011) and the Biophysical typology map for the year 2016 (Worthington et al. 2020):
+
+Area in the table are expressed in km^2.
+
+```{r, echo=FALSE}
+load("Rdata/prov-data.rda")
+load("Rdata/mgv-species-occurrence.rda")
+
+prov.mgv.spp %>% st_drop_geometry %>% group_by(PROV_CODE,PROVINCE) %>% summarise(across(Dolichandrone.spathacea:Ceriops.australis, max)) -> mtz
+
+mtz %>% rowwise() %>% transmute(PROV_CODE,PROVINCE,sum=sum(c_across(Dolichandrone.spathacea:Ceriops.australis))) %>% full_join(prov_summary,by=c('PROV_CODE','PROVINCE'))  %>% transmute(PROVINCE,`Area 2020`=area_2020 %>% set_units('km^2') %>% round(2),`Area 2016`=radius %>% set_units('m^2') %>% set_units('km^2') %>%  round(2),`Mangrove species`=sum) -> dts
+
+ DT::renderDataTable({dts})
+```
+
+## Excluded provinces
+
+There are four provinces with very small areas in 2000 and no occurrences in the 2016 data.
+
+These seems to be marginal or erroneous occurrences and are excluded:
+
+- The Lusitanian province included ca. 10km^2 according to the older dataset (occurrence in the Canary Islands), but has no occurrences in the new dataset.
+- Canary Island: No mangroves  // FDG: Northern mangrove limit is/was in the Park National du Banc d'Arguin  in Mauritania on the mainland a few kms north of Iouik. These were individual trees. The northernmost patches were located around Nouamghar (Cape Timirist), still within the PNBA.
+
+- ...
+- ...
+-
+
+## Non-native occurrences
+
+The Central Polynesia and Hawaii provinces also have very small occurrences. According to Mark Spalding these are non-native.
+
+
+## List of questions
+
+Specific comments from the mangrove experts (discussion):
+
+
+General comments from the mangrove experts (miro board):
+Guiding principles: Biota composition (not only plants) + Continuity/ discontinuity of homogenous units + Exceptional characteristics
+
+
+for The Bahamas: There are mangroves along the east coast of Andros, The south tip of Eleuthera (Deep Creek) and along the Exuma Keys chain (and probably on other islands more than shown - but only have personal experience with these islands) - Kate Kincaid.

@@ -13,67 +13,79 @@ require(sf)
 require(units)
 require(vegan)
 
-
 source(sprintf("%s/proyectos/IUCN-GET/MFT1.2-intertidal-forest/env/project-env.R",Sys.getenv("HOME")))
 setwd(work.dir)
 ```
 
 Here we will intersect the polygon of _Marine provinces_ from [MEOW](https://www.worldwildlife.org/publications/marine-ecoregions-of-the-world-a-bioregionalization-of-coastal-and-shelf-areas) with species distribution ranges from the RLTS database and records from GBIF.
 
-```{r}
-
-mgt.2016.pols <- read_sf(sprintf("%s/eck4-mangrove-type-provs.gpkg",work.dir))
-mgt.2016.pols %>%  pull(PROV_CODE) %>% unique -> slc
-mgt.2016.pols %>%  pull(ECO_CODE) %>% unique -> ecos
-
-meow <- read_sf(sprintf("%s/mangrove-type-data-sources.vrt",work.dir),"meow")
-#meow %>% filter(PROV_CODE %in% slc) %>% group_by(PROV_CODE,PROVINCE) %>% summarise(geom=st_union(geom)) -> mprovs
-
-#unzip(sprintf("%s/admin/global/World-Bank/wb_land_10m.zip",gis.data))
-#unzip(sprintf("%s/admin/global/World-Bank/wb_boundaries_geojson_lowres.zip",gis.data))
-#wbland <- read_sf("WB_Land_10m/WB_Land_10m.shp")
-wbland <- read_sf("WB_Boundaries_GeoJSON_lowres/WB_Coastlines_10m_lowres.geojson")
-
-#meow <- read_sf("mangrove-type-data-sources.vrt","meow")
-#meow %>% filter(PROV_CODE %in% slc) %>% group_by(PROV_CODE,PROVINCE) %>% summarise(geom=st_union(geom)) -> mprovs
-```
-
-# Mangrove species
-
-Data on mangroves was requested to RLTS and the file downloaded.
+Range distribution maps from key mangrove species was provided by the RLTS team in a shapefile.
 
 ```{r}
 mangroves <- read_sf(sprintf("%s/species-dist/global/IUCN_RLTS/MANGROVES.shp",gis.data))
-mangroves %>% st_drop_geometry %>% group_by(kingdom,phylum,class,order_) %>% summarise(nspp=n_distinct(id_no))
-
- mat <- mangroves %>% st_intersects(meow,sparse=F)
- colnames(mat) <- meow$ECO_CODE
- rownames(mat) <- mangroves$id_no
-
- mgv.spp <- t(mat[,colSums(mat)>0])
- meow %>% filter(ECO_CODE %in% rownames(mgv.spp)) %>% group_by(PROV_CODE) %>% summarise %>% st_geometry %>% plot
-
- mi.rda <- sprintf("%s/www/Rdata/mgv-species-occurrence.rda",script.dir)
-
 ```
 
-Measure biotic simmilarity between provinces:
+For other species associated with mangroves we ran a script to download GBIF data in the background.
+
+```sh
+cd $WORKDIR
+nohup Rscript $SCRIPTDIR/inc/R/download-from-GBIF.R > nohup-gbif-qries.out &
+```
+
+We then use rsync to update the results in the shared drive
+
+```sh
+export srcdir=$GISDATA/species-dist/global/GBIF/
+export dstdir=$zID@kdm.restech.unsw.edu.au:/srv/scratch/cesdata/gisdata/species-dist/global/GBIF
+# this is a dry run: remove -n flag for actual syncing
+rsync -gloptrunv $srcdir/* $dstdir
+```
+
+We transformed these distribution maps and records into a matrix of species per marine ecoregion:
+
+```sh
+cd $WORKDIR
+nohup Rscript $SCRIPTDIR/inc/R/spp-per-province.R > nohup-spp-x-province.out &
+```
+
+# Biotic dissimilarity and cluster analysis
+
+Now we can use these matrices to calculate biotic dissimilarity between ecoregions and provinces. First for key mangrove species
 
 ```{r}
+load(sprintf("%s/www/Rdata/mgv-species-occurrence.rda",script.dir))
+load(sprintf("%s/www/Rdata/species-occurrence.rda",script.dir))
+
+mgv.spp <- prov.mgv.spp %>% st_drop_geometry %>% select(Dolichandrone.spathacea:Ceriops.australis)
+mga.spp <- mtzXprov[,(gsub("_",".",colnames(mtzXprov)) %in% colnames(mgv.spp))]
+
+ss <- rowSums(mga.spp)>0
 
 ## this looks like a good combination (homogeneous groupings)
-d1 <- vegdist(mgv.spp,'kulczynski',binary=T)
-h1 <- hclust(d1,method='ward.D2')
+d.mgv <- vegdist(mgv.spp[ss,],'kulczynski',binary=T)
+d.mga <- vegdist(mga.spp[ss,],'kulczynski',binary=T)
 
-plot(h1)
+mantel(d.mgv,d.mga)
+
+
+h.mgv <- hclust(d.mgv,method='ward.D2')
+h.mga <- hclust(d.mga,method='ward.D2')
+
+plot(h.mgv)
+plot(h.mga)
 
 ```
 
 The larger scale groups are consistent with provinces, except for these
 
 ```{r}
-hc <- as.dendrogram(h1)
-tt <- table(meow$PROVINCE[match(h1$labels,meow$ECO_CODE)],cutree(h1,k=6))
+hc <- as.dendrogram(h.mgv)
+tt <- table(prov.mgv.spp$PROVINCE,cutree(h.mgv,k=6))
+table(rowSums(tt>0))
+
+
+hc <- as.dendrogram(h.mga)
+tt <- table(prov.mgv.spp$PROVINCE,cutree(h.mga,k=6))
 table(rowSums(tt>0))
 
 
@@ -101,42 +113,54 @@ clusDendro = dendrapply(hc, colLab)
 
 # make plot
 plot(clusDendro, main = "Cool Dendrogram")
-save(file=mi.rda, mangroves, mgv.spp)
 
 ```
+
+
+```{r}
+mgt.2016.pols %>%  pull(PROV_CODE) %>% unique -> slc
+mgt.2016.pols %>%  pull(ECO_CODE) %>% unique -> ecos
+
+#meow %>% filter(PROV_CODE %in% slc) %>% group_by(PROV_CODE,PROVINCE) %>% summarise(geom=st_union(geom)) -> mprovs
+
+#unzip(sprintf("%s/admin/global/World-Bank/wb_land_10m.zip",gis.data))
+#unzip(sprintf("%s/admin/global/World-Bank/wb_boundaries_geojson_lowres.zip",gis.data))
+#wbland <- read_sf("WB_Land_10m/WB_Land_10m.shp")
+wbland <- read_sf("WB_Boundaries_GeoJSON_lowres/WB_Coastlines_10m_lowres.geojson")
+
+#meow <- read_sf("mangrove-type-data-sources.vrt","meow")
+#meow %>% filter(PROV_CODE %in% slc) %>% group_by(PROV_CODE,PROVINCE) %>% summarise(geom=st_union(geom)) -> mprovs
+```
+
+# Mangrove species
+
+Data on mangroves was requested to RLTS and the file downloaded.
+
+```{r}
+
+mangroves %>% st_drop_geometry %>% group_by(kingdom,phylum,class,order_) %>% summarise(nspp=n_distinct(id_no))
+
+
+load(sprintf("%s/www/prov-data.rda",script.dir))
+
+load()
+gsub("\\.","_",colnames(prov.mgv.spp)) %in% colnames(sppXprov)
+
+```
+
+Measure biotic simmilarity between provinces:
+
 
 
 
 # All (other) species
 
-We run a script to download GBIF data in the background.
-
-```sh
-cd $WORKDIR
-nohup Rscript $SCRIPTDIR/inc/R/download-from-GBIF.R > nohup-gbif-qries.out &
-```
-
-We then use rsync to update the results in the shared drive
-
-```sh
-export srcdir=$GISDATA/species-dist/global/GBIF/
-export dstdir=$zID@kdm.restech.unsw.edu.au:/srv/scratch/cesdata/gisdata/species-dist/global/GBIF
-# this is a dry run: remove -n flag for actual syncing
-rsync -gloptrunv $srcdir/* $dstdir
-```
 
 
 ```{r}
 
 load(sprintf("%s/www/prov-data.rda",script.dir))
 
-## st_wrap_dateline to solve the international date line problem:
-# mprovs  %>% st_wrap_dateline %>% plot
-# mprovs %>% st_wrap_dateline(c("WRAPDATELINE=YES", "DATELINEOFFSET=50")) %>% st_geometry %>% plot
-
-## filter provinces with data in 2016 + Lusitania
-mprov.xy <- prov_summary %>% filter(PROV_CODE %in% c(3,slc)) %>% st_wrap_dateline() %>% st_transform(crs=st_crs(mgt.2016.pols))
-plot(st_geometry(mprov.xy))
 
 wbland %>% st_transform(crs=st_crs(mgt.2016.pols)) %>% st_simplify(dTolerance=4) -> world.xy
 mi.rda <- sprintf("%s/www/Rdata/gis.rda",script.dir)
@@ -146,107 +170,6 @@ save(file=mi.rda,world.xy)
 
 We create a equal area grid on top of marine provinces.
 
-```{r}
-raw.grid <- st_make_grid(mprov.xy,cellsize=500000)
-
-spp.grid <- st_as_sf(tibble(code=1:length(raw.grid)),raw.grid)
-spp.grid %>% plot
-plot(st_geometry(spp.grid))
-plot(mprov.xy['PROV_CODE'],add=T)
-```
-
-
-```{r}
-archs <- list.files(sprintf("%s/species-dist/global/GBIF/%s",gis.data,projectname),recursive=T,pattern='.rda$',full.names=T)
-
-mi.rda <- sprintf("%s/www/Rdata/species-occurrence.rda",script.dir)
-if (file.exists(mi.rda)) {
-  load(mi.rda)
-} else {
-  load(grep("overview",archs,value=T))
-  sppXprov <- tibble(.rows=nrow(mprov.xy))
-  sppXcell <- tibble(.rows=length(raw.grid))
-}
-
-for (arch in grep("occ-data-spp",archs,value=T)) {
-  objs <- (load(arch))
-  for (oo in objs) {
-    gbif.data <- get(oo)
-    for (spp in unique(names(gbif.data$gbif$data))) {
-      if (!(spp %in% colnames(sppXprov)) & !(spp %in% colnames(sppXcell)) & (nrow(gbif.data$gbif$data[[spp]])>0)) {
-        xys <- gbif.data$gbif$data[[spp]] %>% dplyr::select(name,latitude,longitude,key) %>% filter(!is.na(longitude)& !is.na(latitude))
-        if (nrow(xys)>0) {
-          spps <- st_as_sf(xys,coords=c("longitude","latitude"),crs=st_crs(meow)) %>% st_transform(st_crs(mgt.2016.pols))
-          mat <- spps %>% st_intersects(mprov.xy,sparse=F)
-          sppXprov %<>% bind_cols(tibble(colSums(mat),.name_repair=~c(spp)))
-          mat <- spps %>% st_intersects(spp.grid,sparse=F)
-          sppXcell %<>% bind_cols(tibble(colSums(mat),.name_repair=~c(spp)))
-          save(file=mi.rda,sppXcell,sppXprov,mangrove_species,mprov.xy)
-        }
-      }
-    }
-  }
-}
-#
-# not sure why it produces duplicated names: but they seem to include the same records...
-#names(spps.lt1500$gbif$data)[duplicated(names(spps.lt1500$gbif$data))]
-#grep("Lycaon_pictus",names(spps.lt1500$gbif$data))
-
-dim(sppXcell)
-dim(sppXprov)
-```
-
-For species with very large number of records, we have to summarise data with a different approach
-```{r}
-grdXprov <- tibble(.rows=nrow(mprov.xy))
-grdXcell <- tibble(.rows=length(raw.grid))
-list_spps <- c()
-for (arch in grep("occ-data-grid",archs,value=T)) {
-  objs <- try(load(arch))
-  if (any(class(objs)=='try-error')) {
-    cat(sprintf('error with %s!\n',basename(arch)))
-    next
-  }
-  for (oo in objs) {
-    gbif.data <- get(oo)
-    for (spp in unique(names(gbif.data$gbif$data))) {
-      if ((nrow(gbif.data$gbif$data[[spp]])>0)) {
-        xys <- gbif.data$gbif$data[[spp]] %>% dplyr::select(name,latitude,longitude,key) %>% filter(!is.na(longitude)& !is.na(latitude))
-        if (nrow(xys)>0) {
-          list_spps <- unique(c(list_spps,spp))
-          spps <- st_as_sf(xys,coords=c("longitude","latitude"),crs=st_crs(meow)) %>% st_transform(st_crs(mgt.2016.pols))
-          mat <- spps %>% st_intersects(mprov.xy,sparse=F)
-          grdXprov %<>% bind_cols(tibble(colSums(mat),.name_repair=~c(spp)))
-          mat <- spps %>% st_intersects(spp.grid,sparse=F)
-          grdXcell %<>% bind_cols(tibble(colSums(mat),.name_repair=~c(spp)))
-        }
-      }
-    }
-  }
-}
-
-grd2Xprov <- tibble(.rows=nrow(mprov.xy))
-grd2Xcell <- tibble(.rows=length(raw.grid))
-
-for (spp in list_spps) {
-  grd2Xprov %<>% bind_cols(
-    grdXprov %>% rowwise() %>% transmute( "{spp}" := sum(c_across(starts_with(spp))))
-  )
-  grd2Xcell %<>% bind_cols(
-    grdXcell %>% rowwise() %>% transmute( "{spp}" := sum(c_across(starts_with(spp))))
-  )
-  save(file=mi.rda,sppXcell,sppXprov,grd2Xcell,grd2Xprov,mangrove_species,mprov.xy)
-
-}
-
-sppXcell %>% bind_cols(grd2Xcell)
-
-sppXcell %>% bind_cols(grd2Xcell) -> mtzXcell
-sppXprov %>% bind_cols(grd2Xprov) -> mtzXprov
-
-save(file=mi.rda,mtzXcell,mtzXprov,mangrove_species,mprov.xy)
-
-```
 
 Measure biotic simmilarity between provinces:
 

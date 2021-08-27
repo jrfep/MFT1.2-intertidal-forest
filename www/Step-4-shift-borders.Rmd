@@ -1,0 +1,38 @@
+---
+title: |
+  ![](assets/logo.png){width=1in}
+  MFT1.2 Intertidal Forest and Shrublands
+subtitle: "Occurrence in Marine Provinces"
+author: "JR Ferrer-Paris"
+date: "19/08/2021"
+output: html_document
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+require(dplyr)
+require(units)
+library(DT)
+require(sf)
+options(dplyr.summarise.inform = FALSE)
+
+```
+[Back to Mangrove project folder](/Mangroves/) / [Data Sources](/MangrovesData/) / [Interactive map](/MangrovesMap/)
+
+# Step 3: Split provinces
+
+Questions:
+
+
+Australia: CL: there are mangroves in Bunbury, Western Australia
+
+Australian shelves: CL: I think the mangroves to the east of of the Southwestern Australian Shelf  province should be included within that province - the shelf narrows - so that narrowing of the shelf probably separates those populations - but I might have to chase down the genetic data - FLindersia region vs. Maugea and Peronia regions  Sinclair, E.A., Anthony, J.M., Greer, D., Ruiz‐Montoya, L., Evans, S.M., Krauss, S.L. and Kendrick, G.A., 2016. Genetic signatures of Bassian glacial refugia and contemporary connectivity in a marine foundation species. Journal of Biogeography, 43(11), pp.2209-2222.
+
+
+Southwest Aust shelf – Extent the boundary slightly eastwards to include all South Australian patches, which are disjunct from those in Victoria.
+SW Australia – Bunbury patch (unmapped) may be distinctive relict that should be treated as a separate unit from SW Aust shelf
+
+North Brazil shelf (southern boundary): Yes - this is the edge of the extensive deltaic/mangrove coast (northern boundary): This is probably fine - the N coast of Trinidad is distinct from the continental shelf margins of the rest of the island, with much more in common with the Caribbean Islands
+
+Agulhas: I think this is correct - it is drawn at Cape Vidal and changes in coastal vegetation were part of definition of this boundary

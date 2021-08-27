@@ -1,0 +1,64 @@
+---
+title: |
+  ![](assets/logo.png){width=1in}
+  MFT1.2 Intertidal Forest and Shrublands
+subtitle: "Occurrence in Marine Provinces"
+author: "JR Ferrer-Paris"
+date: "19/08/2021"
+output: html_document
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+require(dplyr)
+require(units)
+library(DT)
+require(sf)
+options(dplyr.summarise.inform = FALSE)
+
+```
+[Back to Mangrove project folder](/Mangroves/) / [Data Sources](/MangrovesData/) / [Interactive map](/MangrovesMap/)
+
+# Step 3: Split provinces
+
+Questions:
+
+Bermuda – retain as separate
+
+Gulf of Aden – either a) retain with Red Sea, or b) define separate unit for south Oman and Gulf of Aden or c) excise Gulf of Aden from red Sea province and include with Gulf of Oman to north
+
+
+```{r}
+url <- "https://earth.nullschool.net/#current/ocean/surface/currents/overlay=sea_surface_temp/orthographic=-310.42,10.36,1280/loc=48.500,12.665"
+
+
+output$frame <- renderUI({
+  test_frame <- tags$iframe(src=url,height=405,width=720)
+  print(test_frame)
+  test_frame
+})
+htmlOutput("frame")
+```
+
+Gulf of Arden/Red Sea: coral modelling of connectivity https://www.nature.com/articles/s41598-019-53126-0 // This is a poorly understood region, but was largely defined based on marine fish. I am tempted to suggest that we split this - place the inner Gulf of Aden with the Red Sea and then put outer Gulf of Aden into Somali/Arabian Province. Alternative (Tom's suggestion) would be to create a new province of Central Somali Coast and Western Arabian Sea with outer Gulf of Aden // Potentially move the patch in southern Oman in to Red Sea province // FDG: ocean currents (in the different seasons) can be a proxy on how genetically unique the monospecific populations may be.
+
+Bermuda: MSi: yes, based on  (https://environment.bm/mangroves) // keep it as separate group
+
+
+West and South India Shelf – distinct from the Bay of Bengal, different climate. Consider split based on ecoregion to identify Sri Lanka as distinctive unit from west India
+
+Sri Lanka: Katherisan (in mangrove specialist group) has written a lot on the differences in Indian mangrove flora/fauna. Perhaps split W coast using ecoregion boundary: Kathiresan K, Qasim SZ. Biodiversity of Mangrove Ecosystems. New Dehli, India: Hindustan Publishing Corporation; 2005. 251 p. // Maybe split the Western Indian Shelf based on the MEOW boundary so you have a Sri Lanka and S India as one and West India and Pakistan as another // FDG: Observation: within Sri Lanka there is a lot of variability with different mangrove areas displaying very different numbers of species because of the climate zones going from arid to wet. Together with Kenya and Malaysia, Sri Lanka is our historic core research area. // DF: not sure Sri Lanka/E India mangroves are similar to Bay of Bengal (drier, lagoonal vs wetter, deltaic)
+
+
+```{r}
+url <- "https://earth.nullschool.net/#current/ocean/surface/currents/overlay=sea_surface_temp/orthographic=-310.42,10.36,1280/loc=48.500,12.665"
+
+
+output$frame <- renderUI({
+  test_frame <- tags$iframe(src=url,height=405,width=720)
+  print(test_frame)
+  test_frame
+})
+htmlOutput("frame")
+```
