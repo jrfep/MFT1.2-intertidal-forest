@@ -43,12 +43,12 @@ To guide experts in making adjustments, we propose the following criteria:
 
 The implementation of these steps is documented in detail in the following documents:
 
-| Step | | LINK |
+|  | |  |
 |---|---|---|
-|Step 1| Intersection of mangrove occurrences with Marine provinces | [marine-provinces.Rmd]
-|Step 2| Merges |
-|Step 3| Splits |
-|Step 4| Boundary shifts |
+|Step 1| Intersection of mangrove with marine provinces | [LINK](Step-1-marine-provinces.Rmd)
+|Step 2| Merge neighboring provinces | [LINK](Step-2-merge-provinces.Rmd)
+|Step 3| Split provinces | [LINK](Step-3-split-provinces.Rmd)
+|Step 4| Boundary shifts between provinces | [LINK](Step-4-shift-borders.Rmd)
 
 
 
