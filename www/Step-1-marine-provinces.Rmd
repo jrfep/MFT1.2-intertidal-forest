@@ -10,12 +10,17 @@ runtime: shiny
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE)
 require(dplyr)
+require(magrittr)
 require(units)
 library(DT)
+require(leaflet)
 require(sf)
+
 options(dplyr.summarise.inform = FALSE)
+load("Rdata/prov-data.rda")
+load("Rdata/mgv-species-occurrence.rda")
 
 ```
 [Back to Mangrove project folder](/Mangroves/) / [Data Sources](/MangrovesData/) / [Interactive map](/MangrovesMap/)
@@ -30,6 +35,48 @@ We intersected the distribution of marine provinces and ecoregions described abo
 
 Documentation of data sources in the [Data Folder](/MangrovesData/).
 
+
+```{r, fig.height=4, fig.width=10 }
+mb.style <- "jrfep/ckspr4rl70jch17pg3rnix3fz"
+mb.token <- "pk.eyJ1IjoianJmZXAiLCJhIjoiY2s5N3RxZWhwMTl5NjNnbjFmdzhubTFjdiJ9.KFBzgxBPjKnERRfR9awR_g"
+
+my_url <- sprintf("https://api.mapbox.com/styles/v1/%s/tiles/{z}/{x}/{y}?access_token=%s",mb.style,mb.token)
+
+my_attribution <- "© <a href='https://www.mapbox.com/map-feedback/'>Mapbox</a> CC-BY-4.0 <a href='https://global-ecosystems.org/explore/groups/MFT1.2'>IUCN Global Ecosystem Typology</a>"
+
+occ <- factor(c("major","minor"))
+DPcolors <- c(rgb(193,15,2,255,max=255), rgb(247,157,150,255,max=255))
+
+## prov.mgv.spp
+provs <- prov_summary  %>% group_by(PROVINCE,PROV_CODE) %>% 
+  st_wrap_dateline() %>% summarise %>% mutate(comment=case_when(
+  PROV_CODE %in% c(39,37,38,40) ~ "Included (Non native)",
+  PROV_CODE %in% c(45,3,22,4,5,8,36,50,62) ~ "Excluded",
+  PROV_CODE %in% c(53,54) ~ "Merged",
+  PROV_CODE %in% c(18,21) ~ "Split",
+  PROV_CODE %in% c(44,23,20,6,9,11,16,17,19) ~ "Included",
+  TRUE ~ "Under review"
+))
+pr_labels <- sprintf("<strong>%s</strong><br/>comment: %s",
+                        provs$PROVINCE,  provs$comment) %>%
+      lapply(htmltools::HTML)
+
+leaflet() %>% setView(lng = 0, lat = 0, zoom = 2) %>%
+  addProviderTiles(providers$Esri.NatGeoWorldMap) %>%
+  #addTiles(urlTemplate=my_url,attribution=my_attribution) %>%
+  addPolygons(data = provs, color = 'yellow',  weight = 2, fillOpacity = 0.15,
+              highlightOptions = highlightOptions(weight = 2, color = 'black'), 
+              label=pr_labels, group='Marine provinces') %>%
+  addLayersControl(
+          overlayGroups = c("Marine provinces"),
+          options = layersControlOptions(collapsed = FALSE),
+          position = "topright"
+        ) %>%
+  addLegend(colors = DPcolors, labels = c("major","minor"), opacity = 1.0,
+            title = "Occurrence", position = "topright")
+```
+
+
 Mangrove species distribution intersects with at least 47 marine provinces, while mangrove ecosystem are present in at least 37 and at most 42 marine provinces, depending on the source.
 
 This table shows the number of key mangrove species, and approx. area totals for the USGS mangrove data from 2000 (Giri et al. 2011) and the Biophysical typology map for the year 2016 (Worthington et al. 2020):
@@ -37,59 +84,64 @@ This table shows the number of key mangrove species, and approx. area totals for
 Area of mangrove ecosystem in the table are expressed in km^2.
 
 ```{r, echo=FALSE}
-load("Rdata/prov-data.rda")
-load("Rdata/mgv-species-occurrence.rda")
 
 prov.mgv.spp %>% st_drop_geometry %>% group_by(PROV_CODE,PROVINCE) %>% summarise(across(Dolichandrone.spathacea:Ceriops.australis, max)) -> mtz
 
 
 
-mtz %>% rowwise() %>% transmute(PROV_CODE,PROVINCE,sum=sum(c_across(Dolichandrone.spathacea:Ceriops.australis))) %>% full_join(prov_summary,by=c('PROV_CODE','PROVINCE'))  %>% transmute(PROVINCE,`Area 2020`=area_2020 %>% set_units('km^2') %>% round(2),`Area 2016`=radius %>% set_units('m^2') %>% set_units('km^2') %>%  round(2),`Mangrove species`=sum) -> dts
+mtz %>% rowwise() %>% transmute(PROV_CODE,PROVINCE,sum=sum(c_across(Dolichandrone.spathacea:Ceriops.australis))) %>% full_join(prov_summary,by=c('PROV_CODE','PROVINCE'))  %>% transmute(PROVINCE,`Area 2020`=area_2020 %>% set_units('km^2') %>% round(2),`Area 2016`=radius %>% set_units('m^2') %>% set_units('km^2') %>%  round(2),`Mangrove species`=sum) %>% full_join(st_drop_geometry(provs),by=c('PROV_CODE','PROVINCE'))-> dts
 
 dts %<>% mutate(comment=case_when(
-  PROV_CODE %in% c(39,37) ~ "Included (Non native)",
-  PROV_CODE %in% c(40,45,3,22,38) ~ "Excluded",
+  PROV_CODE %in% c(39,37,38,40) ~ "Included (Non native)",
+  PROV_CODE %in% c(45,3,22,4,5,8,36,50,62) ~ "Excluded",
   PROV_CODE %in% c(53,54) ~ "Merged",
-  PROV_CODE %in% c(18,20) ~ "Split",
-  PROV_CODE %in% c(53,54) ~ "Included",
+  PROV_CODE %in% c(18,21) ~ "Split",
+  PROV_CODE %in% c(44,23,20,6,9,11,16,17,19) ~ "Included",
   TRUE ~ "Under review"
 ))
-
-opts <- c("All",prov_summary %>% pull(comment) %>% unique)
+opts <- c("All",dts %>% pull(comment) %>% unique)
 
 selectInput(inputId="filter1", label="Provinces to show", opts)
 
  DT::renderDataTable({
-   slc <- dts %>% filter(is.null(input$filter) | comment %in% input$filter1) 
-   slc %>% dplyr::select(-1)
+   if (is.null(input$filter1) | input$filter1 %in% "All") {
+     slc <- dts
+   } else {
+     slc <- dts %>% filter(comment %in% input$filter1) 
+   }
+   slc 
    })
 ```
 
-## Excluded provinces
+## Reasons for excluding provinces
 
-There are four provinces with very small areas in 2000 and no occurrences in the 2016 data.
+There are two provinces with very small areas of mangrove ecosystems in 2000 (<1 km^2) and no occurrences in the 2016 data.  Five further provinces only have data on species distribution but mangrove ecosystems have not been detected. As discussed in the workshop small patches of mangrove forest might remain undetected in this areas but current evidence suggest this is unlikely the case in these areas.
 
-These seems to be marginal or erroneous occurrences and are excluded:
-
-- The Lusitanian province included ca. 10km^2 according to the older dataset (occurrence in the Canary Islands), but has no occurrences in the new dataset.
-- Canary Island: No mangroves  // FDG: Northern mangrove limit is/was in the Park National du Banc d'Arguin  in Mauritania on the mainland a few kms north of Iouik. These were individual trees. The northernmost patches were located around Nouamghar (Cape Timirist), still within the PNBA.
-
-- ...
-- ...
--
+The Lusitanian province included ca. 10 km^2  of mangrove ecosystems according to the older dataset but this is likely an error. According to workshop participants, the Canary Islands do not have mangroves. Northern mangrove limit is/was in the Park National du Banc d'Arguin  in Mauritania on the mainland a few kms north of Iouik. These were individual trees. The northernmost patches were located around Nouamghar (Cape Timirist), still within the PNBA.
 
 ## Non-native occurrences
 
-The Central Polynesia and Hawaii provinces also have very small occurrences. According to Mark Spalding these are non-native.
+We marked four provinces as non-native occurrences when the occurrences are well known and generally accepted to be introduced by humnas (World Mangrove Atlas Ch 10):
+
+- _Rhizophora stylosa_ is considered introduced in French Polynesia (Meyer et al. 2021)
+- _Bruguiera gymnorhiza_ may have been introduced in the Marshall islands (Spenneman, 1998) and perhaps even Nypa into eastern Micronesia (Duke, 2008). 
+- More recently introductions have brought mangroves to most of the main islands of Hawaii (Smith, 1996).
+
+These populations should not be assesed using IUCN RLE protocol and should not be considered of  conservation concern. 
+
+## Provinces included with or without modifications
+
+We will cover the changes in the following steps:
 
 
-## List of questions
+|  | |  |
+|---|---|---|
+|Step 1| Intersection of mangrove with marine provinces | This document
+|Step 2| Merge neighboring provinces | [LINK](Step-2-merge-provinces.Rmd)
+|Step 3| Split provinces | [LINK](Step-3-split-provinces.Rmd)
+|Step 4| Boundary shifts between provinces | [LINK](Step-4-shift-borders.Rmd)
 
-Specific comments from the mangrove experts (discussion):
 
+### References
 
-General comments from the mangrove experts (miro board):
-Guiding principles: Biota composition (not only plants) + Continuity/ discontinuity of homogenous units + Exceptional characteristics
-
-
-for The Bahamas: There are mangroves along the east coast of Andros, The south tip of Eleuthera (Deep Creek) and along the Exuma Keys chain (and probably on other islands more than shown - but only have personal experience with these islands) - Kate Kincaid.
+Meyer, JY., Taureau, F., Bisarah, L. et al. Introduced mangroves in the Society Islands, French Polynesia (South Pacific): invasive species or novel ecosystem?. Biol Invasions 23, 2527–2539 (2021). https://doi.org/10.1007/s10530-021-02520-9
