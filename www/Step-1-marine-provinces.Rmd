@@ -54,7 +54,7 @@ provs <- prov_summary  %>% group_by(PROVINCE,PROV_CODE) %>%
   PROV_CODE %in% c(45,3,22,4,5,8,36,50,62) ~ "Excluded",
   PROV_CODE %in% c(53,54) ~ "Merged",
   PROV_CODE %in% c(18,21) ~ "Split",
-  PROV_CODE %in% c(44,23,20,6,9,11,16,17,19) ~ "Included",
+  PROV_CODE %in% c(44,23,20,6,9,11,16,17,19,12,14,30,28,25,47,43,51) ~ "Included",
   TRUE ~ "Under review"
 ))
 pr_labels <- sprintf("<strong>%s</strong><br/>comment: %s",
@@ -96,7 +96,7 @@ dts %<>% mutate(comment=case_when(
   PROV_CODE %in% c(45,3,22,4,5,8,36,50,62) ~ "Excluded",
   PROV_CODE %in% c(53,54) ~ "Merged",
   PROV_CODE %in% c(18,21) ~ "Split",
-  PROV_CODE %in% c(44,23,20,6,9,11,16,17,19) ~ "Included",
+  PROV_CODE %in% c(44,23,20,6,9,11,16,17,19,12,14,30,28,25,47,43,51) ~ "Included",
   TRUE ~ "Under review"
 ))
 opts <- c("All",dts %>% pull(comment) %>% unique)
