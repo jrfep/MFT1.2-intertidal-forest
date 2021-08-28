@@ -34,7 +34,7 @@ We evaluated nine cases were adjacent provinces could be merged. We decided to a
 
 In almost every edge of range location, mangroves extend into the adjacent temperate realm. The consensus among workshop participants was to keep them as distinct units.
 
-| Tropical province | Temerate unit | Decision | Comment
+| Tropical province | Temerate unit | Decision | Comment |
 |---|---|---|---|
 |Trop E Pacific| Warm Temp NE Pacific | Keep | |
 |Trop NW Atlantic | Warm Temp NW Atlantic | Keep |  REALM boundary, very distinctive |

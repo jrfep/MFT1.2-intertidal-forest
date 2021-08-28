@@ -24,7 +24,7 @@ options(dplyr.summarise.inform = FALSE)
 ## Aim
 The project aims to produce the first global Red List assessment of mangrove ecosystems. This will add value to Red List assessments of individual mangrove species because it takes into account whole assemblages of species associated with mangroves, as well as the ecological processes that sustain the functioning of mangrove ecosystems. Individual mangrove species may be ranked Least Concern, but some of their populations may be components of threatened ecosystems. Conversely, some species that live in mangrove ecosystems may be ranked as threatened in the Red List of Threatened Species, even if they occur within non threatened mangrove ecosystems.
 
-## Units of assessment.
+## Units of assessment
 
 The units to be assessed for Red Listing first need to be defined and mapped. The Global Ecosystem Typology provides a useful framework to guide this task. The world’s mangrove ecosystem share a number of functional features and, for this reason, are grouped together in a single Ecosystem Functional Group at Level 3 of the typology <https://global-ecosystems.org/explore/groups/MFT1.2>. Please check the IUCN Global Ecosystem Typology report (Keith et al. 2020) for more details on the typology.
 
@@ -39,7 +39,7 @@ To guide experts in making adjustments, we propose the following criteria:
   2. Lump adjacent provinces to define larger mangrove ecosystem assessment units where: a) one province has a relative small number of mangrove occurrences, b) there is reasonable evidence that are no discernible differences in species composition (not only of mangroves themselves but of major groups of associated biota) and no reason to assess their status separately, and c) both provinces share similar climatic conditions (avoid merging one temperate with one tropical province); Example: Should the Tropical Central Polynesia be lumped with Tropical Southwestern Pacific?
   3. Split an marine province to define separate mangrove ecosystem assessment units where there is reasonable evidence of large differences or heterogeneity in species composition (or where it could be inferred by ecological barriers, currents or disjunctions, or climatic gradients) such that the resulting units of mangroves should be assessed separately (i.e. loss of either of the resulting units would result in a significant loss of biodiversity). Consider whether splitting provinces according to ecoregion boundaries resolves issues of heterogeneity; Example: Split West and South Indian shelf province along ecoregional boundary to treat Sri Lankan mangroves as a separate unit to west Indian coast to recognise contrasting biota in those regions.
   4. Shift boundaries of provinces to refine delineation of mangrove ecosystem assessment units where it aligns better with discontinuities in mangrove distribution. Consider whether merging one province with and adjacent ecoregion will resolve the issue; Example: Shift eastern boundary of Southwest Australian shelf province to the east so it includes nearby mangroves associated with the Coorong lagoon and Murray River mouth.
-  5.	Where knowledge of mangrove local ecosystems is uncertain, the default option should be to leave ecoregion boundaries as they stand.
+  5. Where knowledge of mangrove local ecosystems is uncertain, the default option should be to leave ecoregion boundaries as they stand.
 
 The implementation of these steps is documented in detail in the following documents:
 

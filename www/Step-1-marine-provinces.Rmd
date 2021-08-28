@@ -30,13 +30,18 @@ load("Rdata/mgv-species-occurrence.rda")
 As suggested in the guidelines we used marine provinces from the [Marine Ecoregions of the World](/MangrovesData/MEOW-ecoregions.Rmd) as templates for ecoregionalization of level 4 units.
 
 We intersected the distribution of marine provinces and ecoregions described above with:
+
 - a) Range maps of 77 key mangrove species from the Red List of Threatened Species database, and
 - b) Mangrove ecosystem occurrence polygons from several sources (Giri et al. 2011; Worthington et al. 2020)
 
 Documentation of data sources in the [Data Folder](/MangrovesData/).
 
+Mangrove species distribution intersects with at least 47 marine provinces, while mangrove ecosystem are present in at least 37 and at most 42 marine provinces, depending on the source.
 
-```{r, fig.height=4, fig.width=10 }
+The map and table show the information for the selected group of provinces. The table gives the approx. area totals for the USGS mangrove data from 2000 (Giri et al. 2011), the Biophysical typology map for the year 2016 (Worthington et al. 2020), and the number of key mangrove species according to IUCN Red List of Threatened Species database. Area of mangrove ecosystem in the table are expressed in km^2.
+
+
+```{r, fig.height=4, fig.width=12 }
 mb.style <- "jrfep/ckspr4rl70jch17pg3rnix3fz"
 mb.token <- "pk.eyJ1IjoianJmZXAiLCJhIjoiY2s5N3RxZWhwMTl5NjNnbjFmdzhubTFjdiJ9.KFBzgxBPjKnERRfR9awR_g"
 
@@ -57,60 +62,72 @@ provs <- prov_summary  %>% group_by(PROVINCE,PROV_CODE) %>%
   PROV_CODE %in% c(44,23,20,6,9,11,16,17,19,12,14,30,28,25,47,43,51) ~ "Included",
   TRUE ~ "Under review"
 ))
-pr_labels <- sprintf("<strong>%s</strong><br/>comment: %s",
-                        provs$PROVINCE,  provs$comment) %>%
-      lapply(htmltools::HTML)
 
-leaflet() %>% setView(lng = 0, lat = 0, zoom = 2) %>%
-  addProviderTiles(providers$Esri.NatGeoWorldMap) %>%
-  #addTiles(urlTemplate=my_url,attribution=my_attribution) %>%
-  addPolygons(data = provs, color = 'yellow',  weight = 2, fillOpacity = 0.15,
-              highlightOptions = highlightOptions(weight = 2, color = 'black'), 
-              label=pr_labels, group='Marine provinces') %>%
+opts <- c("All",provs %>% pull(comment) %>% unique)
+
+selectInput(inputId="filter1", label="Provinces to show", opts)
+
+output$map <- renderLeaflet({
+  leaflet() %>% setView(lng = 30, lat = 0, zoom = 2) %>%
+  addProviderTiles(providers$Esri.NatGeoWorldMap,group='Base map') %>%
+  addTiles(urlTemplate=my_url,attribution=my_attribution,group='Indicative distribution map') %>%  
+    #addPolygons(data=provs, color = 'yellow',  weight = 2, fillOpacity = 0.15,
+     #          highlightOptions = highlightOptions(weight = 2, color = 'black'),
+      #         label=pr_labels, group='Marine provinces') %>%
   addLayersControl(
+          baseGroups = c("Indicative distribution map","Base map"),
           overlayGroups = c("Marine provinces"),
           options = layersControlOptions(collapsed = FALSE),
           position = "topright"
         ) %>%
   addLegend(colors = DPcolors, labels = c("major","minor"), opacity = 1.0,
-            title = "Occurrence", position = "topright")
+            title = "Occurrence", position = "topright",group='Indicative distribution map')
+  
+})
+
+  # Reactive expression for the data subsetted to what the user selected
+  filteredData <- reactive({
+    if (is.null(input$filter1)) {
+      provs
+    } else {
+      if (input$filter1 %in% "All") {
+        provs
+      } else {
+             provs %>% filter(comment %in% input$filter1)
+      }
+    }
+  })
+  
+# use observe to update map with input$
+observe({
+  pr_labels <- filteredData() %>% transmute(qry=sprintf("%s: %s",PROVINCE,comment)) %>% pull(qry)  %>% lapply(htmltools::HTML) %>% unlist
+
+  leafletProxy("map") %>% clearShapes()  %>%  
+    addPolygons(data =filteredData(), color = 'yellow',  weight = 2, fillOpacity = 0.15,
+               highlightOptions = highlightOptions(weight = 2, color = 'black'),
+               label=pr_labels, 
+               group='Marine provinces')
+})
+
+leafletOutput("map")
 ```
 
 
-Mangrove species distribution intersects with at least 47 marine provinces, while mangrove ecosystem are present in at least 37 and at most 42 marine provinces, depending on the source.
-
-This table shows the number of key mangrove species, and approx. area totals for the USGS mangrove data from 2000 (Giri et al. 2011) and the Biophysical typology map for the year 2016 (Worthington et al. 2020):
-
-Area of mangrove ecosystem in the table are expressed in km^2.
 
 ```{r, echo=FALSE}
 
 prov.mgv.spp %>% st_drop_geometry %>% group_by(PROV_CODE,PROVINCE) %>% summarise(across(Dolichandrone.spathacea:Ceriops.australis, max)) -> mtz
 
-
-
-mtz %>% rowwise() %>% transmute(PROV_CODE,PROVINCE,sum=sum(c_across(Dolichandrone.spathacea:Ceriops.australis))) %>% full_join(prov_summary,by=c('PROV_CODE','PROVINCE'))  %>% transmute(PROVINCE,`Area 2020`=area_2020 %>% set_units('km^2') %>% round(2),`Area 2016`=radius %>% set_units('m^2') %>% set_units('km^2') %>%  round(2),`Mangrove species`=sum) %>% full_join(st_drop_geometry(provs),by=c('PROV_CODE','PROVINCE'))-> dts
-
-dts %<>% mutate(comment=case_when(
-  PROV_CODE %in% c(39,37,38,40) ~ "Included (Non native)",
-  PROV_CODE %in% c(45,3,22,4,5,8,36,50,62) ~ "Excluded",
-  PROV_CODE %in% c(53,54) ~ "Merged",
-  PROV_CODE %in% c(18,21) ~ "Split",
-  PROV_CODE %in% c(44,23,20,6,9,11,16,17,19,12,14,30,28,25,47,43,51) ~ "Included",
-  TRUE ~ "Under review"
-))
-opts <- c("All",dts %>% pull(comment) %>% unique)
-
-selectInput(inputId="filter1", label="Provinces to show", opts)
-
  DT::renderDataTable({
+   mtz %>% rowwise() %>% transmute(PROV_CODE,PROVINCE,sum=sum(c_across(Dolichandrone.spathacea:Ceriops.australis))) %>% full_join(prov_summary,by=c('PROV_CODE','PROVINCE'))  %>% transmute(PROVINCE,`Area 2020`=area_2020 %>% set_units('km^2') %>% round(2),`Area 2016`=radius %>% set_units('m^2') %>% set_units('km^2') %>%  round(2),`Mangrove species`=sum) %>% full_join(st_drop_geometry(filteredData()),by=c('PROV_CODE','PROVINCE'))-> dts
+
    if (is.null(input$filter1) | input$filter1 %in% "All") {
      slc <- dts
    } else {
-     slc <- dts %>% filter(comment %in% input$filter1) 
+     slc <- dts %>% filter(comment %in% input$filter1)
    }
-   slc 
-   })
+   slc
+})
 ```
 
 ## Reasons for excluding provinces
