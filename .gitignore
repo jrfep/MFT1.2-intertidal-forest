@@ -1,6 +1,9 @@
 # a place for test
 sandbox
 
+# do we need this?
+rsconnect
+
 # History files
 .Rhistory
 .Rapp.history

@@ -2,7 +2,7 @@
 title: |
   ![](assets/logo.png){width=1in}
   MFT1.2 Intertidal Forest and Shrublands
-subtitle: "Occurrence in Marine Provinces"
+subtitle: "Delimitation of Level 4 units"
 author: "JR Ferrer-Paris"
 date: "19/08/2021"
 output: html_document
@@ -33,7 +33,7 @@ my_attribution <- "© <a href='https://www.mapbox.com/map-feedback/'>Mapbox</a> 
 
 # Step 3: Split provinces
 
-We evaluated three cases were a province could be split from its parent marine province and be assessed as a separate unit. 
+We evaluated three cases were a province could be split from its parent marine province and be assessed as a separate unit.  We decided to split Bermuda as a separate assessment unit. In the case of the Gulf of Aden we decided to keep the units as they stand due to lack of regional studies. In the case of Sri Lanka we decided to keep the units as they stand but suggest consultation with experts in the region.
 
 | Province | Ecoregion to split | Decision | comments |
 |---|---|---|---|
@@ -41,25 +41,26 @@ We evaluated three cases were a province could be split from its parent marine p
 |Red Sea and Gulf of Aden|Gulf of Aden| Keep|Poorly known region|
 |West and South Indian Shelf|Sri Lanka| Keep|Ask regional specialists|
 
+## Visualization of ecological and environmental data
 
 We argue the reasons for or again the split based on qualitative assessment of:
 
-- shared biota based on data from the Red List of Threatened Species and the Global Biodiversity Information Facility (See details in [mangrove-species.Rmd](mangrove-species.Rmd)). 
+- shared biota based on data from the Red List of Threatened Species and the Global Biodiversity Information Facility (See details in [mangrove-species.Rmd](mangrove-species.Rmd)).
 - continuity/discontinuity of homogenous units based on the mapped distribution of mangrove ecosystem
 - environmental conditions and connectivity based on visualization of sea surface temperature  and currents (Visualiztion from
 [earth.nullschool.net](https://earth.nullschool.net/about.html)).
 
-The data is displayed below, use the drop down menu to select one of the three regions and the tabs to view the plots or maps. 
+The data is displayed below, use the drop down menu to select one of the three regions and the tabs to view the plots or maps.
 
-```{r, fig.height=6, fig.width=5}
+```{r}
 
 slcMap <- reactive({
-  provslc <- 
-    switch(input$region, 
+  provslc <-
+    switch(input$region,
          "Bermuda"={c("Tropical Northwestern Atlantic","Warm Temperate Northwest Atlantic","")},
          "Gulf of Aden"={c("Red Sea and Gulf of Aden","Somali/Arabian","")},
          "Sri Lanka"={c("West and South Indian Shelf","Bay of Bengal","")})
-  BM <- prov.mgv.spp %>%  filter(PROVINCE %in% provslc) 
+  BM <- prov.mgv.spp %>%  filter(PROVINCE %in% provslc)
   provclrs <- RColorBrewer::brewer.pal(length(provslc),"Dark2")
   names(provclrs) <- provslc
   BM$clrs <- provclrs[BM$PROVINCE]
@@ -81,8 +82,8 @@ slcAmgv <- reactive({
 })
 
 slcUrl <- reactive({
-  
-  switch(input$region, 
+
+  switch(input$region,
          "Bermuda"={
             o <- "-70.23,25.37,1255"
             l <- "-65.122,31.280"
@@ -101,13 +102,13 @@ slcUrl <- reactive({
 
 output$plot <- renderPlot({
   if (input$slcspp %in% "Key mangrove species") {
-    mtz <- slcKmgv()    
+    mtz <- slcKmgv()
   } else {
     mtz <- slcAmgv()
   }
   d1 <- vegdist(mtz,'kulczynski',binary=T)
   h1 <- as.dendrogram(hclust(d1,method='ward.D2'))
-  
+
   # function to get color labels
   colLab <- function(n) {
     if (is.leaf(n)) {
@@ -121,7 +122,7 @@ output$plot <- renderPlot({
   y <- dendrapply(h1, colLab)
   provclrs <- unique(slcMap()$clrs)
   provslc <- unique(slcMap()$PROVINCE)
-  
+
  par(mar=c(4,0,3,8),xpd=NA)
   plot(y,horiz=T,
        xlab='Biotic dissimilarity (Kulczynski index)',
@@ -133,10 +134,10 @@ output$plot <- renderPlot({
 output$map <- renderLeaflet({
    provclrs <- unique(slcMap()$clrs)
   provslc <- unique(slcMap()$PROVINCE)
- 
+
   pr_labels <- sprintf("<strong>PROVINCE: %s</strong> <br/> <strong>ECOREGION: %s</strong> <br/>Key Mangrove spp: %s<br/> Other associated spp: %s <br/>",
                         slcMap()$PROVINCE,  slcMap()$ECOREGION, rowSums(slcKmgv()>0), rowSums(slcAmgv()>0)) %>% lapply(htmltools::HTML)
-  
+
  leaflet() %>%
   addTiles(urlTemplate=my_url,attribution=my_attribution) %>%
   addPolygons(data = slcMap() , color = ~clrs, weight = 2, fillOpacity = 0.15, group='Outline',label=pr_labels) %>%
@@ -152,10 +153,10 @@ output$frame <- renderUI({
 selectInput(inputId="region", label="Show data for", c("Bermuda","Gulf of Aden","Sri Lanka"))
 
 tabsetPanel(
-  tabPanel("Shared biota", 
+  tabPanel("Shared biota",
        selectInput(inputId="slcspp", label="Group of species", c("Key mangrove species","Other associated species")) ,
-            plotOutput("plot")), 
-  tabPanel("Indicative distribution map", leafletOutput("map")), 
+            plotOutput("plot")),
+  tabPanel("Indicative distribution map", leafletOutput("map")),
   tabPanel("Sea Surface Temperature and Currents", htmlOutput("frame"))
 )
 
@@ -169,21 +170,20 @@ Occurrence of mangrove ecosystem is known (https://environment.bm/mangroves) but
 
 For the Gulf of Aden we considered several options
 
-- retain with Red Sea, 
-- define separate unit for south Oman and Gulf of Aden 
+- retain with Red Sea,
+- define separate unit for south Oman and Gulf of Aden
 - place the inner Gulf of Aden with the Red Sea and then put outer Gulf of Aden into Somali/Arabian Province
 - excise Gulf of Aden from red Sea province and include with Gulf of Oman to north
 - create a new province of Central Somali Coast and Western Arabian Sea with outer Gulf of Aden
 
-This is a poorly understood region. Boundaries for these ecoregions were largely defined based on marine fish. Ocean currents (in the different seasons) can be a proxy on how genetically unique the monospecific populations may be. There have been studies on the connectivity of corals based on modelling (https://www.nature.com/articles/s41598-019-53126-0). 
+This is a poorly understood region. Boundaries for these ecoregions were largely defined based on marine fish. Ocean currents (in the different seasons) can be a proxy on how genetically unique the monospecific populations may be. There have been studies on the connectivity of corals based on modelling (https://www.nature.com/articles/s41598-019-53126-0).
 
 The three ecoregions of the Red Sea and Gulf of Aden province share the same species, and the associated mangrove biota show a stronger connection between Gulf of Aden and Southern Red Sea. After considering the qualitative data and the sparsity of studies in this region, we kept stick to the default option: leave ecoregion boundaries as they stand.
 
 ### Sri Lanka
 
-The West and South India Shelf is distinct from the Bay of Bengal in terms of climate (drier, lagoonal vs wetter, deltaic). But experience of some workshop participants suggest that within Sri Lanka there is a lot of variability with different mangrove areas displaying very different numbers of species because of the climate zones going from arid to wet. 
+The West and South India Shelf is distinct from the Bay of Bengal in terms of climate (drier, lagoonal vs wetter, deltaic). But experience of some workshop participants suggest that within Sri Lanka there is a lot of variability with different mangrove areas displaying very different numbers of species because of the climate zones going from arid to wet.
 
-We considered spliting Sri Lanka as a separate assessment unit. The strongest argument for spliting is due to the discontinuous distribution of mangroves along Western India ecoregion and closer geographical connection between Sri Lanka and South India and Eastern India but the preliminary analysis of the biota suggests closer association within the boundaries of marine provinces as they stand. 
+We considered spliting Sri Lanka as a separate assessment unit. The strongest argument for spliting is due to the discontinuous distribution of mangroves along Western India ecoregion and closer geographical connection between Sri Lanka and South India and Eastern India but the preliminary analysis of the biota suggests closer association within the boundaries of marine provinces as they stand.
 
-We suggest to ask the opinion of regional experts within the Mangrove Specialist Group, but will keep the province boundaries as they stand for now. 
-
+We suggest to ask the opinion of regional experts within the Mangrove Specialist Group, but will keep the province boundaries as they stand for now.

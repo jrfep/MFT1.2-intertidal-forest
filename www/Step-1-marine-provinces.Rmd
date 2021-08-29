@@ -2,7 +2,7 @@
 title: |
   ![](assets/logo.png){width=1in}
   MFT1.2 Intertidal Forest and Shrublands
-subtitle: "Occurrence in Marine Provinces"
+subtitle: "Delimitation of Level 4 units"
 author: "JR Ferrer-Paris"
 date: "19/08/2021"
 output: html_document
@@ -53,7 +53,7 @@ occ <- factor(c("major","minor"))
 DPcolors <- c(rgb(193,15,2,255,max=255), rgb(247,157,150,255,max=255))
 
 ## prov.mgv.spp
-provs <- prov_summary  %>% group_by(PROVINCE,PROV_CODE) %>% 
+provs <- prov_summary  %>% group_by(PROVINCE,PROV_CODE) %>%
   st_wrap_dateline() %>% summarise %>% mutate(comment=case_when(
   PROV_CODE %in% c(39,37,38,40) ~ "Included (Non native)",
   PROV_CODE %in% c(45,3,22,4,5,8,36,50,62) ~ "Excluded",
@@ -70,7 +70,7 @@ selectInput(inputId="filter1", label="Provinces to show", opts)
 output$map <- renderLeaflet({
   leaflet() %>% setView(lng = 30, lat = 0, zoom = 2) %>%
   addProviderTiles(providers$Esri.NatGeoWorldMap,group='Base map') %>%
-  addTiles(urlTemplate=my_url,attribution=my_attribution,group='Indicative distribution map') %>%  
+  addTiles(urlTemplate=my_url,attribution=my_attribution,group='Indicative distribution map') %>%
     #addPolygons(data=provs, color = 'yellow',  weight = 2, fillOpacity = 0.15,
      #          highlightOptions = highlightOptions(weight = 2, color = 'black'),
       #         label=pr_labels, group='Marine provinces') %>%
@@ -82,7 +82,7 @@ output$map <- renderLeaflet({
         ) %>%
   addLegend(colors = DPcolors, labels = c("major","minor"), opacity = 1.0,
             title = "Occurrence", position = "topright",group='Indicative distribution map')
-  
+
 })
 
   # Reactive expression for the data subsetted to what the user selected
@@ -97,15 +97,15 @@ output$map <- renderLeaflet({
       }
     }
   })
-  
+
 # use observe to update map with input$
 observe({
   pr_labels <- filteredData() %>% transmute(qry=sprintf("%s: %s",PROVINCE,comment)) %>% pull(qry)  %>% lapply(htmltools::HTML) %>% unlist
 
-  leafletProxy("map") %>% clearShapes()  %>%  
+  leafletProxy("map") %>% clearShapes()  %>%
     addPolygons(data =filteredData(), color = 'yellow',  weight = 2, fillOpacity = 0.15,
                highlightOptions = highlightOptions(weight = 2, color = 'black'),
-               label=pr_labels, 
+               label=pr_labels,
                group='Marine provinces')
 })
 
@@ -141,10 +141,10 @@ The Lusitanian province included ca. 10 km^2  of mangrove ecosystems according t
 We marked four provinces as non-native occurrences when the occurrences are well known and generally accepted to be introduced by humnas (World Mangrove Atlas Ch 10):
 
 - _Rhizophora stylosa_ is considered introduced in French Polynesia (Meyer et al. 2021)
-- _Bruguiera gymnorhiza_ may have been introduced in the Marshall islands (Spenneman, 1998) and perhaps even Nypa into eastern Micronesia (Duke, 2008). 
+- _Bruguiera gymnorhiza_ may have been introduced in the Marshall islands (Spenneman, 1998) and perhaps even Nypa into eastern Micronesia (Duke, 2008).
 - More recently introductions have brought mangroves to most of the main islands of Hawaii (Smith, 1996).
 
-These populations should not be assesed using IUCN RLE protocol and should not be considered of  conservation concern. 
+These populations should not be assesed using IUCN RLE protocol and should not be considered of  conservation concern.
 
 ## Provinces included with or without modifications
 

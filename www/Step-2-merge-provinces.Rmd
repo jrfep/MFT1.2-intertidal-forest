@@ -2,7 +2,7 @@
 title: |
   ![](assets/logo.png){width=1in}
   MFT1.2 Intertidal Forest and Shrublands
-subtitle: "Occurrence in Marine Provinces"
+subtitle: "Delimitation of Level 4 units"
 author: "JR Ferrer-Paris"
 date: "19/08/2021"
 output: html_document
@@ -22,130 +22,183 @@ load("Rdata/prov-data.rda")
 load("Rdata/mgv-species-occurrence.rda")
 load('Rdata/species-occurrence.rda')
 
+mb.style <- "jrfep/ckspr4rl70jch17pg3rnix3fz"
+mb.token <- "pk.eyJ1IjoianJmZXAiLCJhIjoiY2s5N3RxZWhwMTl5NjNnbjFmdzhubTFjdiJ9.KFBzgxBPjKnERRfR9awR_g"
+my_url <- sprintf("https://api.mapbox.com/styles/v1/%s/tiles/{z}/{x}/{y}?access_token=%s",mb.style,mb.token)
+my_attribution <- "© <a href='https://www.mapbox.com/map-feedback/'>Mapbox</a> CC-BY-4.0 <a href='https://global-ecosystems.org/explore/groups/MFT1.2'>IUCN Global Ecosystem Typology</a>"
+
 
 ```
 [Back to Mangrove project folder](/Mangroves/) / [Data Sources](/MangrovesData/) / [Interactive map](/MangrovesMap/)
 
 # Step 2: Merging provinces
 
-We evaluated nine cases were adjacent provinces could be merged. We decided to always keep temperate provinces separated from tropical provinces (six cases). For South Kuroshio province and the Galapagos provinces the evidence suggest to keep them separated. However, we decided to merge the provinces of Northern and Southern New Zealand into one because they share a similar biota, have similar environmental condition, have a continuous distribution and appear to be connected by ocean current.
+We evaluated nine cases were adjacent provinces could be merged. We decided to always keep temperate provinces separated from tropical provinces (five cases). For the West African Transition, South Kuroshio and the Galapagos provinces the evidence suggest to keep them separated. However, we decided to merge the provinces of Northern and Southern New Zealand into one because they share a similar biota, have similar environmental condition, have a continuous distribution and appear to be connected by ocean current.
 
-## Provinces at the boundaries between temperate versus tropical 
-
-In almost every edge of range location, mangroves extend into the adjacent temperate realm. The consensus among workshop participants was to keep them as distinct units.
-
-| Tropical province | Temerate unit | Decision | Comment |
+| Larger province  | Province to merge | Decision | Comment |
 |---|---|---|---|
-|Trop E Pacific| Warm Temp NE Pacific | Keep | |
+|Trop E Pacific| Warm Temp NE Pacific | Keep | REALM boundary |
 |Trop NW Atlantic | Warm Temp NW Atlantic | Keep |  REALM boundary, very distinctive |
 |Trop SW Atlantic | Warm Temp SW ATlantic | Keep | REALM boundary, S limit of _A. germinans_ |
-|Gulf of Guinea | (W Africa Transition) | Keep | Both tropical, but distinct |
-|W Indian Ocean|Agulhas| Keep | Also discussed in step 4|
 |South China Sea|Warm Temp NW Pacific|Keep|REALM boundary|
+|W Indian Ocean|Agulhas| Keep | Also discussed in step 4|
+|Gulf of Guinea | W Africa Transition | Keep | Transition Tropical/Temperate, see below |
+|(several)|South Kuroshio|Keep|Transition Tropical/Temperate, see below |
+|Trop E Pacific|Galapagos|Keep|Tropical, isolated, see below|
+|S New Zealand|N New Zealand|Merge|Both temperate, see below|
 
-For the West African Transition Province it was also noted that its northern boundary represents the northern limit of one mangrove tree species. Small unmapped occurrences extend to Mauritania. There are no mangroves in the Cape Verde Ecoregion, so keep only the Shalian Upwelling ecoregion.
- 
-## Other cases of potential merges 
+## Visualization of ecological and environmental data
 
-Three further cases of potential merges are discussed below. We argue the reasons for merging or not merging provinces based on qualitative assessment of:
+In almost every edge of range location, mangroves extend into the adjacent temperate realm. The consensus among workshop participants was to keep all provinces at the boundaries between temperate versus tropical as distinct units.
 
-- shared biota based on data from the Red List of Threatened Species and the Global Biodiversity Information Facility (See details in [mangrove-species.Rmd](mangrove-species.Rmd)). 
+For the other four cases of potential merges we argue the reasons for merging or not merging provinces based on qualitative assessment of:
+
+- shared biota based on data from the Red List of Threatened Species and the Global Biodiversity Information Facility (See details in [mangrove-species.Rmd](mangrove-species.Rmd)).
 - continuity/discontinuity of homogenous units based on the mapped distribution of mangrove ecosystem
 - environmental conditions and connectivity based on visualization of sea surface temperature  and currents (Visualiztion from
 [earth.nullschool.net](https://earth.nullschool.net/about.html)).
 
- 
-### Kuroshio
+The data is displayed below, use the drop down menu to select one of the four regions and the tabs to view the plots or maps.
 
-The mangrove in the province of South Kuroshio are actually tropical outliers: it shares key mangrove species with ecoregions from the Western Coral Triangle, but the pool of associated biota is more similar to adjacent temperate provinces (Warm Temperate Northwest pacific or South China Sea). 
+```{r}
 
-```{r,warning=FALSE, fig.height=6, fig.width=10}
-prov.mgv.spp %>%  filter(PROV_CODE %in% c(9,30,28,25)) -> SK
-SK %>% st_drop_geometry %>% select(Dolichandrone.spathacea:Ceriops.australis) -> mtz
-m.SK1 <- mtz[,colSums(mtz)>0]
-rownames(m.SK1) <- SK %>% st_drop_geometry %>% pull(ECOREGION)
+#NZ %>% st_transform("EPSG:2193") -> NZ.xy
+#NZ2 <- st_wrap_dateline(NZ, options = c("WRAPDATELINE=YES", "DATELINEOFFSET=100"))
+#st_geometry(NZ2) = (st_geometry(NZ) + c(360,90)) %% c(360) - c(0,90)
 
-mtz <- mtzXprov[mprov.xy$ECO_CODE %in% SK$ECO_CODE,]
-m.SK2 <- mtz[,colSums(mtz)>0]
-rownames(m.SK2) <- mprov.xy %>% filter(ECO_CODE %in% SK$ECO_CODE) %>% pull(ECOREGION)
+#NZ2 %>% st_drop_geometry %>% select(Dolichandrone.spathacea:Ceriops.australis) -> mtz
+#m1 <- mtz[,colSums(mtz)>0]
+#rownames(m1) <- NZ2 %>% st_drop_geometry %>% transmute(ecoregion=paste(PROVINCE," / ",ECOREGION)) %>% pull
+#m1
 
+#GP <- prov.mgv.spp %>%  filter(PROV_CODE %in% c(43,44,45))
+#prov.mgv.spp %>%  filter(PROV_CODE %in% c(9,30,28,25)) -> SK
 
-d1 <- vegdist(m.SK1,'kulczynski',binary=T)
-d2 <- vegdist(m.SK2,'kulczynski',binary=T)
-h.SK1 <- as.dendrogram(hclust(d1,method='ward.D2'))
-h.SK2 <- as.dendrogram(hclust(d2,method='ward.D2'))
+slcMap <- reactive({
+  provslc <-
+    switch(input$region,
+        "West African Transition"={c("West African Transition","Gulf of Guinea","Lusitania")},
+         "South Kuroshio"={c("Western Coral Triangle","Warm Temperate Northwest Pacific","South China Sea","South Kuroshio")},
+         "New Zealand"={c("Northern New Zealand","Southern New Zealand","Subantarctic New Zealand")},
+         "Galapagos"={c("Tropical East Pacific","Galapagos","Warm Temperate Southeast Pacific")})
+  x <- prov.mgv.spp %>%  filter(PROVINCE %in% provslc)
+  w <- st_wrap_dateline(x, options = c("WRAPDATELINE=YES", "DATELINEOFFSET=10"))
+  if (input$region %in% "New Zealand")
+    st_geometry(w) = (st_geometry(x) + c(360,90)) %% c(360) - c(0,90)
 
-clusMember = SK %>% pull(PROVINCE)
-
-labelColors <- RColorBrewer::brewer.pal(4,"Dark2")
-#c("#CDB380", "#036564", "#EB6841", "#EDC951")
-names(labelColors) <- unique(clusMember)
-
-# function to get color labels
-colLab <- function(n) {
-  if (is.leaf(n)) {
-    a <- attributes(n)
-    labCol <<- labelColors[clusMember[match(a$label,SK$ECOREGION)]]
-    attr(n, "nodePar") <- c(a$nodePar, lab.col = unname(labCol))
-  }
-  n
-}
-
-# using dendrapply
-cD.SK1 = dendrapply(h.SK1, colLab)
-cD.SK2 = dendrapply(h.SK2, colLab)
-
-# make plot
-selectInput(inputId="slcspp", label="Group of species", c("Key mangrove species","Other associated species")) 
-
-renderPlot({
-        if(is.null(input$slcspp)){
-          
-        } else {
-          par(mar=c(4,0,3,10),xpd=NA)
-          if(input$slcspp %in% "Key mangrove species"){
-            plot(cD.SK1,horiz=T,
-                 xlab='Biotic dissimilarity (Kulczynski index)',
-                 main=sprintf('Based on %s key mangrove spp',ncol(m.SK1)))
-
-          } else{
-                plot(cD.SK2,horiz=T,
-                     xlab='Biotic dissimilarity (Kulczynski index)',
-                     main=sprintf('Based on %s spp associated with mangroves',ncol(m.SK2)))
-          }
-          legend("bottomleft",fill=labelColors,legend=names(labelColors))
-
-    }
+  provclrs <- RColorBrewer::brewer.pal(length(provslc),"Dark2")
+  names(provclrs) <- provslc
+  w$clrs <- provclrs[w$PROVINCE]
+  w
 })
 
-```
+slcKmgv <- reactive({
+  slcMap() %>% st_drop_geometry %>% select(Dolichandrone.spathacea:Ceriops.australis) -> mtz
+  m1 <- as.matrix(mtz[,colSums(mtz)>0])
+  rownames(m1) <- slcMap() %>% st_drop_geometry %>% pull(ECOREGION)
+  m1
+})
 
-Despite the biotic similarities there is no continuos distribution or geographical connection between  South Kuroshio and the Wester Coral Triangle:
+slcAmgv <- reactive({
+ mtz <- mtzXprov[mprov.xy$ECO_CODE %in% slcMap()$ECO_CODE,]
+ m2 <- as.matrix(mtz[,colSums(mtz)>0])
+ rownames(m2) <- mprov.xy %>% filter(ECO_CODE %in% slcMap()$ECO_CODE) %>% pull(ECOREGION)
+ m2
+})
 
-```{r, fig.height=6, fig.width=6}
+slcUrl <- reactive({
+
+  switch(input$region,
+         "West African Transition" ={
+           o <- "-12.86,12.66,1255"
+           l <- "-18.769,14.554"
+           },
+         "South Kuroshio"={
+            o <- "134.82,27.27,1126"
+            l <- "128.767,26.830"
+         },
+         "New Zealand"={
+            o <- "-186.34,-38.41,2825"
+            l <- "173.927,-37.663"
+         },
+         "Galapagos"={
+            o <- "272.91,-3.55,1486"
+             l <- "-87.556,-1.394"
+         })
+
+  sprintf("https://earth.nullschool.net/#current/ocean/surface/currents/overlay=sea_surface_temp/orthographic=%s/loc=%s",o,l)
+})
+
+output$plot <- renderPlot({
+  if (input$slcspp %in% "Key mangrove species") {
+    mtz <- slcKmgv()
+  } else {
+    mtz <- slcAmgv()
+  }
+  d1 <- vegdist(mtz,'kulczynski',binary=T)
+  h1 <- as.dendrogram(hclust(d1,method='ward.D2'))
+
+  # function to get color labels
+  colLab <- function(n) {
+    if (is.leaf(n)) {
+    a <- attributes(n)
+    labCol <- slcMap()$clrs[match(a$label,slcMap()$ECOREGION)]
+    attr(n, "nodePar") <- c(a$nodePar, lab.col = unname(labCol))
+    }
+    n
+  }
+  # using dendrapply
+  y <- dendrapply(h1, colLab)
+  provclrs <- unique(slcMap()$clrs)
+  provslc <- unique(slcMap()$PROVINCE)
+
+ par(mar=c(4,0,3,8),xpd=NA)
+  plot(y,horiz=T,
+       xlab='Biotic dissimilarity (Kulczynski index)',
+       main=sprintf('Based on %s key mangrove spp',ncol(mtz)))
+  legend("topleft",fill=provclrs,legend=provslc)
+  })
 
 
-mb.style <- "jrfep/ckspr4rl70jch17pg3rnix3fz"
-mb.token <- "pk.eyJ1IjoianJmZXAiLCJhIjoiY2s5N3RxZWhwMTl5NjNnbjFmdzhubTFjdiJ9.KFBzgxBPjKnERRfR9awR_g"
+output$map <- renderLeaflet({
+   provclrs <- unique(slcMap()$clrs)
+  provslc <- unique(slcMap()$PROVINCE)
 
-my_url <- sprintf("https://api.mapbox.com/styles/v1/%s/tiles/{z}/{x}/{y}?access_token=%s",mb.style,mb.token)
+  pr_labels <- sprintf("<strong>PROVINCE: %s</strong> <br/> <strong>ECOREGION: %s</strong> <br/>Key Mangrove spp: %s<br/> Other associated spp: %s <br/>",
+                        slcMap()$PROVINCE,  slcMap()$ECOREGION, rowSums(slcKmgv()>0), rowSums(slcAmgv()>0)) %>% lapply(htmltools::HTML)
 
-my_attribution <- "© <a href='https://www.mapbox.com/map-feedback/'>Mapbox</a> CC-BY-4.0 <a href='https://global-ecosystems.org/explore/groups/MFT1.2'>IUCN Global Ecosystem Typology</a>"
-
-pr_labels <- sprintf("<strong>PROVINCE: %s</strong> <br/> <strong>ECOREGION: %s</strong> <br/>Key mangrove species: %s <br/>Other spp associated with mangrove  %s<br/>",
-                        SK$PROVINCE,  SK$ECOREGION,rowSums(m.SK1>0),rowSums(m.SK2>0)) %>%
-      lapply(htmltools::HTML)
-
-bin_pal = colorFactor(labelColors, rev(names(labelColors)) )
-
-SK$clrs <- labelColors[clusMember]
-leaflet() %>%
+ leaflet() %>%
   addTiles(urlTemplate=my_url,attribution=my_attribution) %>%
-  addPolygons(data = SK , color = ~clrs, weight = 2, fillOpacity = 0.15, group='Outline',label=pr_labels) %>% 
-  addLegend(colors = labelColors, labels = names(labelColors), opacity = 1.0,
+  addPolygons(data = slcMap() , color = ~clrs, weight = 2, fillOpacity = 0.15, group='Outline',label=pr_labels) %>%
+  addLegend(colors = provclrs, labels = provslc, opacity = 1.0,
             title = "Provinces", position = "bottomleft")
+})
+
+output$frame <- renderUI({
+  iFrame <- tags$iframe(src=slcUrl(),height=405,width=720)
+  iFrame
+})
+
+selectInput(inputId="region", label="Show data for", c("West African Transition","Galapagos","South Kuroshio","New Zealand"))
+
+tabsetPanel(
+  tabPanel("Shared biota",
+       selectInput(inputId="slcspp", label="Group of species", c("Key mangrove species","Other associated species")) ,
+            plotOutput("plot")),
+  tabPanel("Indicative distribution map", leafletOutput("map")),
+  tabPanel("Sea Surface Temperature and Currents", htmlOutput("frame"))
+)
 
 ```
+
+### West African Transition Province
+The northern boundary of the West African Transition Province represents the northern limit of one mangrove tree species. Small unmapped occurrences of mangrove ecosystem extend to Mauritania. The biota in this ecoregion appears quite distinct from the neighboring ecoregions, and it is located in a marked climatic gradient. There are no mangroves in the Cape Verde Ecoregion, so keep only the Sahelian Upwelling ecoregion.
+
+### Kuroshio
+
+The mangroves in the province of South Kuroshio are actually tropical outliers: they shares key mangrove species with ecoregions from the Western Coral Triangle, but the pool of associated biota is more similar to adjacent temperate provinces (Warm Temperate Northwest pacific or South China Sea).
+
+Despite the biotic similarities there is no continuos distribution or geographical connection between  South Kuroshio and the Wester Coral Triangle.
 
 For these reasons we decided to keep South Kuroshio as a separate assessment unit.
 
@@ -153,151 +206,16 @@ For these reasons we decided to keep South Kuroshio as a separate assessment uni
 
 Comments from workshop participants suggested to keep this separate as they are very distinctive from mainland coast. Biotic composition of key mangrove species and associated species is less diverse than coastal ecoregions and more similar to island ecoregions in the Tropical East Pacific province.
 
-```{r,warning=FALSE, fig.height=6, fig.width=10}
-GP <- prov.mgv.spp %>%  filter(PROV_CODE %in% c(43,44,45)) 
+Since the mangroves of the Galapagos are not directly connected to any of the other ecoregions, we retain the Galapagos province as a separate assessment unit.
 
-cD.create <- 
-  function(x,spp="Key mangrove species") {
-  if (spp %in% "Key mangrove species") {
-    x %>% st_drop_geometry %>% select(Dolichandrone.spathacea:Ceriops.australis) -> mtz
-    m1 <- mtz[,colSums(mtz)>0]
-    rownames(m1) <- x %>% st_drop_geometry %>% pull(ECOREGION)
-  } else {
-    mtz <- mtzXprov[mprov.xy$ECO_CODE %in% x$ECO_CODE,]
-    m1 <- mtz[,colSums(mtz)>0]
-    rownames(m1) <- mprov.xy %>% filter(ECO_CODE %in% x$ECO_CODE) %>% pull(ECOREGION)
-  }
-  d1 <- vegdist(m1,'kulczynski',binary=T)
-  h1 <- as.dendrogram(hclust(d1,method='ward.D2'))
-  clusMember = x %>% pull(PROVINCE)
-
-  labelColors <- RColorBrewer::brewer.pal(length(unique(clusMember)),"Dark2")
-  names(labelColors) <- unique(clusMember)
-
-  # function to get color labels
-  colLab <- function(n) {
-    if (is.leaf(n)) {
-    a <- attributes(n)
-    labCol <<- labelColors[clusMember[match(a$label,x$ECOREGION)]]
-    attr(n, "nodePar") <- c(a$nodePar, lab.col = unname(labCol))
-    }
-    n
-  }
-  # using dendrapply
-  y <- list(cD = dendrapply(h1, colLab),
-            mtz=m1,
-            n=ncol(m1),
-            clrs=labelColors[clusMember],
-            labs=labelColors)
-  return(y)
-}
-
-y1 <- cD.create(x=GP,"Key mangrove species")
-y2 <- cD.create(x=GP,"Other associated species")
-# make plot
-selectInput(inputId="slcspp2", label="Group of species", c("Key mangrove species","Other associated species")) 
-
-renderPlot({
-  
-  if (input$slcspp2 %in% "Key mangrove species") {
-    y <- y1
-  }  else {
-    y <- y2
-  }
-  par(mar=c(4,0,3,10),xpd=NA)
-  plot(y$cD,horiz=T,
-       xlab='Biotic dissimilarity (Kulczynski index)',
-       main=sprintf('Based on %s key mangrove spp',y$n))
-  legend("bottomleft",fill=y$labs,legend=names(y$labs))
-    
-})
-
-```
-
-Since the mangroves of the Galapagos are not connected to any of the other ecoregions, we retain the Galapagos province. 
-
-```{r, fig.height=6, fig.width=6}
-
-pr_labels <- sprintf("<strong>PROVINCE: %s</strong> <br/> <strong>ECOREGION: %s</strong> <br/>Key mangrove species: %s <br/>Other spp associated with mangrove  %s<br/>",
-                        GP$PROVINCE,  GP$ECOREGION,rowSums(y1$mtz>0),rowSums(y2$mtz>0)) %>%
-      lapply(htmltools::HTML)
-
-
-GP$clrs <- y1$clrs
-leaflet() %>%
-  addTiles(urlTemplate=my_url,attribution=my_attribution) %>%
-  addPolygons(data = GP , color = ~clrs, weight = 2, fillOpacity = 0.15, group='Outline',label=pr_labels) %>% 
-  addLegend(colors = y1$labs, labels = names(y1$labs), opacity = 1.0,
-            title = "Provinces", position = "bottomleft")
-
-```
-
-### North and South New Zealand Provinces
+#### North and South New Zealand Provinces
 
 We decided to merge the *North and South New Zealand Provinces* into one after considering the following:
 
-1) Mangrove ecosystem occurrences in New Zealand appear to be well connected between the different ecoregional and provincial divisions, and they the same two key species:
+- Mangrove ecosystem occurrences in New Zealand appear to be well connected between the different ecoregional and provincial divisions, and they share the same two key species
+- They also have relatively similar associated biota
+- They also appear to have similar conditions of sea surface temperature (SST) and appear connected by ocean currents.
 
-```{r, fig.height=4, fig.width=4}
-
-prov.mgv.spp %>%  filter(grepl("New Zealand",PROVINCE)) -> NZ
-
-NZ %>% st_transform("EPSG:2193") -> NZ.xy
-
-NZ2 <- st_wrap_dateline(NZ, options = c("WRAPDATELINE=YES", "DATELINEOFFSET=100"))
-st_geometry(NZ2) = (st_geometry(NZ) + c(360,90)) %% c(360) - c(0,90)
-
-NZ2 %>% st_drop_geometry %>% select(Dolichandrone.spathacea:Ceriops.australis) -> mtz
-m1 <- mtz[,colSums(mtz)>0]
-#rownames(m1) <- NZ2 %>% st_drop_geometry %>% transmute(ecoregion=paste(PROVINCE," / ",ECOREGION)) %>% pull
-#m1
-
-
-mb.style <- "jrfep/ckspr4rl70jch17pg3rnix3fz"
-mb.token <- "pk.eyJ1IjoianJmZXAiLCJhIjoiY2s5N3RxZWhwMTl5NjNnbjFmdzhubTFjdiJ9.KFBzgxBPjKnERRfR9awR_g"
-
-my_url <- sprintf("https://api.mapbox.com/styles/v1/%s/tiles/{z}/{x}/{y}?access_token=%s",mb.style,mb.token)
-
-my_attribution <- "© <a href='https://www.mapbox.com/map-feedback/'>Mapbox</a> CC-BY-4.0 <a href='https://global-ecosystems.org/explore/groups/MFT1.2'>IUCN Global Ecosystem Typology</a>"
-
-pr_labels <- sprintf("<strong>PROVINCE: %s</strong> <br/> <strong>ECOREGION: %s</strong> <br/>Presence of <i>%s</i> %s<br/>Presence of <i>%s</i> %s<br/>",
-                        NZ$PROVINCE,  NZ$ECOREGION,colnames(m1)[1],m1[,1],colnames(m1)[2],m1[,2]) %>%
-      lapply(htmltools::HTML)
-
-leaflet() %>%
-  addTiles(urlTemplate=my_url,attribution=my_attribution) %>%
-  addPolygons(data = NZ2 %>% filter(Avicennia.marina), color = 'yellow', weight = 2, fillOpacity = 0.15, group='Outline',label=pr_labels[NZ2$Avicennia.marina])
-
-```
-
-2) They also have relatively similar associated biota
-
-```{r,warning=FALSE, fig.height=4, fig.width=6}
-mtz <- mtzXprov[grepl('New Zealand',mprov.xy$PROVINCE ),]
-m2 <- mtz[,colSums(mtz)>0]
-rownames(m2) <- NZ2 %>% st_drop_geometry %>% pull(ECOREGION)
-d1 <- vegdist(m2,'kulczynski',binary=T)
-h1 <- hclust(d1,method='ward.D2')
-par(mar=c(4,0,3,10),xpd=NA)
-plot(as.dendrogram(h1),horiz=T,xlim=c(1,0),
-     xlab='Biotic dissimilarity (Kulczynski index)',
-     main=sprintf('%s spp associated with mangroves',ncol(m2)))
-```
-
-3) They also appear to have similar conditions of sea surface temperature (SST) and appear connected by ocean currents.
-
-```{r}
-url <- "https://earth.nullschool.net/#current/ocean/surface/currents/overlay=sea_surface_temp/orthographic=-186.34,-38.41,2825/loc=173.927,-37.663
-"
-output$frame <- renderUI({
-  test_frame <- tags$iframe(src=url,height=405,width=720)
-  print(test_frame)
-  test_frame
-})
-htmlOutput("frame")
-```
-
- 
 ## Next steps
 
 |  | |  |
@@ -306,4 +224,3 @@ htmlOutput("frame")
 |Step 2| Merge neighboring provinces | This document |
 |Step 3| Split provinces | [LINK](Step-3-split-provinces.Rmd) |
 |Step 4| Boundary shifts between provinces | [LINK](Step-4-shift-borders.Rmd) |
-
