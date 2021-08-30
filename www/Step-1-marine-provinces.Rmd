@@ -3,8 +3,8 @@ title: |
   ![](assets/logo.png){width=1in}
   MFT1.2 Intertidal Forest and Shrublands
 subtitle: "Delimitation of Level 4 units"
-author: "JR Ferrer-Paris"
-date: "19/08/2021"
+author: "JR Ferrer-Paris / with input from Workshop participants"
+date: "30/08/2021"
 output: html_document
 runtime: shiny
 ---
@@ -146,6 +146,8 @@ We marked four provinces as non-native occurrences when the occurrences are well
 
 These populations should not be assesed using IUCN RLE protocol and should not be considered of  conservation concern.
 
+There are also other regions where some mangrove species have been introduced and have become invasive. Some examples were mentioned during the workshop: Nypa in W-Africa, and other species in China (South China Sea?).
+
 ## Provinces included with or without modifications
 
 We will cover the changes in the following steps:
@@ -162,3 +164,7 @@ We will cover the changes in the following steps:
 ### References
 
 Meyer, JY., Taureau, F., Bisarah, L. et al. Introduced mangroves in the Society Islands, French Polynesia (South Pacific): invasive species or novel ecosystem?. Biol Invasions 23, 2527–2539 (2021). https://doi.org/10.1007/s10530-021-02520-9
+
+
+---
+[Data Sources](/MangrovesData/) / [Interactive map](/MangrovesMap/) / [Local RLE assessments of Mangroves](rle-assessments.Rmd)

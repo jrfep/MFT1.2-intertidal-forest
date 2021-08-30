@@ -2,37 +2,127 @@
 title: |
   ![](assets/logo.png){width=1in}
   MFT1.2 Intertidal Forest and Shrublands
-subtitle: "Occurrence in Marine Provinces"
-author: "JR Ferrer-Paris"
+subtitle: "Delimitation of Level 4 units"
 date: "19/08/2021"
 output: html_document
 runtime: shiny
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE)
 require(dplyr)
+require(vegan)
+require(leaflet)
 require(units)
 library(DT)
 require(sf)
 options(dplyr.summarise.inform = FALSE)
+load("Rdata/prov-data.rda")
+load("Rdata/mgv-species-occurrence.rda")
+
+load("Rdata/australian-mangroves.rda")
+
+mb.style <- "jrfep/ckspr4rl70jch17pg3rnix3fz"
+mb.token <- "pk.eyJ1IjoianJmZXAiLCJhIjoiY2s5N3RxZWhwMTl5NjNnbjFmdzhubTFjdiJ9.KFBzgxBPjKnERRfR9awR_g"
+
+my_url <- sprintf("https://api.mapbox.com/styles/v1/%s/tiles/{z}/{x}/{y}?access_token=%s",mb.style,mb.token)
+
+my_attribution <- "© <a href='https://www.mapbox.com/map-feedback/'>Mapbox</a> CC-BY-4.0 <a href='https://global-ecosystems.org/explore/groups/MFT1.2'>IUCN Global Ecosystem Typology</a>"
 
 ```
 [Back to Mangrove project folder](/Mangroves/) / [Data Sources](/MangrovesData/) / [Interactive map](/MangrovesMap/)
 
-# Step 3: Split provinces
-
-Questions:
+# Step 4: Shift borders between provinces
 
 
-Australia: CL: there are mangroves in Bunbury, Western Australia
+We evaluated the boundaries of four provinces with close occurrences from an adjacent ecoregion. Workshop participant suggested to keep the boundaries of North Brazil and Agulhas as they stand. The boundaries of the West Central Australian Shelf and the Southwest Australian Shelf require adjustments to make sure that isolated Mangrove occurrences are assessed with their nearest neighbors.
 
-Australian shelves: CL: I think the mangroves to the east of of the Southwestern Australian Shelf  province should be included within that province - the shelf narrows - so that narrowing of the shelf probably separates those populations - but I might have to chase down the genetic data - FLindersia region vs. Maugea and Peronia regions  Sinclair, E.A., Anthony, J.M., Greer, D., Ruiz‐Montoya, L., Evans, S.M., Krauss, S.L. and Kendrick, G.A., 2016. Genetic signatures of Bassian glacial refugia and contemporary connectivity in a marine foundation species. Journal of Biogeography, 43(11), pp.2209-2222.
+| Province | Adjacent unit | Decision | comments |
+|---|---|---|---|
+|North Brazil|northern boundary|Keep|N coast of Trinidad distinct from continental shelf|
+|North Brazil|southern boundary|Keep|Edge of extensive deltaic/mangrove coast|
+|Agulhas| |Keep|Coastal vegetation changes at Cape Vidal|
+|West Central Australian Shelf|Bunbury (Unmapped)|Modified|See below|
+|Southwest Australian Shelf|Coroong Lagoon|Modified|See below |
+
+### West Central Australian Shelf
+
+There are unmapped mangrove ecosystems in [Bunbury, Western Australia](https://www.fish.wa.gov.au/Documents/recreational_fishing/fact_sheets/fact_sheet_mangroves.pdf). This may be a distinctive relict that should be treated as a separate unit from SW Aust shelf. It is closer to the Mangroves in the West Central Australian shelf.
+
+So we combined the polygon of the Leeuwin ecoregion with the West Central Australian Shelf province to create a single assessment unit.
+
+### SW Australian Shelf /SE Australian Shelf
+
+There is one occurrence of mangrove ecosystems in the Coroong Lagoons. This is close to the border between the  Southwest and Southeast Australian Shelf provinces, but is closer to the group of Mangrove occurrences near Adelaide that to the ones in the Bassian ecoregion (near Melbourne in Victoria).
+
+The border between the states of Victoria and South Australia coincides with a narrowing shelf that probably separated these populations (Sinclair et al. 2016).
+
+So we defined an assessment unit for South Australia that includes the following three ecoregions: Great Australian Bight, South Australian Gulfs and Western Bassian.
 
 
-Southwest Aust shelf – Extent the boundary slightly eastwards to include all South Australian patches, which are disjunct from those in Victoria.
-SW Australia – Bunbury patch (unmapped) may be distinctive relict that should be treated as a separate unit from SW Aust shelf
 
-North Brazil shelf (southern boundary): Yes - this is the edge of the extensive deltaic/mangrove coast (northern boundary): This is probably fine - the N coast of Trinidad is distinct from the continental shelf margins of the rest of the island, with much more in common with the Caribbean Islands
 
-Agulhas: I think this is correct - it is drawn at Cape Vidal and changes in coastal vegetation were part of definition of this boundary
+```{r}
+provslc <- c("Southwest Australian Shelf","West Central Australian Shelf","Northwest Australian Shelf","Southeast Australian Shelf")
+BM <- prov.mgv.spp %>%  filter(PROVINCE %in% provslc)
+provclrs <- RColorBrewer::brewer.pal(length(provslc),"Dark2")
+names(provclrs) <- provslc
+BM$clrs <- provclrs[BM$PROVINCE]
+
+o <- "-222.55,-33.91,1168"
+l <- "140.196,-38.920"
+slcUrl <-
+  sprintf("https://earth.nullschool.net/#current/ocean/surface/currents/overlay=sea_surface_temp/orthographic=%s/loc=%s",o,l)
+
+output$map <- renderLeaflet({
+   provclrs <- unique(BM$clrs)
+  provslc <- unique(BM$PROVINCE)
+
+  pr_labels <- sprintf("<strong>PROVINCE: %s</strong> <br/> <strong>ECOREGION: %s</strong> <br/>",
+                        BM$PROVINCE,  BM$ECOREGION) %>% lapply(htmltools::HTML)
+  pt_labels <- sprintf("%s (%s)<br/>%s %s : area=%0.2f km^2", aust_points$PROVINCE, aust_points$ECO_CODE,
+                    aust_points$Class,aust_points$Sedimentar,aust_points$area) %>% lapply(htmltools::HTML)
+
+ leaflet() %>%
+  addTiles(urlTemplate=my_url,attribution=my_attribution) %>% addCircleMarkers(data = aust_points,radius=~sqrt(area), color = 'green', fillColor = 'green',
+  opacity = .3,label=pt_labels,group="Mangrove occurrences") %>%
+  addPolygons(data = BM , color = ~clrs, weight = 2, fillOpacity = 0.15,label=pr_labels,group="Marine provinces") %>%
+  addLegend(colors = provclrs, labels = provslc, opacity = 1.0, title = "Provinces", position = "bottomleft",group="Marine provinces") %>%
+   addMarkers(lat=-33.33737850310803, lng=115.66492698947951,
+              label = htmltools::HTML('Bunbury<br/>unmapped mangroves'),
+              labelOptions = labelOptions(noHide = NULL,direction='right'),group="Markers") %>%
+   addMarkers(lat=-38.08713111314547, lng=140.96190488098532,
+              label = htmltools::HTML('Narrow shelf prob. separates populations'),
+              labelOptions = labelOptions(noHide = NULL,direction='right'),group="Markers") %>%
+  addLayersControl(
+      overlayGroups = c("Marine provinces", "Markers", "Mangrove occurrences" ),
+      options = layersControlOptions(collapsed = FALSE),
+      position = "topright"
+  )
+})
+
+output$frame <- renderUI({
+  iFrame <- tags$iframe(src=slcUrl,height=405,width=720)
+  iFrame
+})
+
+
+tabsetPanel(
+  tabPanel("Indicative distribution map", leafletOutput("map")),
+  tabPanel("Sea Surface Temperature and Currents", htmlOutput("frame"))
+)
+
+```
+
+|  | |  |
+|---|---|---|
+|Step 1| Intersection of mangrove with marine provinces | [BACK](Step-1-marine-provinces.Rmd)
+|Step 2| Merge neighboring provinces | [BACK](Step-2-merge-provinces.Rmd)
+|Step 3| Split provinces | [PREVIOUS](Step-3-split-provinces.Rmd)|
+|Step 4| Boundary shifts between provinces | This document|
+
+[Back to Mangrove project folder](/Mangroves/)
+
+#### References
+
+Sinclair, E.A., Anthony, J.M., Greer, D., Ruiz‐Montoya, L., Evans, S.M., Krauss, S.L. and Kendrick, G.A., 2016. Genetic signatures of Bassian glacial refugia and contemporary connectivity in a marine foundation species. Journal of Biogeography, 43(11), pp.2209-2222.

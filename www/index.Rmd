@@ -3,8 +3,8 @@ title: |
   ![](assets/logo.png){width=1in}
   MFT1.2 Intertidal Forest and Shrublands
 subtitle: "Level 4 maps"
-author: "JR Ferrer-Paris and David Keith"
-date: "17/08/2021"
+author: "JR Ferrer-Paris and David Keith  / with input from Workshop participants"
+date: "30/08/2021"
 output: html_document
 runtime: shiny
 ---

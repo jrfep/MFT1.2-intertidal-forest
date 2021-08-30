@@ -3,8 +3,8 @@ title: |
   ![](assets/logo.png){width=1in}
   MFT1.2 Intertidal Forest and Shrublands
 subtitle: "Delimitation of Level 4 units"
-author: "JR Ferrer-Paris"
-date: "19/08/2021"
+author: "JR Ferrer-Paris  / with input from Workshop participants"
+date: "30/08/2021"
 output: html_document
 runtime: shiny
 ---
