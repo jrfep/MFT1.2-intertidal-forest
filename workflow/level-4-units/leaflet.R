@@ -74,6 +74,8 @@ mgt_hull %>% slice(-25) -> mgt_plgns
 ## providers: Stadia.OSMBright Thunderforest.Pioneer Thunderforest.Neighbourhood CyclOSM Jawg.Terrain Jawg.Light Stamen.TonerLite Esri.OceanBasemap CartoDB.VoyagerLabelsUnder Esri.NatGeoWorldMap
 m <- leaflet(options = leafletOptions(worldCopyJump = TRUE,zoomControl = TRUE))  %>%  addProviderTiles(providers$Esri.OceanBasemap) %>%
   setView(lng = 0, lat = 0, zoom = 2)
+labels <- sprintf("%s %s (%s)", meow$ECO_CODE, meow$ECOREGION, meow$PROVINCE)
+m %>% addPolygons(data = meow, fillColor = "snow3", highlightOptions = highlightOptions(weight = 2, color = 'black'), color = 'grey', weight = 0.4, fillOpacity = 0.15,label=labels) 
 
 
 leaflet() %>% addTiles() %>% setView(-93.65, 42.0285, zoom = 7) %>%addWMSTiles(
@@ -103,6 +105,9 @@ labels = sprintf("<strong>Province</strong><br/>%s", mprovs$PROVINCE ) %>% lappl
 #m <- m %>% addCircleMarkers(data = mgt_points, fillColor = 'red', fillOpacity = 0.6, stroke = FALSE, radius = 4, clusterOptions = markerClusterOptions())
 
 m %>% addPolygons(data = mprovs, fillColor = "snow3", highlightOptions = highlightOptions(weight = 2, color = 'black'), color = 'grey', weight = 0.4, fillOpacity = 0.15,label=labels) %>% leaflet.extras::addHeatmap(data = mgt_points, blur = 20, max = 0.05, radius = 12)
+
+
+
 
 prov_table %>% filter(PROV_CODE==17)
 
@@ -137,3 +142,22 @@ save(file="~/tmp/mangrove-maps/mapdata.rda",prov_table,mgt_points,mprovs)
 
 m %>%
    addPopups(data=qs,popup=qs$question)
+
+mgt.meow.its %>%  filter(PROVINCE %in% c("West Central Australian Shelf","Southwest Australian Shelf","Southeast Australian Shelf")) -> slc
+slc %>% mutate(area=st_area(geometry) %>% set_units(km^2)) %>% st_centroid() -> aust_points
+m <- leaflet(options = leafletOptions(worldCopyJump = TRUE,zoomControl = TRUE))  %>%  addProviderTiles(providers$Esri.OceanBasemap) %>%
+   setView(lng = 140, lat = -30, zoom = 4)
+labels <- sprintf("%s (%s)<br/>%s %s : area=%0.2f km^2", aust_points$PROVINCE, aust_points$ECO_CODE,
+                  aust_points$Class,aust_points$Sedimentar,aust_points$area) %>% lapply(htmltools::HTML)
+#m %>% addPolygons(data = slc, fillColor = "snow3", highlightOptions = highlightOptions(weight = 2, color = 'black'), color = 'grey', weight = 0.4, fillOpacity = 0.15,label=labels) 
+m %>% addCircleMarkers(data = aust_points,radius=~sqrt(area), color = 'green', fillColor = 'green', 
+opacity = .3,label=labels) %>% 
+   addMarkers(lat=-33.33737850310803, lng=115.66492698947951,
+              label = htmltools::HTML('Bunbury<br/>unmapped mangroves'),
+              labelOptions = labelOptions(noHide = NULL,direction='right')) %>%
+   addMarkers(lat=-38.08713111314547, lng=140.96190488098532,
+              label = htmltools::HTML('Narrow shelf prob. separates populations'),
+              labelOptions = labelOptions(noHide = NULL,direction='right'))
+
+save(file=sprintf("%s/www/Rdata/australian-mangroves.rda",script.dir),aust_points)
+
