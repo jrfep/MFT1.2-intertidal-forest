@@ -176,7 +176,7 @@ For the Gulf of Aden we considered several options
 - excise Gulf of Aden from red Sea province and include with Gulf of Oman to north
 - create a new province of Central Somali Coast and Western Arabian Sea with outer Gulf of Aden
 
-This is a poorly understood region. Boundaries for these ecoregions were largely defined based on marine fish. Ocean currents (in the different seasons) can be a proxy on how genetically unique the monospecific populations may be. There have been studies on the connectivity of corals based on modelling (https://www.nature.com/articles/s41598-019-53126-0).
+This is a poorly understood region. Boundaries for these ecoregions were largely defined based on marine fish. Ocean currents (in the different seasons) can be a proxy on how genetically unique the monospecific populations may be. There have been studies on the connectivity of corals based on modelling (Raitsos et al. 2017; Wang et al. 2019).
 
 The three ecoregions of the Red Sea and Gulf of Aden province share the same species, and the associated mangrove biota show a stronger connection between Gulf of Aden and Southern Red Sea. After considering the qualitative data and the sparsity of studies in this region, we kept stick to the default option: leave ecoregion boundaries as they stand.
 
@@ -190,9 +190,13 @@ We suggest to ask the opinion of regional experts within the Mangrove Specialist
 
 ### References
 
-Kandasamy, Kathiresan & Rajendran, Nishanth. (2005). Mangrove ecosystems of the Indian Ocean region. Indian J Mar Sci. 34(1).
+Kathiresan, K. & Rajendran, N. (2005). Mangrove ecosystems of the Indian Ocean region. Indian J Mar Sci. 34(1).
+[PDF](https://www.researchgate.net/publication/254434289_Mangrove_ecosystems_of_the_Indian_Ocean_region)
 
+Kithsiri Ranawana. Mangroves of Sri Lanka [PDF](https://www.researchgate.net/publication/322924654_Mangroves_of_Sri_Lanka)
+Raitsos, D.E., Brewin, R.J.W., Zhan, P. et al. Sensing coral reef connectivity pathways from space. Sci Rep 7, 9338 (2017). https://doi.org/10.1038/s41598-017-08729-w
 
+Wang, Y., Raitsos, D.E., Krokos, G. et al. Physical connectivity simulations reveal dynamic linkages between coral reefs in the southern Red Sea and the Indian Ocean. Sci Rep 9, 16598 (2019). https://doi.org/10.1038/s41598-019-53126-0
 
 ---
 [Data Sources](/MangrovesData/) / [Interactive map](/MangrovesMap/) / [Local RLE assessments of Mangroves](rle-assessments.Rmd)

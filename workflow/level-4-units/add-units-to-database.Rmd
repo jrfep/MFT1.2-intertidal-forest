@@ -1,0 +1,199 @@
+
+```{r}
+#!/usr/bin/R --vanilla
+require(dplyr)
+require(magrittr)
+require(readr)
+require(sf)
+require(units)
+
+source(sprintf("%s/proyectos/IUCN-GET/MFT1.2-intertidal-forest/env/project-env.R",Sys.getenv("HOME")))
+setwd(work.dir)
+
+meow <- read_sf("mangrove-type-data-sources.vrt","meow")
+
+##(load(sprintf("%s/www/Rdata/mgv-species-occurrence.rda",script.dir)))
+(load(sprintf("%s/www/Rdata/species-occurrence.rda",script.dir)))
+
+meow %>% left_join({mprov.xy %>% st_drop_geometry %>% transmute(ECO_CODE, n_key_mgv_spp=n_mgv_sppp, n_add_mgv_spp=rowSums(mtzXprov>0))},by="ECO_CODE") -> meow_mgv_summary
+
+if (!exists("usgs.meow.its")) {
+  usgs.meow.its <- read_sf("intersection-usgs-meow-provs.gpkg")
+  usgs.meow.its %<>% mutate(area=st_area(geometry))
+}
+meow_mgv_summary %<>% left_join({usgs.meow.its %>% st_drop_geometry %>% group_by(ECO_CODE) %>% summarise(n_usgs_2000=n(),area_usgs_2000=sum(area) %>% set_units('km^2'))},by="ECO_CODE")
+
+if (!exists("gmw.meow.1996")) {
+  gmw.meow.1996 <- read_sf("intersection-gmw-meow-provs-1996.gpkg")
+  gmw.meow.1996 %<>% mutate(area=st_area(geometry))
+}
+meow_mgv_summary %<>% left_join({gmw.meow.1996 %>% st_drop_geometry %>% group_by(ECO_CODE) %>% summarise(n_gmw_1996=n(),area_gmw_1996=sum(area) %>% set_units('km^2'))},by="ECO_CODE")
+
+if (!exists("gmw.meow.2016")) {
+  gmw.meow.2016 <- read_sf("intersection-gmw-meow-provs-2016.gpkg")
+  gmw.meow.2016 %<>% mutate(area=st_area(geometry))
+}
+meow_mgv_summary %<>% left_join({gmw.meow.2016 %>% st_drop_geometry %>% group_by(ECO_CODE) %>% summarise(n_gmw_2016=n(),area_gmw_2016=sum(area) %>% set_units('km^2'))},by="ECO_CODE")
+
+
+```
+
+Summaries of number of species and area of mangrove formation (ecosystem) detected per marine ecoregion:
+
+```{r}
+meow_mgv_summary %<>% rowwise() %>%
+  mutate(min_area = min(c_across(starts_with("area"))),max_area = max(c_across(starts_with("area")))) %>% ungroup %>% st_sf(sf_column_name="geom")
+
+meow_mgv_summary %<>% mutate(native=if_else(is.na(n_key_mgv_spp) | PROV_CODE %in% c(37:40),FALSE,TRUE))
+meow_mgv_summary %<>% mutate(mgv_eco=case_when(
+  !is.na(area_gmw_2016)~'recently detected',
+  !is.na(area_usgs_2000)~'previously detected',
+  !is.na(area_gmw_1996)~'previously detected',
+  ECOREGION %in% c("Leeuwin","Lord Howe and Norfolk Islands") ~'known but unmapped',
+  ECO_CODE %in% c(20106)~'absent',
+  PROV_CODE %in% c(4,5,8,50,62)~'absent',
+  native~'unmapped',
+  TRUE~'absent'))
+
+meow_mgv_summary %>% st_drop_geometry%>% dplyr::select(mgv_eco,native) %>% table
+
+meow_mgv_summary %>% filter(!mgv_eco %in% 'absent') %>% summarise(total=n_distinct(PROV_CODE))
+meow_mgv_summary %>% filter(!mgv_eco %in% c('absent','unmapped')) %>% summarise(total=n_distinct(PROV_CODE))
+
+meow_mgv_summary %<>% mutate(step_1=case_when(
+  (mgv_eco %in% 'absent')~'absent',
+  (!native)~'included (non-native)',
+  (mgv_eco %in% 'unmapped')~ 'Consider exclusion',
+  (PROV_CODE %in% c(3))~ 'Consider exclusion',
+  PROV_CODE %in% c(6,9,11,47,53,54,16,28,44,45) ~ "Potential merge",
+  PROV_CODE %in% c(12,18,21) ~ "Potential split",
+  PROV_CODE %in% c(56,57,58,13,51) ~ "Potential modification",
+  TRUE ~ "Included"))
+
+meow_mgv_summary %>% filter(PROV_CODE %in% c(45)) %>% dplyr::select(n_key_mgv_spp,n_add_mgv_spp,min_area,max_area,native,mgv_eco)
+
+```
+|PROV CODE| PROVINCE | exclusion |
+|---|---|---|
+|45| Warm Temp SE Pacific| keep one ecoregion|
+|4| Mediterranean| exclude|
+|8| Cold Temp NW Pacific | exclude|
+|5| Cold Temp NW Atlantic| exclude|
+|62| Benguela| exclude|
+|22| C Indian Ocean Islands | exclude eco code 20106|
+|36| Lord Howe and Norfolk Islands |Include!|
+
+Department of Environment and Climate Change (NSW) 2007, Lord Howe Island Biodiversity Management Plan
+Appendices, Department of Environment and Climate Change (NSW), Sydney. [PDF](https://environment.gov.au/system/files/resources/e30dcdd3-e6d5-43e2-bc33-7fdb6dd9061e/files/lord-howe-island-appendices.pdf)
+
+
+Preview maps with leaflet
+
+```{r}
+require(leaflet)
+m <- leaflet(options = leafletOptions(worldCopyJump = TRUE,zoomControl = TRUE))  %>%  addProviderTiles(providers$Esri.OceanBasemap) %>%
+  setView(lng = 0, lat = 0, zoom = 2)
+
+pre_units <- meow_mgv_summary  %>% filter(!step_1 %in% 'absent') %>% group_by(PROV_CODE,PROVINCE,step_1) %>% summarise
+
+clrs <- colorFactor("Dark2",domain=pre_units$step_1)
+
+labels <- sprintf("%s<br/>%s<br/>%s", pre_units$PROV_CODE, pre_units$PROVINCE, pre_units$step_1) %>% lapply(htmltools::HTML)
+
+m %>% addPolygons(data = pre_units, fillColor = ~clrs(step_1), highlightOptions = highlightOptions(weight = 2, color = 'black'), color = 'grey', weight = 0.4, fillOpacity = 0.45,label=labels)
+
+
+```
+
+All other steps
+
+```{r}
+
+meow_mgv_summary %<>% mutate(step_2=case_when(
+  PROV_CODE %in% c(45,53,54) ~ "Merge",
+  PROV_CODE %in% c(11,6,47,9,28,16,51) ~ "Do not merge",
+  TRUE ~ as.character(NA)))
+
+meow_mgv_summary %<>% mutate(step_3=case_when(
+  PROV_CODE %in% c(12) ~ "Split",
+  PROV_CODE %in% c(18,21) ~ "Do not split",
+  TRUE ~ as.character(NA)))
+
+meow_mgv_summary %<>% mutate(step_4=case_when(
+  PROV_CODE %in% c(56,57,58) ~ "Modify",
+  PROV_CODE %in% c(51,13) ~ "Do not modify",
+  TRUE ~ as.character(NA)))
+
+```
+
+Final groups
+
+```{r}
+
+prefix <- "Intertidal forests and shrublands"
+prefix <- "Mangroves"
+meow_mgv_summary %<>% mutate(unit_name=case_when(
+  step_1 %in% 'absent' | PROV_CODE %in% c(3) ~ 'absent',
+  ECOREGION %in% "Bermuda" ~ sprintf("%s of %s",prefix,"Bermuda"),
+  PROV_CODE %in% c(43,45) ~ sprintf("%s of %s",prefix,"East and Southeastern Pacific Coast"),
+  PROV_CODE %in% c(53,54) ~ sprintf("%s of %s",prefix,"New Zealand"),
+  ECOREGION %in% "Leeuwin" | PROVINCE %in% "West Central Australian Shelf" ~ sprintf("%s of %s",prefix,"Western Australian Shelf and Leeuwin"),
+  ECOREGION %in% c("Great Australian Bight", "South Australian Gulfs", "Western Bassian")~ sprintf("%s of %s",prefix,"South Australia"),
+  TRUE ~ sprintf("%s of %s",prefix,PROVINCE))
+)
+
+```
+
+Use the same leaflet map as a base:
+
+```{r}
+
+post_units <- meow_mgv_summary  %>% filter(!unit_name %in% 'absent') %>% group_by(unit_name,native) %>% summarise
+
+clrs <- colorFactor("Dark2",domain=post_units$native)
+
+labels <- sprintf("%s<br/>Native:%s", post_units$unit_name, post_units$native) %>% lapply(htmltools::HTML)
+
+m %>% addPolygons(data = post_units, fillColor = ~clrs(native), highlightOptions = highlightOptions(weight = 2, color = 'black'), color = 'grey', weight = 0.4, fillOpacity = 0.45,label=labels)
+
+
+```
+Finally we will add these to the database:
+
+```{r}
+#!/usr/bin/R --vanilla
+require(dplyr)
+require(magrittr)
+require(readr)
+require(RPostgreSQL)
+require(sf)
+
+source(sprintf("%s/proyectos/IUCN-GET/MFT1.2-intertidal-forest/env/project-env.R",Sys.getenv("HOME")))
+setwd(work.dir)
+
+drv <- dbDriver("PostgreSQL") ## remember to update .pgpass file
+
+con <- dbConnect(drv, dbname = dbinfo['database'],
+              host = dbinfo['host'],
+              port = dbinfo['port'],
+              user = dbinfo['user'])
+
+mgt.meow.its <- read_sf("intersection-type-meow-provs.gpkg")
+
+mgt.meow.its %>% st_drop_geometry -> mgt.table
+
+mgt.table %>% distinct(Class,Sedimentar,PROV_CODE,PROVINCE) %>% mutate(GT=as.numeric(as.factor(Class))*10 + as.numeric(as.factor(Sedimentar))) -> smr.table
+
+smr.table %>% transmute(qry=
+  str_glue(
+    "INSERT INTO  bio_geo_ecotype (bge_code,code,name,shortdesc,status,contributors)
+    VALUES(
+      'MFT1.2-MP{PROV_CODE}-GT{GT}','MFT1.2','MFT1.2 Intertidal forests and shrublands of biophysical type *{Class} ({Sedimentar})* in the *{PROVINCE}* province', 'Spatial overlap of Global biophysical typology of mangroves (class={Class} and sedimentar={Sedimentar}) and the marine province of {PROVINCE} (PROV_CODE={PROV_CODE}).','draft','{{JRFP,Global Mangrove Alliance}}'
+    ) ON CONFLICT DO NOTHING")) %>% pull-> qries
+
+for (qry in qries) {
+  dbSendQuery(con,qry)
+}
+
+mgt.meow.its %>% group_by(Class,Sedimentar,PROV_CODE) %>% summarise(area=sum(st_area(geometry))) -> mgt.area
+```
