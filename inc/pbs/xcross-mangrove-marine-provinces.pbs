@@ -19,58 +19,86 @@ cd $WORKDIR
 
 
 echo '<OGRVRTDataSource>
-<OGRVRTLayer name="mangroves">
+<OGRVRTLayer name="meow">
+    <SrcDataSource>'$GISDATA'/ecoregions/global/MEOW/meow_ecos_valid.gpkg</SrcDataSource>
+    <SrcLayer>meow_ecos</SrcLayer>
+</OGRVRTLayer>
+<OGRVRTLayer name="mangroves_GMW_2016">
     <SrcDataSource>'$GISDATA'/ecosystems/global/WCMC-mangroves-GMW/GMW-valid-output/GMW_2016_valid.gpkg</SrcDataSource>
     <SrcLayer>GMW_2016_v2</SrcLayer>
+</OGRVRTLayer>
+<OGRVRTLayer name="mangroves_GMW_1996">
+    <SrcDataSource>'$GISDATA'/ecosystems/global/WCMC-mangroves-GMW/GMW-valid-output/GMW_1996_valid.gpkg</SrcDataSource>
+    <SrcLayer>GMW_1996_v2</SrcLayer>
+</OGRVRTLayer>
+<OGRVRTLayer name="mangroves_GMW_2007">
+    <SrcDataSource>'$GISDATA'/ecosystems/global/WCMC-mangroves-GMW/GMW-valid-output/GMW_2007_valid.gpkg</SrcDataSource>
+    <SrcLayer>GMW_2007_v2</SrcLayer>
+</OGRVRTLayer>
+<OGRVRTLayer name="mangroves_GMW_2008">
+    <SrcDataSource>'$GISDATA'/ecosystems/global/WCMC-mangroves-GMW/GMW-valid-output/GMW_2008_valid.gpkg</SrcDataSource>
+    <SrcLayer>GMW_2008_v2</SrcLayer>
+</OGRVRTLayer>
+<OGRVRTLayer name="mangroves_GMW_2009">
+    <SrcDataSource>'$GISDATA'/ecosystems/global/WCMC-mangroves-GMW/GMW-valid-output/GMW_2009_valid.gpkg</SrcDataSource>
+    <SrcLayer>GMW_2009_v2</SrcLayer>
+</OGRVRTLayer>
+<OGRVRTLayer name="mangroves_GMW_2010">
+    <SrcDataSource>'$GISDATA'/ecosystems/global/WCMC-mangroves-GMW/GMW-valid-output/GMW_2010_valid.gpkg</SrcDataSource>
+    <SrcLayer>GMW_2010_v2</SrcLayer>
+</OGRVRTLayer>
+<OGRVRTLayer name="mangroves_GMW_2015">
+    <SrcDataSource>'$GISDATA'/ecosystems/global/WCMC-mangroves-GMW/GMW-valid-output/GMW_2015_valid.gpkg</SrcDataSource>
+    <SrcLayer>GMW_2015_v2</SrcLayer>
 </OGRVRTLayer>
 <OGRVRTLayer name="mangroves_usgs">
     <SrcDataSource>'$GISDATA'/ecosystems/global/WCMC-mangroves-2000/USGS-valid-output/MangroveUSGS2011_valid.gpkg</SrcDataSource>
     <SrcLayer>14_001_WCMC010_MangroveUSGS2011_v1_4</SrcLayer>
 </OGRVRTLayer>
-<OGRVRTLayer name="mangrove_types">
+<OGRVRTLayer name="mangrove_types_2016">
     <SrcDataSource>'$GISDATA'/ecosystems/global/WCMC-mangrove-types/TNC-BioPhys-Mangrove-valid-output/Mangrove_Typology_v2_2_2016_valid.gpkg</SrcDataSource>
     <SrcLayer>Mangrove_Typology_v2_2_2016</SrcLayer>
 </OGRVRTLayer>
-<OGRVRTLayer name="meow">
-    <SrcDataSource>'$GISDATA'/ecoregions/global/MEOW/meow_ecos_valid.gpkg</SrcDataSource>
-    <SrcLayer>meow_ecos</SrcLayer>
-</OGRVRTLayer>
-</OGRVRTDataSource>' > mangrove-type-data-sources.vrt
-
-echo '<OGRVRTDataSource>
-<OGRVRTLayer name="mangroves">
-    <SrcDataSource>'$GISDATA'/ecosystems/global/WCMC-mangroves-GMW/GMW-valid-output/GMW_2016_valid.gpkg</SrcDataSource>
-    <SrcLayer>GMW_2016_v2</SrcLayer>
-</OGRVRTLayer>
-<OGRVRTLayer name="mangrove_types">
+<OGRVRTLayer name="mangrove_types_1996">
     <SrcDataSource>'$GISDATA'/ecosystems/global/WCMC-mangrove-types/TNC-BioPhys-Mangrove-valid-output/Mangrove_Typology_v2_2_1996_valid.gpkg</SrcDataSource>
     <SrcLayer>Mangrove_Typology_v2_2_1996</SrcLayer>
 </OGRVRTLayer>
-<OGRVRTLayer name="meow">
-    <SrcDataSource>'$GISDATA'/ecoregions/global/MEOW/meow_ecos_valid.gpkg</SrcDataSource>
-    <SrcLayer>meow_ecos</SrcLayer>
+<OGRVRTLayer name="mangrove_types_2007">
+    <SrcDataSource>'$GISDATA'/ecosystems/global/WCMC-mangrove-types/TNC-BioPhys-Mangrove-valid-output/Mangrove_Typology_v2_2_2007_valid.gpkg</SrcDataSource>
+    <SrcLayer>Mangrove_Typology_v2_2_2007</SrcLayer>
 </OGRVRTLayer>
-</OGRVRTDataSource>' > mangrove-type-data-sources-1996.vrt
+<OGRVRTLayer name="mangrove_types_2010">
+    <SrcDataSource>'$GISDATA'/ecosystems/global/WCMC-mangrove-types/TNC-BioPhys-Mangrove-valid-output/Mangrove_Typology_v2_2_2010_valid.gpkg</SrcDataSource>
+    <SrcLayer>Mangrove_Typology_v2_2_2010</SrcLayer>
+</OGRVRTLayer>
+</OGRVRTDataSource>' > mangrove-type-data-sources.vrt
 
- # ogrinfo mangrove-type-data-sources.vrt
+# ogrinfo mangrove-type-data-sources.vrt
+
+# Use time to calculate how long it takes,
+
+for YEAR in 2016 1996 2010 2007 2008 2009 2015
+do
+  if [ ! -e intersection-gmw-meow-provs-$YEAR.gpkg ]
+  then
+    \time -f "Calculate intersection with mangrove-type \nTotal time: %E\nUser Mode (s) %U\nKernel Mode (s) %S\nCPU: %P" ogr2ogr -f "GPKG" intersection-gmw-meow-provs-$YEAR.gpkg mangrove-type-data-sources.vrt -dialect sqlite -sql "SELECT a.ogc_fid,a.pxlval,b.ECO_CODE,b.PROV_CODE,b.PROVINCE,a.geom AS geometry FROM mangroves_GMW_$YEAR a, meow b WHERE ST_Intersects(a.geom, b.geom)" -nln mangrove_types # 29:05.94
+  fi
+done
 
 # Use time to calculate how long it takes, this one took around 30 mins the first time
-if [ ! -e intersection-type-meow-provs.gpkg ]
-then
-  \time -f "Calculate intersection with mangrove-type \nTotal time: %E\nUser Mode (s) %U\nKernel Mode (s) %S\nCPU: %P" ogr2ogr -f "GPKG" intersection-type-meow-provs.gpkg mangrove-type-data-sources.vrt -dialect sqlite -sql "SELECT a.ID,a.Class,a.Sedimentar,b.ECO_CODE,b.PROV_CODE,b.PROVINCE,a.geom AS geometry FROM mangrove_types a, meow b WHERE ST_Intersects(a.geom, b.geom)" -nln mangrove_types # 29:05.94
-fi
+for YEAR in 2016 1996 2010 2007
+do
+  if [ ! -e intersection-type-meow-provs-$YEAR.gpkg ]
+  then
+    \time -f "Calculate intersection with mangrove-type \nTotal time: %E\nUser Mode (s) %U\nKernel Mode (s) %S\nCPU: %P" ogr2ogr -f "GPKG" intersection-type-meow-provs-$YEAR.gpkg mangrove-type-data-sources.vrt -dialect sqlite -sql "SELECT a.ID,a.Class,a.Sedimentar,b.ECO_CODE,b.PROV_CODE,b.PROVINCE,a.geom AS geometry FROM mangrove_types_$YEAR a, meow b WHERE ST_Intersects(a.geom, b.geom)" -nln mangrove_types # 29:05.94
+  fi
+done
 
-# 
+#
 if [ ! -e intersection-usgs-meow-provs.gpkg ]
 then
   \time -f "Calculate intersection with mangrove layer from Giri et al. 2011 \nTotal time: %E\nUser Mode (s) %U\nKernel Mode (s) %S\nCPU: %P" ogr2ogr -f "GPKG" intersection-usgs-meow-provs.gpkg mangrove-type-data-sources.vrt -dialect sqlite -sql "SELECT a.OBJECTID,a.grid_code,a.CTYPE,b.ECO_CODE,b.PROV_CODE,b.PROVINCE,a.geom AS geometry FROM mangroves_usgs a, meow b WHERE ST_Intersects(a.geom, b.geom)" -nln mangroves_usgs # Total time: 2:08:25
 fi
-
-if [ ! -e intersection-type-meow-provs-1996.gpkg ]
-then
-  \time -f "Calculate intersection with mangrove-type \nTotal time: %E\nUser Mode (s) %U\nKernel Mode (s) %S\nCPU: %P" ogr2ogr -f "GPKG" intersection-type-meow-provs-1996.gpkg mangrove-type-data-sources-1996.vrt -dialect sqlite -sql "SELECT a.ID,a.Class,a.Sedimentar,b.ECO_CODE,b.PROV_CODE,b.PROVINCE,a.geom AS geometry FROM mangrove_types a, meow b WHERE ST_Intersects(a.geom, b.geom)" -nln mangrove_types # 29:05.94
-fi
-
 
 if [ ! -e eck4-mangrove-type-provs.gpkg ]
 then
@@ -88,24 +116,24 @@ ogrinfo  eck4-mangrove-type-provs-1996.gpkg -sql "ALTER TABLE mangroves ADD COLU
 fi
 
 
-for K in Delta Lagoon Estuary OpenCoast
-do
-  if [ ! -e bf-mangrove-${K}-provs.gpkg ]
-  then
-    # about 1 to 2 hours each, problem with deltas
-    \time -f "Create buffer ${K} \nTotal time: %E\nUser Mode (s) %U\nKernel Mode (s) %S\nCPU: %P" ogr2ogr -f "GPKG" bf-mangrove-${K}-provs.gpkg eck4-mangrove-type-provs.gpkg -nln mangroves -dialect indirect_sqlite -sql "SELECT Class, Sedimentar, PROV_CODE, PROVINCE, AREA_proj, ST_buffer(geometry,1000) as geometry FROM mangroves WHERE Class='"${K}"'"  -nlt PROMOTE_TO_MULTI -makevalid
-  fi
-done
-
-# test different format
-for K in Delta Lagoon
-do
-  if [ ! -e bf-mangrove-${K}-provs.gml ]
-  then
-    # about 1 to 2 hours each, problem with deltas
-    \time -f "Create buffer ${K} \nTotal time: %E\nUser Mode (s) %U\nKernel Mode (s) %S\nCPU: %P" ogr2ogr -f "GML" bf-mangrove-${K}-provs.gml eck4-mangrove-type-provs.gpkg -nln mangroves -dialect indirect_sqlite -sql "SELECT Class, Sedimentar, PROV_CODE, PROVINCE, AREA_proj, ST_buffer(geometry,1000) as geometry FROM mangroves WHERE Class='"${K}"'"  -nlt PROMOTE_TO_MULTI -makevalid
-  fi
-done
+# for K in Delta Lagoon Estuary OpenCoast
+# do
+#   if [ ! -e bf-mangrove-${K}-provs.gpkg ]
+#   then
+#     # about 1 to 2 hours each, problem with deltas
+#     \time -f "Create buffer ${K} \nTotal time: %E\nUser Mode (s) %U\nKernel Mode (s) %S\nCPU: %P" ogr2ogr -f "GPKG" bf-mangrove-${K}-provs.gpkg eck4-mangrove-type-provs.gpkg -nln mangroves -dialect indirect_sqlite -sql "SELECT Class, Sedimentar, PROV_CODE, PROVINCE, AREA_proj, ST_buffer(geometry,1000) as geometry FROM mangroves WHERE Class='"${K}"'"  -nlt PROMOTE_TO_MULTI -makevalid
+#   fi
+# done
+#
+# # test different format
+# for K in Delta Lagoon
+# do
+#   if [ ! -e bf-mangrove-${K}-provs.gml ]
+#   then
+#     # about 1 to 2 hours each, problem with deltas
+#     \time -f "Create buffer ${K} \nTotal time: %E\nUser Mode (s) %U\nKernel Mode (s) %S\nCPU: %P" ogr2ogr -f "GML" bf-mangrove-${K}-provs.gml eck4-mangrove-type-provs.gpkg -nln mangroves -dialect indirect_sqlite -sql "SELECT Class, Sedimentar, PROV_CODE, PROVINCE, AREA_proj, ST_buffer(geometry,1000) as geometry FROM mangroves WHERE Class='"${K}"'"  -nlt PROMOTE_TO_MULTI -makevalid
+#   fi
+# done
 
 
 #if [ ! -e grp-mangrove-type-provs.gpkg ]

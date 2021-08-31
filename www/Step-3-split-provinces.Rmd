@@ -187,3 +187,12 @@ The West and South India Shelf is distinct from the Bay of Bengal in terms of cl
 We considered spliting Sri Lanka as a separate assessment unit. The strongest argument for spliting is due to the discontinuous distribution of mangroves along Western India ecoregion and closer geographical connection between Sri Lanka and South India and Eastern India but the preliminary analysis of the biota suggests closer association within the boundaries of marine provinces as they stand.
 
 We suggest to ask the opinion of regional experts within the Mangrove Specialist Group, but will keep the province boundaries as they stand for now.
+
+### References
+
+Kandasamy, Kathiresan & Rajendran, Nishanth. (2005). Mangrove ecosystems of the Indian Ocean region. Indian J Mar Sci. 34(1).
+
+
+
+---
+[Data Sources](/MangrovesData/) / [Interactive map](/MangrovesMap/) / [Local RLE assessments of Mangroves](rle-assessments.Rmd)
