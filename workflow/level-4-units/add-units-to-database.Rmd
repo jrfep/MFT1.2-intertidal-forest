@@ -1,3 +1,9 @@
+---
+title: "All steps to delineate Level 4 units based on marine provinces (MEOW)"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
 
 ```{r}
 #!/usr/bin/R --vanilla
@@ -6,6 +12,7 @@ require(magrittr)
 require(readr)
 require(sf)
 require(units)
+require(leaflet)
 
 source(sprintf("%s/proyectos/IUCN-GET/MFT1.2-intertidal-forest/env/project-env.R",Sys.getenv("HOME")))
 setwd(work.dir)
@@ -90,7 +97,6 @@ Appendices, Department of Environment and Climate Change (NSW), Sydney. [PDF](ht
 Preview maps with leaflet
 
 ```{r}
-require(leaflet)
 m <- leaflet(options = leafletOptions(worldCopyJump = TRUE,zoomControl = TRUE))  %>%  addProviderTiles(providers$Esri.OceanBasemap) %>%
   setView(lng = 0, lat = 0, zoom = 2)
 
@@ -156,7 +162,7 @@ labels <- sprintf("%s<br/>Native:%s", post_units$unit_name, post_units$native) %
 
 m %>% addPolygons(data = post_units, fillColor = ~clrs(native), highlightOptions = highlightOptions(weight = 2, color = 'black'), color = 'grey', weight = 0.4, fillOpacity = 0.45,label=labels)
 
-
+save(file=sprintf("%s/www/Rdata/selected-units.Rda",script.dir),pre_units,post_units)
 ```
 Finally we will add these to the database:
 
