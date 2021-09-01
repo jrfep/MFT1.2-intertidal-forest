@@ -124,7 +124,7 @@ The _Lusitanian_ province included ca. 10 km^2  of mangrove ecosystems in the 20
 
 We **include** three ecoregions where the global maps did not detect occurrence of mangrove but we are aware of literature records describing these occurrences:
 
-- Maledives in the _Central Indian Ocean Islands_ Province (Kathiresan & Rajendran 2005),
+- Maldives in the _Central Indian Ocean Islands_ Province (Kathiresan & Rajendran 2005),
 - Lord Howe and Norfolk Islands (Department of Environment and Climate Change (NSW) 2007),
 - [Bunbury, Western Australia](https://www.fish.wa.gov.au/Documents/recreational_fishing/fact_sheets/fact_sheet_mangroves.pdf)) in the Leeuwin Ecoregion, _Southwest Australian Shelf_ Province.
 
