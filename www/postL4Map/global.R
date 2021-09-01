@@ -4,8 +4,8 @@ require(sf)
 options(dplyr.summarise.inform = FALSE)
 
 
-load("../Rdata/selected-units.rda")
-load("../Rdata/mgt-point-data.rda")
+load("selected-units.rda")
+load("mgt-point-data.rda")
 
 
 post_units %<>%
