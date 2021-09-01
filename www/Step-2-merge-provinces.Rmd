@@ -23,13 +23,11 @@ load("Rdata/mgv-species-occurrence.rda")
 load("Rdata/selected-units.rda")
 load('Rdata/species-occurrence.rda')
 
-
+#Mapbox data
 mb.style <- "jrfep/ckspr4rl70jch17pg3rnix3fz"
 mb.token <- "pk.eyJ1IjoianJmZXAiLCJhIjoiY2s5N3RxZWhwMTl5NjNnbjFmdzhubTFjdiJ9.KFBzgxBPjKnERRfR9awR_g"
 my_url <- sprintf("https://api.mapbox.com/styles/v1/%s/tiles/{z}/{x}/{y}?access_token=%s",mb.style,mb.token)
 my_attribution <- "© <a href='https://www.mapbox.com/map-feedback/'>Mapbox</a> CC-BY-4.0 <a href='https://global-ecosystems.org/explore/groups/MFT1.2'>IUCN Global Ecosystem Typology</a>"
-
-
 ```
 [Back to Mangrove project folder](/Mangroves/) / [Data Sources](/MangrovesData/) / [Interactive map](/MangrovesMap/)
 
@@ -38,7 +36,7 @@ my_attribution <- "© <a href='https://www.mapbox.com/map-feedback/'>Mapbox</a> 
 We evaluated nine cases were adjacent provinces could be merged. We decided to always keep temperate provinces separated from tropical provinces (five cases). For the West African Transition, South Kuroshio and the Galapagos provinces the evidence suggest to keep them separated. However, we decided to merge the provinces of Northern and Southern New Zealand into one because they share a similar biota, have similar environmental condition, have a continuous distribution and appear to be connected by ocean current.
 
 | Larger province  | Province to merge | Decision | Comment |
-|---|---|---|---|
+|--------------|----------------------|:------:|--------------|
 |Trop E Pacific| Warm Temp NE Pacific | Keep | REALM boundary |
 |Trop E Pacific| Warm Temp SE Pacific | Merge | Very few occurrences beyond the boundary  |
 |Trop NW Atlantic | Warm Temp NW Atlantic | Keep |  REALM boundary, very distinctive |
@@ -199,7 +197,7 @@ Comments from workshop participants suggested to keep this separate as they are 
 
 Since the mangroves of the Galapagos are not directly connected to any of the other ecoregions, we retain the Galapagos province as a separate assessment unit.
 
-#### North and South New Zealand Provinces
+### North and South New Zealand Provinces
 
 We decided to merge the *North and South New Zealand Provinces* into one after considering the following:
 
@@ -215,3 +213,6 @@ We decided to merge the *North and South New Zealand Provinces* into one after c
 |Step 2| Merge neighboring provinces | This document |
 |Step 3| Split provinces | [LINK](Step-3-split-provinces.Rmd) |
 |Step 4| Boundary shifts between provinces | [LINK](Step-4-shift-borders.Rmd) |
+
+---
+[Data Sources](/MangrovesData/) / [Interactive map](/MangrovesMap/) / [Local RLE assessments of Mangroves](rle-assessments.Rmd)

@@ -28,7 +28,6 @@ mb.style <- "jrfep/ckspr4rl70jch17pg3rnix3fz"
 mb.token <- "pk.eyJ1IjoianJmZXAiLCJhIjoiY2s5N3RxZWhwMTl5NjNnbjFmdzhubTFjdiJ9.KFBzgxBPjKnERRfR9awR_g"
 my_url <- sprintf("https://api.mapbox.com/styles/v1/%s/tiles/{z}/{x}/{y}?access_token=%s",mb.style,mb.token)
 my_attribution <- "© <a href='https://www.mapbox.com/map-feedback/'>Mapbox</a> CC-BY-4.0 <a href='https://global-ecosystems.org/explore/groups/MFT1.2'>IUCN Global Ecosystem Typology</a>"
-
 ```
 [Back to Mangrove project folder](/Mangroves/) / [Data Sources](/MangrovesData/) / [Interactive map](/MangrovesMap/)
 
@@ -58,7 +57,7 @@ opts <- c("All",pre_units %>% pull(Comment) %>% unique)
 fluidRow(
   column(4, offset = 4,
     selectInput(inputId="filter1", label="Provinces to show", opts)
-   )    
+   )
 )
 
 output$map <- renderLeaflet({
@@ -93,11 +92,11 @@ output$map <- renderLeaflet({
 
 # use observe to update map with input$
 observe({
-  pr_labels <- filteredData() %>% st_drop_geometry %>% transmute(qry=sprintf("<strong>%s</strong>:<br/> %s",PROVINCE,Comment)) %>% pull(qry)  %>% lapply(htmltools::HTML) 
+  pr_labels <- filteredData() %>% st_drop_geometry %>% transmute(qry=sprintf("<strong>%s</strong>:<br/> %s",PROVINCE,Comment)) %>% pull(qry)  %>% lapply(htmltools::HTML)
 
 
   leafletProxy("map") %>% clearShapes()  %>%
-    addPolygons(data =filteredData(), fillColor = ~clrs(Comment), 
+    addPolygons(data =filteredData(), fillColor = ~clrs(Comment),
               weight = 2, fillOpacity = 0.15,
                highlightOptions = highlightOptions(weight = 2, color = 'black'),
                label=pr_labels,
@@ -111,7 +110,7 @@ leafletOutput("map")
 
 ```{r, echo=FALSE}
  DT::renderDataTable({
-   st_drop_geometry(filteredData()) 
+   st_drop_geometry(filteredData())
 })
 ```
 
@@ -119,7 +118,7 @@ leafletOutput("map")
 
 Some ecoregions lack evidence of mangrove ecosystems in the global distribution maps, although neighboring ecoregions from the same marine province do have mangrove occurrences, and the distribution maps of key mangrove species partially overlap these areas. As discussed in the workshop small patches of mangrove forest might remain undetected in these ecoregions. Thus we **retained** these ecoregions as part of the larger marine provinces for the purpose of delimitation of assessment units.
 
-The _Lusitanian_ province included ca. 10 km^2  of mangrove ecosystems in the 2000 map (Giri et al. 2011) but this is likely an error. According to workshop participants, the Canary Islands do not have mangroves. Northern mangrove limit is/was in the Park National du Banc d'Arguin  in Mauritania on the mainland a few kms north of Iouik. These were individual trees. The northernmost patches were located around Nouamghar (Cape Timirist), still within the PNBA. Thus we will **exclude** the _Lusitanian_ province. 
+The _Lusitanian_ province included ca. 10 km^2  of mangrove ecosystems in the 2000 map (Giri et al. 2011) but this is likely an error. According to workshop participants, the Canary Islands do not have mangroves. Northern mangrove limit is/was in the Park National du Banc d'Arguin  in Mauritania on the mainland a few kms north of Iouik. These were individual trees. The northernmost patches were located around Nouamghar (Cape Timirist), still within the PNBA. Thus we will **exclude** the _Lusitanian_ province.
 
 ## Known but unmapped occurrences
 

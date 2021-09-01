@@ -114,6 +114,8 @@ tabsetPanel(
 
 ```
 
+## Next steps
+
 |  | |  |
 |---|---|---|
 |Step 1| Intersection of mangrove with marine provinces | [BACK](Step-1-marine-provinces.Rmd)
@@ -121,8 +123,10 @@ tabsetPanel(
 |Step 3| Split provinces | [PREVIOUS](Step-3-split-provinces.Rmd)|
 |Step 4| Boundary shifts between provinces | This document|
 
-[Back to Mangrove project folder](/Mangroves/)
-
 #### References
 
 Sinclair, E.A., Anthony, J.M., Greer, D., Ruiz‐Montoya, L., Evans, S.M., Krauss, S.L. and Kendrick, G.A., 2016. Genetic signatures of Bassian glacial refugia and contemporary connectivity in a marine foundation species. Journal of Biogeography, 43(11), pp.2209-2222.
+
+
+---
+[Data Sources](/MangrovesData/) / [Interactive map](/MangrovesMap/) / [Local RLE assessments of Mangroves](rle-assessments.Rmd)

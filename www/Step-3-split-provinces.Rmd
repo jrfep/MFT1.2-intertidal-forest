@@ -3,8 +3,8 @@ title: |
   ![](assets/logo.png){width=1in}
   MFT1.2 Intertidal Forest and Shrublands
 subtitle: "Delimitation of Level 4 units"
-author: "JR Ferrer-Paris"
-date: "19/08/2021"
+author: "JR Ferrer-Paris / with input from Workshop participants"
+date: "30/08/2021"
 output: html_document
 runtime: shiny
 ---
@@ -21,11 +21,11 @@ options(dplyr.summarise.inform = FALSE)
 load("Rdata/prov-data.rda")
 load("Rdata/mgv-species-occurrence.rda")
 load('Rdata/species-occurrence.rda')
+
+#Mapbox data
 mb.style <- "jrfep/ckspr4rl70jch17pg3rnix3fz"
 mb.token <- "pk.eyJ1IjoianJmZXAiLCJhIjoiY2s5N3RxZWhwMTl5NjNnbjFmdzhubTFjdiJ9.KFBzgxBPjKnERRfR9awR_g"
-
 my_url <- sprintf("https://api.mapbox.com/styles/v1/%s/tiles/{z}/{x}/{y}?access_token=%s",mb.style,mb.token)
-
 my_attribution <- "© <a href='https://www.mapbox.com/map-feedback/'>Mapbox</a> CC-BY-4.0 <a href='https://global-ecosystems.org/explore/groups/MFT1.2'>IUCN Global Ecosystem Typology</a>"
 
 ```
@@ -36,7 +36,7 @@ my_attribution <- "© <a href='https://www.mapbox.com/map-feedback/'>Mapbox</a> 
 We evaluated three cases were a province could be split from its parent marine province and be assessed as a separate unit.  We decided to split Bermuda as a separate assessment unit. In the case of the Gulf of Aden we decided to keep the units as they stand due to lack of regional studies. In the case of Sri Lanka we decided to keep the units as they stand but suggest consultation with experts in the region.
 
 | Province | Ecoregion to split | Decision | comments |
-|---|---|---|---|
+|--------------|----------------------|:------:|--------------|
 |Tropical Northwestern Atlantic|Bermuda| Split|Isolated, mixed biota|
 |Red Sea and Gulf of Aden|Gulf of Aden| Keep|Poorly known region|
 |West and South Indian Shelf|Sri Lanka| Keep|Ask regional specialists|
@@ -187,6 +187,16 @@ The West and South India Shelf is distinct from the Bay of Bengal in terms of cl
 We considered spliting Sri Lanka as a separate assessment unit. The strongest argument for spliting is due to the discontinuous distribution of mangroves along Western India ecoregion and closer geographical connection between Sri Lanka and South India and Eastern India but the preliminary analysis of the biota suggests closer association within the boundaries of marine provinces as they stand.
 
 We suggest to ask the opinion of regional experts within the Mangrove Specialist Group, but will keep the province boundaries as they stand for now.
+
+
+## Next steps
+
+|  | |  |
+|---|---|---|
+|Step 1| Intersection of mangrove with marine provinces | [BACK](Step-1-marine-provinces.Rmd) |
+|Step 2| Merge neighboring provinces | [PREVIOUS](Step-2-merge-provinces.Rmd) |
+|Step 3| Split provinces | This document |
+|Step 4| Boundary shifts between provinces | [LINK](Step-4-shift-borders.Rmd) |
 
 ### References
 
