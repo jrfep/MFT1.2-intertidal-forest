@@ -170,6 +170,8 @@ Use the same leaflet map as a base:
 
 post_units <- meow_mgv_summary  %>% filter(!unit_name %in% 'absent') %>% group_by(unit_name,native) %>% summarise
 
+post_units %<>% left_join({meow_mgv_summary %>% st_drop_geometry %>% filter(!unit_name %in% 'absent') %>% group_by(unit_name,PROVINCE) %>% summarise(ecoregions=paste0(ECOREGION,collapse=", ")) %>% group_by(unit_name) %>% summarise(description=paste(sprintf("Ecoregions %s of the **<emph>%s</emph>** province",ecoregions,PROVINCE),collapse="; "))},by="unit_name")
+
 clrs <- colorFactor("Dark2",domain=post_units$native)
 
 labels <- sprintf("%s<br/>Native:%s", post_units$unit_name, post_units$native) %>% lapply(htmltools::HTML)
