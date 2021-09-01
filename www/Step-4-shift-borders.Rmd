@@ -38,7 +38,7 @@ my_attribution <- "© <a href='https://www.mapbox.com/map-feedback/'>Mapbox</a> 
 We evaluated the boundaries of four provinces with close occurrences from an adjacent ecoregion. Workshop participant suggested to keep the boundaries of North Brazil and Agulhas as they stand. The boundaries of the West Central Australian Shelf and the Southwest Australian Shelf require adjustments to make sure that isolated Mangrove occurrences are assessed with their nearest neighbors.
 
 | Province | Adjacent unit | Decision | comments |
-|---|---|---|---|
+|--------------|---------------|:------:|--------------|
 |North Brazil|northern boundary|Keep|N coast of Trinidad distinct from continental shelf|
 |North Brazil|southern boundary|Keep|Edge of extensive deltaic/mangrove coast|
 |Agulhas| |Keep|Coastal vegetation changes at Cape Vidal|

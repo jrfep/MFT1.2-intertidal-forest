@@ -1,7 +1,7 @@
 ---
 title: "All steps to delineate Level 4 units based on marine provinces (MEOW)"
 output: html_document
-editor_options: 
+editor_options:
   chunk_output_type: console
 ---
 
@@ -13,6 +13,7 @@ require(readr)
 require(sf)
 require(units)
 require(leaflet)
+require(tidyr)
 
 source(sprintf("%s/proyectos/IUCN-GET/MFT1.2-intertidal-forest/env/project-env.R",Sys.getenv("HOME")))
 setwd(work.dir)
@@ -41,6 +42,11 @@ if (!exists("gmw.meow.2016")) {
   gmw.meow.2016 %<>% mutate(area=st_area(geometry))
 }
 meow_mgv_summary %<>% left_join({gmw.meow.2016 %>% st_drop_geometry %>% group_by(ECO_CODE) %>% summarise(n_gmw_2016=n(),area_gmw_2016=sum(area) %>% set_units('km^2'))},by="ECO_CODE")
+
+if (!exists("mgt.meow.2016")) {
+  mgt.meow.2016 <- read_sf("intersection-type-meow-provs-2016.gpkg")
+  mgt.meow.2016 %>% mutate(area=st_area(geometry)) %>%  st_centroid -> mgt_points
+}
 
 
 ```
@@ -98,7 +104,7 @@ pre_units <- meow_mgv_summary  %>% filter(!step_1 %in% 'absent') %>% group_by(PR
 
 mprov.xy %>% st_drop_geometry %>% group_by(PROV_CODE,PROVINCE) %>% summarise(across(Dolichandrone.spathacea:Ceriops.australis, max)) %>% rowwise() %>% transmute(PROV_CODE,PROVINCE,sum=sum(c_across(Dolichandrone.spathacea:Ceriops.australis))) %>% ungroup -> mtz
 
-pre_units %<>% left_join(mtz,by=c('PROV_CODE','PROVINCE'))  %>% transmute(PROVINCE,`Mangrove Area in 2000 (km^2)`=round(area_2000,2),`Mangrove Area in 2016 (km^2)`=round(area_2016,2),`Mangrove species`=sum,Comment=step_1) 
+pre_units %<>% left_join(mtz,by=c('PROV_CODE','PROVINCE'))  %>% transmute(PROVINCE,`Mangrove Area in 2000 (km^2)`=round(area_2000,2),`Mangrove Area in 2016 (km^2)`=round(area_2016,2),`Mangrove species`=sum,Comment=step_1)
 save(file=sprintf("%s/www/Rdata/selected-units.rda",script.dir),pre_units)
 
 ```
@@ -170,7 +176,7 @@ labels <- sprintf("%s<br/>Native:%s", post_units$unit_name, post_units$native) %
 
 m %>% addPolygons(data = post_units, fillColor = ~clrs(native), highlightOptions = highlightOptions(weight = 2, color = 'black'), color = 'grey', weight = 0.4, fillOpacity = 0.45,label=labels)
 
-save(file=sprintf("%s/www/Rdata/selected-units.rda",script.dir),pre_units,post_units)
+save(file=sprintf("%s/www/Rdata/selected-units.rda",script.dir), pre_units, post_units)
 ```
 
 
@@ -186,6 +192,15 @@ usgs.2000.xy %<>% mutate(area=area %>% set_units(km^2))
 
 # too many points for a global map
 #m %>%  addCircleMarkers(data=gmw.2016.xy,radius=sqrt(gmw.2016.xy$area),color = 'green', fillColor = 'green', opacity = .3,group="Mangrove occurrences")
+
+mgt_points %<>% left_join({meow_mgv_summary %>% st_drop_geometry() %>% select(ECO_CODE,unit_name)},by="ECO_CODE")
+
+# mgt_points %>% st_drop_geometry %>% group_by(unit_name,Class,Sedimentar) %>% summarise(total=sum(area) %>% drop_units) %>% pivot_wider(id=c(unit_name), names_from=c(Class,Sedimentar), values_from=total) %>% replace(is.na(.), 0) -> units_type_areas
+
+mgt_points %>% st_drop_geometry %>% group_by(unit_name,Class,Sedimentar) %>% summarise(npols=n(),total=sum(area) %>% set_units('km^2')) -> units_table
+
+save(file=sprintf("%s/www/Rdata/mgt-point-data.rda",script.dir), mgt_points, units_table)
+
 
 ```
 

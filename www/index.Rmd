@@ -28,7 +28,7 @@ The project aims to produce the first global Red List assessment of mangrove eco
 
 The units to be assessed for Red Listing first need to be defined and mapped. The Global Ecosystem Typology provides a useful framework to guide this task. The world’s mangrove ecosystem share a number of functional features and, for this reason, are grouped together in a single Ecosystem Functional Group at Level 3 of the typology <https://global-ecosystems.org/explore/groups/MFT1.2>. Please check the IUCN Global Ecosystem Typology report (Keith et al. 2020) for more details on the typology.
 
-Level 4 of the Global Ecosystem Typology allows mangroves to be subdivided to recognise different ecoregional expressions of mangrove ecosystems. The Global Mangrove Atlas provides globally consistent spatial information on the distribution of these ecosystems.
+Level 4 of the Global Ecosystem Typology allows mangroves to be subdivided to recognise different ecoregional expressions of mangrove ecosystems. The Global Mangrove Watch provides globally consistent spatial information on the distribution of these ecosystems.
 To support a useful global Red List of Mangrove ecosystems, we need a manageable number of assessment units that are informative about important variation in biodiversity associated with mangroves around the world. A workable number of global assessment units could be in the range of 20-60 units. Marine ecoregions and provinces (Spalding et al. 2008) provide a useful starting point for delineating these mangrove units. Marine provinces and the marine ecoregions within them were developed to represent biogeographic patterns in all coastal marine biota (not only mangrove systems), with appropriate adjustment, they should be suitable for Red List assessment because they serve as biogeographic proxies for compositionally different mangrove ecosystems.
 
 ### Guiding principles for definition of assessment units
@@ -50,14 +50,15 @@ The implementation of these steps is documented in detail in the following docum
 |Step 3| Split provinces | [LINK](Step-3-split-provinces.Rmd)
 |Step 4| Boundary shifts between provinces | [LINK](Step-4-shift-borders.Rmd)
 
-
-
 ### Interactive map
 
-We show the intersection between the 2016 occurrences from Worthington et al. (2020) and the Marine Provinces in the [interactive map](/MangrovesMap/) (also available at <https://ecosphere.shinyapps.io/Mangrove-L4-map/>).
+This map shows the proposed level 4 units for **MFT1.2 Intertidal Forest and Shrublands** after following the steps described above.
+
+This [interactive map](/MangrovesMap/) shows the intersection between mangrove occurrences from two sources of mangrove forest occurrence (Giri et al. 2011 and GMW 2020) and the Marine Provinces.
 
 The density of mangrove polygons is shown as a heat map (warmer colors indicate higher density) and it changes with the zoom level. You can zoom using the plus and minus bottoms in the upper left corner of the map or by double clicking in a location of the map. You can pan over the map using the keyboard arrows or by holding the mouse button and dragging the mouse.
 
+<!--//
 Hovering the mouse over a province will highlight its boundaries and show the name. When you click on the province it will update the plot and table at the bottom of the screen. Plot shows the breakdown of area or number of polygons per combination of class and sedimentar in the selected province.
 
 The table shows preliminary statistics calculated for the mangrove polygons within each province. Area is given in km^2 for the year 2016, Area change in % (between 1996 and 2016); EOO: extent of occurrence in km^2; AOO: area of occupancy (number of 10x10 km cells); AOO_m: AOO cells with > 1km^2 occupancy. These statistics are used in assessment of spatial criteria and give an idea of decline and exposure to threats.
@@ -67,6 +68,7 @@ We have highlighted some issues on the map using red round markers. Click on the
 
 - [Biotic similarity of mangrove associated biota between Marine provinces](mangrove-species.Rmd)
 
+//-->
 
 ---
 

@@ -6,19 +6,11 @@ options(dplyr.summarise.inform = FALSE)
 
 #load("mapdata.rda")
 #load("assmntdata.rda")
-load("../Rdata/prov-data.rda")
-load("../Rdata/mgv-species-occurrence.rda")
+#load("../Rdata/prov-data.rda")
+#load("../Rdata/mgv-species-occurrence.rda")
+load("../Rdata/selected-units.rda")
+load("../Rdata/mgt-point-data.rda")
 
-
-L4units <- prov.mgv.spp %>% filter(!(PROV_CODE %in% c(45,3,22,4,5,8,36,50,62)) & !(ECOREGION %in% c("Auckland Island","Snares Island","South New Zealand","Cocos Islands","Revillagigedos"))) %>% mutate(unit_name=PROVINCE,native=if_else(PROV_CODE %in% c(39,37,38,40),FALSE,TRUE))
-
-L4units %<>% mutate(unit_name=case_when(
-  PROVINCE %in% c('Northern New Zealand','Southern New Zealand') ~ "New Zealand Mangroves",
-  ECOREGION %in% "Bermuda" ~ "Bermuda",
-  ECOREGION %in% "Leeuwin" ~ "West Central Australian Shelf",
-  ECOREGION %in% c("Great Australian Bight", "South Australian Gulfs", "Western Bassian")~ "Mangroves of South Australia",
-  TRUE ~ unit_name
-))
 
 provs <- L4units  %>% group_by(PROVINCE,PROV_CODE) %>%
   st_wrap_dateline(options = c("WRAPDATELINE=YES", "DATELINEOFFSET=0")) %>% summarise(native=max(native))

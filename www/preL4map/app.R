@@ -19,9 +19,9 @@ vars <- c(
 )
 
 server <- function(input, output) {
-    
+
 #    output$instructions <- renderText("Instructions")
-    
+
     # create a reactive value that will store the click position
     data_of_click <- reactiveValues(clickedMarker=NULL)
     #labels
@@ -34,13 +34,13 @@ server <- function(input, output) {
             setView(lng = 0, lat = 0, zoom = 2) %>%
             addPolygons(data = mprovs, layerId= ~PROV_CODE, fillColor = "snow3", highlightOptions = highlightOptions(weight = 2, color = 'black'), color = 'grey', weight = 0.4, fillOpacity = 0.15,label=my_labels, group="Marine provinces") %>%
             leaflet.extras::addHeatmap(data = mgt_points, blur = 20, max = 0.05, radius = 12,group="Heatmap mangrove polygons") %>%
-            addCircleMarkers(data=qs, ~x , ~y, layerId=~id, popup=~q, radius=8 , color="black",  fillColor="red", stroke = TRUE, fillOpacity = 0.8,group="Issues")  %>% 
+            addCircleMarkers(data=qs, ~x , ~y, layerId=~id, popup=~q, radius=8 , color="black",  fillColor="red", stroke = TRUE, fillOpacity = 0.8,group="Issues")  %>%
             addLayersControl(
                 overlayGroups = c("Marine provinces","Heatmap mangrove polygons","Issues" ),
                 options = layersControlOptions(collapsed = FALSE),
                 position = "topright"
-            ) 
-    }) 
+            )
+    })
     # store the click
     observeEvent(input$map_marker_click,{
         data_of_click$clickedMarker <- input$map_marker_click
@@ -55,14 +55,14 @@ server <- function(input, output) {
     output$table <- renderTable({
         my_place=data_of_click$clickedMarker$id
         if(is.null(my_place)) {
-            
+
         } else {
             if (my_place %in% all_rslts$PROV_CODE) {
                 dts <- all_rslts %>% filter(PROV_CODE==my_place) %>% dplyr::select(-1)
             } else {
                 dts <- rslts_approx %>% filter(PROV_CODE==my_place) %>% dplyr::select(-1)
             }
-            dts   
+            dts
         }
     })
     # Make a barplot or scatterplot depending of the selected point
@@ -98,35 +98,35 @@ ui <- fluidPage(
     fluidRow(column(12,leafletOutput("map", height="400px"))),
     fluidRow(column(4,  plotOutput("plot", height="300px"),br(),
                     selectInput(inputId="slcvar", label="Variable", vars)),
-             column(2,  
+             column(2,
                     tabsetPanel(
                         tabPanel("1",
                                  strong("Instructions"),
                                  p("Click on a Province to update plot and table."),
                                  p("Click on red markers to show issue to resolve.")
-                        ), 
+                        ),
                         tabPanel("2",
                                     strong("Map"),
                                     p("Heatmap shows density of mangrove polygons (from",
                                       tags$a(href='https://data.unep-wcmc.org/datasets/48',
                                              target="_blank","Worthington et al. 2020"),
                                       ").",
-                                      tags$a(href='https://www.worldwildlife.org/publications/marine-ecoregions-of-the-world-a-bioregionalization-of-coastal-and-shelf-areas', 
+                                      tags$a(href='https://www.worldwildlife.org/publications/marine-ecoregions-of-the-world-a-bioregionalization-of-coastal-and-shelf-areas',
                                              target="_blank","Marine Provinces"),
                                       "shaded in grey, hover to display boundary and labels.",
                                       "Red markers indicate areas to review."),
-                        ), 
+                        ),
                         tabPanel("3",
                                  strong("Plot"),
                                  p("Plot shows the breakdown of area or number of polygons per combination of class and sedimentar in the selected province."),
-                                 
-                        ), 
-                        tabPanel("4", 
+
+                        ),
+                        tabPanel("4",
                                  strong("Table"),
                                  p("The table shows preliminary statistics calculated for the mangrove polygons within each province."),
                                  p("Area in km^2, Area change in %; EOO: extent of occurrence in km^2; AOO: area of occupancy (number of cells); AOO_m: AOO cells with > 1km^2 occupancy")
-                        ), 
-                        tabPanel("5", 
+                        ),
+                        tabPanel("5",
                                  strong("IUCN Global Ecosystem typology"),
                                  p("Preliminary Level 4 units for MFT1.2 Intertidal forests and shrublands."),
                                  p("Based on",tags$a(href='https://global-ecosystems.org/explore/groups/MFT1.2',target="_blank",
