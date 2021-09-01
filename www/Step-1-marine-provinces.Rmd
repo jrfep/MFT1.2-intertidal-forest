@@ -19,8 +19,15 @@ require(leaflet)
 require(sf)
 
 options(dplyr.summarise.inform = FALSE)
-load("Rdata/prov-data.rda")
-load("Rdata/mgv-species-occurrence.rda")
+#load("Rdata/prov-data.rda")
+#load("Rdata/mgv-species-occurrence.rda")
+load("Rdata/selected-units.rda")
+
+#Mapbox data
+mb.style <- "jrfep/ckspr4rl70jch17pg3rnix3fz"
+mb.token <- "pk.eyJ1IjoianJmZXAiLCJhIjoiY2s5N3RxZWhwMTl5NjNnbjFmdzhubTFjdiJ9.KFBzgxBPjKnERRfR9awR_g"
+my_url <- sprintf("https://api.mapbox.com/styles/v1/%s/tiles/{z}/{x}/{y}?access_token=%s",mb.style,mb.token)
+my_attribution <- "© <a href='https://www.mapbox.com/map-feedback/'>Mapbox</a> CC-BY-4.0 <a href='https://global-ecosystems.org/explore/groups/MFT1.2'>IUCN Global Ecosystem Typology</a>"
 
 ```
 [Back to Mangrove project folder](/Mangroves/) / [Data Sources](/MangrovesData/) / [Interactive map](/MangrovesMap/)
@@ -42,38 +49,22 @@ The map and table show the information for the selected group of provinces. The 
 
 
 ```{r, fig.height=4, fig.width=12 }
-mb.style <- "jrfep/ckspr4rl70jch17pg3rnix3fz"
-mb.token <- "pk.eyJ1IjoianJmZXAiLCJhIjoiY2s5N3RxZWhwMTl5NjNnbjFmdzhubTFjdiJ9.KFBzgxBPjKnERRfR9awR_g"
-
-my_url <- sprintf("https://api.mapbox.com/styles/v1/%s/tiles/{z}/{x}/{y}?access_token=%s",mb.style,mb.token)
-
-my_attribution <- "© <a href='https://www.mapbox.com/map-feedback/'>Mapbox</a> CC-BY-4.0 <a href='https://global-ecosystems.org/explore/groups/MFT1.2'>IUCN Global Ecosystem Typology</a>"
 
 occ <- factor(c("major","minor"))
 DPcolors <- c(rgb(193,15,2,255,max=255), rgb(247,157,150,255,max=255))
 
-## prov.mgv.spp
-provs <- prov_summary  %>% group_by(PROVINCE,PROV_CODE) %>%
-  st_wrap_dateline() %>% summarise %>% mutate(comment=case_when(
-  PROV_CODE %in% c(39,37,38,40) ~ "Included (Non native)",
-  PROV_CODE %in% c(45,3,22,4,5,8,36,50,62) ~ "Excluded",
-  PROV_CODE %in% c(6,9,11,47,53,54,16,28,44) ~ "Potential merge",
-  PROV_CODE %in% c(12,18,21) ~ "Potential split",
-  PROV_CODE %in% c(56,57,58,13,51) ~ "Potential modification",
-  TRUE ~ "Included"
-))
+opts <- c("All",pre_units %>% pull(Comment) %>% unique)
 
-opts <- c("All",provs %>% pull(comment) %>% unique)
-
-selectInput(inputId="filter1", label="Provinces to show", opts)
+fluidRow(
+  column(4, offset = 4,
+    selectInput(inputId="filter1", label="Provinces to show", opts)
+   )    
+)
 
 output$map <- renderLeaflet({
   leaflet() %>% setView(lng = 30, lat = 0, zoom = 2) %>%
   addProviderTiles(providers$Esri.NatGeoWorldMap,group='Base map') %>%
   addTiles(urlTemplate=my_url,attribution=my_attribution,group='Indicative distribution map') %>%
-    #addPolygons(data=provs, color = 'yellow',  weight = 2, fillOpacity = 0.15,
-     #          highlightOptions = highlightOptions(weight = 2, color = 'black'),
-      #         label=pr_labels, group='Marine provinces') %>%
   addLayersControl(
           baseGroups = c("Indicative distribution map","Base map"),
           overlayGroups = c("Marine provinces"),
@@ -88,22 +79,26 @@ output$map <- renderLeaflet({
   # Reactive expression for the data subsetted to what the user selected
   filteredData <- reactive({
     if (is.null(input$filter1)) {
-      provs
+      pre_units
     } else {
       if (input$filter1 %in% "All") {
-        provs
+        pre_units
       } else {
-             provs %>% filter(comment %in% input$filter1)
+             pre_units %>% filter(Comment %in% input$filter1)
       }
     }
   })
 
+    clrs <- colorFactor("Dark2",domain=pre_units$Comment)
+
 # use observe to update map with input$
 observe({
-  pr_labels <- filteredData() %>% transmute(qry=sprintf("%s: %s",PROVINCE,comment)) %>% pull(qry)  %>% lapply(htmltools::HTML) %>% unlist
+  pr_labels <- filteredData() %>% st_drop_geometry %>% transmute(qry=sprintf("<strong>%s</strong>:<br/> %s",PROVINCE,Comment)) %>% pull(qry)  %>% lapply(htmltools::HTML) 
+
 
   leafletProxy("map") %>% clearShapes()  %>%
-    addPolygons(data =filteredData(), color = 'yellow',  weight = 2, fillOpacity = 0.15,
+    addPolygons(data =filteredData(), fillColor = ~clrs(Comment), 
+              weight = 2, fillOpacity = 0.15,
                highlightOptions = highlightOptions(weight = 2, color = 'black'),
                label=pr_labels,
                group='Marine provinces')
@@ -115,30 +110,28 @@ leafletOutput("map")
 
 
 ```{r, echo=FALSE}
-
-prov.mgv.spp %>% st_drop_geometry %>% group_by(PROV_CODE,PROVINCE) %>% summarise(across(Dolichandrone.spathacea:Ceriops.australis, max)) -> mtz
-
  DT::renderDataTable({
-   mtz %>% rowwise() %>% transmute(PROV_CODE,PROVINCE,sum=sum(c_across(Dolichandrone.spathacea:Ceriops.australis))) %>% full_join(prov_summary,by=c('PROV_CODE','PROVINCE'))  %>% transmute(PROVINCE,`Area 2000`=area_2020 %>% set_units('km^2') %>% round(2),`Area 2016`=radius %>% set_units('m^2') %>% set_units('km^2') %>%  round(2),`Mangrove species`=sum) %>% full_join(st_drop_geometry(filteredData()),by=c('PROV_CODE','PROVINCE'))-> dts
-
-   if (is.null(input$filter1) | input$filter1 %in% "All") {
-     slc <- dts
-   } else {
-     slc <- dts %>% filter(comment %in% input$filter1)
-   }
-   slc
+   st_drop_geometry(filteredData()) 
 })
 ```
 
-## Reasons for excluding provinces
+## Reasons for excluding provinces/ecoregions
 
-There are two provinces with very small areas of mangrove ecosystems in 2000 (<1 km^2) and no occurrences in the 2016 data.  Five further provinces only have data on species distribution but mangrove ecosystems have not been detected. As discussed in the workshop small patches of mangrove forest might remain undetected in this areas but current evidence suggest this is unlikely the case in these areas.
+Some ecoregions lack evidence of mangrove ecosystems in the global distribution maps, although neighboring ecoregions from the same marine province do have mangrove occurrences, and the distribution maps of key mangrove species partially overlap these areas. As discussed in the workshop small patches of mangrove forest might remain undetected in these ecoregions. Thus we **retained** these ecoregions as part of the larger marine provinces for the purpose of delimitation of assessment units.
 
-The Lusitanian province included ca. 10 km^2  of mangrove ecosystems according to the older dataset but this is likely an error. According to workshop participants, the Canary Islands do not have mangroves. Northern mangrove limit is/was in the Park National du Banc d'Arguin  in Mauritania on the mainland a few kms north of Iouik. These were individual trees. The northernmost patches were located around Nouamghar (Cape Timirist), still within the PNBA.
+The _Lusitanian_ province included ca. 10 km^2  of mangrove ecosystems in the 2000 map (Giri et al. 2011) but this is likely an error. According to workshop participants, the Canary Islands do not have mangroves. Northern mangrove limit is/was in the Park National du Banc d'Arguin  in Mauritania on the mainland a few kms north of Iouik. These were individual trees. The northernmost patches were located around Nouamghar (Cape Timirist), still within the PNBA. Thus we will **exclude** the _Lusitanian_ province. 
+
+## Known but unmapped occurrences
+
+We **include** three ecoregions where the global maps did not detect occurrence of mangrove but we are aware of literature records describing these occurrences:
+
+- Maledives in the _Central Indian Ocean Islands_ Province (Kathiresan & Rajendran 2005),
+- Lord Howe and Norfolk Islands (Department of Environment and Climate Change (NSW) 2007),
+- [Bunbury, Western Australia](https://www.fish.wa.gov.au/Documents/recreational_fishing/fact_sheets/fact_sheet_mangroves.pdf)) in the Leeuwin Ecoregion, _Southwest Australian Shelf_ Province.
 
 ## Non-native occurrences
 
-We marked four provinces as non-native occurrences when the occurrences are well known and generally accepted to be introduced by humnas (World Mangrove Atlas Ch 10):
+We marked four provinces as **non-native occurrences** when the occurrences are well known and generally accepted to be introduced by humans (World Mangrove Atlas Ch 10):
 
 - _Rhizophora stylosa_ is considered introduced in French Polynesia (Meyer et al. 2021)
 - _Bruguiera gymnorhiza_ may have been introduced in the Marshall islands (Spenneman, 1998) and perhaps even Nypa into eastern Micronesia (Duke, 2008).
@@ -152,7 +145,6 @@ There are also other regions where some mangrove species have been introduced an
 
 We will cover the changes in the following steps:
 
-
 |  | |  |
 |---|---|---|
 |Step 1| Intersection of mangrove with marine provinces | This document
@@ -163,8 +155,16 @@ We will cover the changes in the following steps:
 
 ### References
 
+Department of Environment and Climate Change (NSW) 2007, Lord Howe Island Biodiversity Management Plan Appendices, Department of Environment and Climate Change (NSW), Sydney. [PDF](https://environment.gov.au/system/files/resources/e30dcdd3-e6d5-43e2-bc33-7fdb6dd9061e/files/lord-howe-island-appendices.pdf)
+
+Kathiresan, K. & Rajendran, N. (2005). Mangrove ecosystems of the Indian Ocean region. Indian J Mar Sci. 34(1). [PDF](https://www.researchgate.net/publication/254434289_Mangrove_ecosystems_of_the_Indian_Ocean_region)
+
 Meyer, JY., Taureau, F., Bisarah, L. et al. Introduced mangroves in the Society Islands, French Polynesia (South Pacific): invasive species or novel ecosystem?. Biol Invasions 23, 2527–2539 (2021). https://doi.org/10.1007/s10530-021-02520-9
 
+Mark Spalding, Mami Kainuma and Lorna Collins (eds) 2010. World Atlas of Mangroves.
+London, Washington D.C.: Earthscan 2010. ISBN 978-1-84407-657-4, xvi+319 Pages
+
+Other refs provided by workshop participants: Spenneman, 1998; Duke, 2008; Smith, 1996
 
 ---
 [Data Sources](/MangrovesData/) / [Interactive map](/MangrovesMap/) / [Local RLE assessments of Mangroves](rle-assessments.Rmd)

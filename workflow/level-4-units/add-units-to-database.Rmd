@@ -69,6 +69,7 @@ meow_mgv_summary %>% filter(!mgv_eco %in% c('absent','unmapped')) %>% summarise(
 
 meow_mgv_summary %<>% mutate(step_1=case_when(
   (mgv_eco %in% 'absent')~'absent',
+  ECOREGION %in% c('Maldives','Leeuwin','Lord Howe and Norfolk Islands')~'Included (unmapped, but known)',
   (!native)~'included (non-native)',
   (mgv_eco %in% 'unmapped')~ 'Consider exclusion',
   (PROV_CODE %in% c(3))~ 'Consider exclusion',
@@ -77,7 +78,7 @@ meow_mgv_summary %<>% mutate(step_1=case_when(
   PROV_CODE %in% c(56,57,58,13,51) ~ "Potential modification",
   TRUE ~ "Included"))
 
-meow_mgv_summary %>% filter(PROV_CODE %in% c(45)) %>% dplyr::select(n_key_mgv_spp,n_add_mgv_spp,min_area,max_area,native,mgv_eco)
+meow_mgv_summary %>% filter(PROV_CODE %in% c(36)) %>% dplyr::select(ECOREGION,n_key_mgv_spp,n_add_mgv_spp,min_area,max_area,native,mgv_eco)
 
 ```
 |PROV CODE| PROVINCE | exclusion |
@@ -90,23 +91,30 @@ meow_mgv_summary %>% filter(PROV_CODE %in% c(45)) %>% dplyr::select(n_key_mgv_sp
 |22| C Indian Ocean Islands | exclude eco code 20106|
 |36| Lord Howe and Norfolk Islands |Include!|
 
-Department of Environment and Climate Change (NSW) 2007, Lord Howe Island Biodiversity Management Plan
-Appendices, Department of Environment and Climate Change (NSW), Sydney. [PDF](https://environment.gov.au/system/files/resources/e30dcdd3-e6d5-43e2-bc33-7fdb6dd9061e/files/lord-howe-island-appendices.pdf)
+
+Create dataset with selected provinces and data to display:
+```{r}
+pre_units <- meow_mgv_summary  %>% filter(!step_1 %in% 'absent') %>% group_by(PROV_CODE,PROVINCE,step_1) %>% summarise(area_2000=sum(area_usgs_2000,na.rm=T), area_2016=sum(area_gmw_2016,na.rm=T))
+
+mprov.xy %>% st_drop_geometry %>% group_by(PROV_CODE,PROVINCE) %>% summarise(across(Dolichandrone.spathacea:Ceriops.australis, max)) %>% rowwise() %>% transmute(PROV_CODE,PROVINCE,sum=sum(c_across(Dolichandrone.spathacea:Ceriops.australis))) %>% ungroup -> mtz
+
+pre_units %<>% left_join(mtz,by=c('PROV_CODE','PROVINCE'))  %>% transmute(PROVINCE,`Mangrove Area in 2000 (km^2)`=round(area_2000,2),`Mangrove Area in 2016 (km^2)`=round(area_2016,2),`Mangrove species`=sum,Comment=step_1) 
+save(file=sprintf("%s/www/Rdata/selected-units.rda",script.dir),pre_units)
+
+```
 
 
-Preview maps with leaflet
+Preview maps before any modifications with leaflet
 
 ```{r}
 m <- leaflet(options = leafletOptions(worldCopyJump = TRUE,zoomControl = TRUE))  %>%  addProviderTiles(providers$Esri.OceanBasemap) %>%
   setView(lng = 0, lat = 0, zoom = 2)
 
-pre_units <- meow_mgv_summary  %>% filter(!step_1 %in% 'absent') %>% group_by(PROV_CODE,PROVINCE,step_1) %>% summarise
+clrs <- colorFactor("Dark2",domain=pre_units$Comment)
 
-clrs <- colorFactor("Dark2",domain=pre_units$step_1)
+labels <- sprintf("%s<br/>%s<br/>%s", pre_units$PROV_CODE, pre_units$PROVINCE, pre_units$Comment) %>% lapply(htmltools::HTML)
 
-labels <- sprintf("%s<br/>%s<br/>%s", pre_units$PROV_CODE, pre_units$PROVINCE, pre_units$step_1) %>% lapply(htmltools::HTML)
-
-m %>% addPolygons(data = pre_units, fillColor = ~clrs(step_1), highlightOptions = highlightOptions(weight = 2, color = 'black'), color = 'grey', weight = 0.4, fillOpacity = 0.45,label=labels)
+m %>% addPolygons(data = pre_units, fillColor = ~clrs(Comment), highlightOptions = highlightOptions(weight = 2, color = 'black'), color = 'grey', weight = 0.4, fillOpacity = 0.45,label=labels)
 
 
 ```
@@ -162,8 +170,25 @@ labels <- sprintf("%s<br/>Native:%s", post_units$unit_name, post_units$native) %
 
 m %>% addPolygons(data = post_units, fillColor = ~clrs(native), highlightOptions = highlightOptions(weight = 2, color = 'black'), color = 'grey', weight = 0.4, fillOpacity = 0.45,label=labels)
 
-save(file=sprintf("%s/www/Rdata/selected-units.Rda",script.dir),pre_units,post_units)
+save(file=sprintf("%s/www/Rdata/selected-units.rda",script.dir),pre_units,post_units)
 ```
+
+
+We will include point layers with the location of polygons
+
+
+```{r}
+gmw.2016.xy <- gmw.meow.2016 %>% st_centroid()
+usgs.2000.xy <- usgs.meow.its %>% st_centroid()
+
+gmw.2016.xy %<>% mutate(area=area %>% set_units(km^2))
+usgs.2000.xy %<>% mutate(area=area %>% set_units(km^2))
+
+# too many points for a global map
+#m %>%  addCircleMarkers(data=gmw.2016.xy,radius=sqrt(gmw.2016.xy$area),color = 'green', fillColor = 'green', opacity = .3,group="Mangrove occurrences")
+
+```
+
 Finally we will add these to the database:
 
 ```{r}

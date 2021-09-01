@@ -18,9 +18,11 @@ require(sf)
 require(vegan)
 require(leaflet)
 options(dplyr.summarise.inform = FALSE)
-load("Rdata/prov-data.rda")
+##load("Rdata/prov-data.rda")
 load("Rdata/mgv-species-occurrence.rda")
+load("Rdata/selected-units.rda")
 load('Rdata/species-occurrence.rda')
+
 
 mb.style <- "jrfep/ckspr4rl70jch17pg3rnix3fz"
 mb.token <- "pk.eyJ1IjoianJmZXAiLCJhIjoiY2s5N3RxZWhwMTl5NjNnbjFmdzhubTFjdiJ9.KFBzgxBPjKnERRfR9awR_g"
@@ -38,6 +40,7 @@ We evaluated nine cases were adjacent provinces could be merged. We decided to a
 | Larger province  | Province to merge | Decision | Comment |
 |---|---|---|---|
 |Trop E Pacific| Warm Temp NE Pacific | Keep | REALM boundary |
+|Trop E Pacific| Warm Temp SE Pacific | Merge | Very few occurrences beyond the boundary  |
 |Trop NW Atlantic | Warm Temp NW Atlantic | Keep |  REALM boundary, very distinctive |
 |Trop SW Atlantic | Warm Temp SW ATlantic | Keep | REALM boundary, S limit of _A. germinans_ |
 |South China Sea|Warm Temp NW Pacific|Keep|REALM boundary|
@@ -49,7 +52,7 @@ We evaluated nine cases were adjacent provinces could be merged. We decided to a
 
 ## Visualization of ecological and environmental data
 
-In almost every edge of range location, mangroves extend into the adjacent temperate realm. The consensus among workshop participants was to keep all provinces at the boundaries between temperate versus tropical as distinct units.
+In almost every edge of range location, mangroves extend into the adjacent temperate realm. The consensus among workshop participants was to keep all provinces at the boundaries between temperate versus tropical as distinct units. The only exception was between Tropical East Pacific and one ecoregion in the Warm Temperate Southeastern Pacific: there are very few (marginal?) occurrences between Piura and Chiclayo which are very likely connected to the mangroves of the Guayaquil ecoregion.
 
 For the other four cases of potential merges we argue the reasons for merging or not merging provinces based on qualitative assessment of:
 
@@ -61,18 +64,6 @@ For the other four cases of potential merges we argue the reasons for merging or
 The data is displayed below, use the drop down menu to select one of the four regions and the tabs to view the plots or maps.
 
 ```{r}
-
-#NZ %>% st_transform("EPSG:2193") -> NZ.xy
-#NZ2 <- st_wrap_dateline(NZ, options = c("WRAPDATELINE=YES", "DATELINEOFFSET=100"))
-#st_geometry(NZ2) = (st_geometry(NZ) + c(360,90)) %% c(360) - c(0,90)
-
-#NZ2 %>% st_drop_geometry %>% select(Dolichandrone.spathacea:Ceriops.australis) -> mtz
-#m1 <- mtz[,colSums(mtz)>0]
-#rownames(m1) <- NZ2 %>% st_drop_geometry %>% transmute(ecoregion=paste(PROVINCE," / ",ECOREGION)) %>% pull
-#m1
-
-#GP <- prov.mgv.spp %>%  filter(PROV_CODE %in% c(43,44,45))
-#prov.mgv.spp %>%  filter(PROV_CODE %in% c(9,30,28,25)) -> SK
 
 slcMap <- reactive({
   provslc <-
