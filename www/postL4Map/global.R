@@ -8,8 +8,8 @@ load("selected-units.rda")
 load("mgt-point-data.rda")
 
 
-post_units %<>%
-  st_wrap_dateline(options = c("WRAPDATELINE=YES", "DATELINEOFFSET=0"))
+## this introduces an error in the server
+##post_units %<>% st_wrap_dateline(options = c("WRAPDATELINE=YES", "DATELINEOFFSET=0"))
 
 slc <- c("Mangroves of Hawaii","Mangroves of New Zealand","Mangroves of Central Polynesia",
          "Mangroves of Marshall, Gilbert and Ellis Islands","Mangroves of Tropical Southwestern Pacific",
@@ -34,4 +34,7 @@ known_mgv <- bind_rows(
    tibble(lng=-65.122,lat=31.280,message='Mangroves are present in Bermuda'),
    tibble(lng=73.34406,lat=3.11347,message='Mangroves are present in the Maldives (Kathiresan & Rajendran 2005)'),
    tibble(lng=159.08342,lat=-31.548905,message='Mangroves are present in Lord Howe Island'),
-   tibble(lng=115.6649,lat=-33.3373,message='Mangroves are present in Bunbury (Western Australia)'))
+   tibble(lng=115.6649,lat=-33.3373,message='Mangroves are present in Bunbury (Western Australia)'),
+   tibble(lng=170.23290,lat=7.86647,message='Mangroves prob. introduced in the Marshall Islands'),
+   tibble(lng=(360-149.65051),lat=-17.65810, message='Mangroves introduced in French Polynesia')
+  )
