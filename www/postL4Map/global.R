@@ -4,8 +4,8 @@ require(sf)
 options(dplyr.summarise.inform = FALSE)
 
 
-load("selected-units.rda")
-load("mgt-point-data.rda")
+load("../Rdata/selected-units.rda")
+load("../Rdata/mgt-point-data.rda")
 
 
 ## this introduces an error in the server

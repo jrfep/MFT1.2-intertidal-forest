@@ -52,8 +52,9 @@ function(input, output, session) {
       
     } else {
         dts <- post_units_components %>% filter(unit_name %in% my_place) %>% 
-          transmute(PROV_CODE,ECO_CODE,Province=PROVINCE,Ecoregion=ECOREGION,Native=native,
-                    `Area (km^2) 2016`=area_gmw_2016,`Nr. key spp.`=round(n_key_mgv_spp),step_1
+          transmute(#PROV_CODE,ECO_CODE,
+                    Province=PROVINCE,Ecoregion=ECOREGION,Native=native,
+                    `Area (km^2) 2016`=area_gmw_2016,`Nr. key spp.`=round(n_key_mgv_spp),Description=description
                     )
       dts
     }
