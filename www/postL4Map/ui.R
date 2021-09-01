@@ -20,8 +20,27 @@ navbarPage("MFT1.2 Intertidal forests and shrublands",
                         tableOutput("table")
                         )))),
   tabPanel("Instructions", 
-           h1("We will have great content here!"))
+           h2("IUCN Global Ecosystem typology"),
+           p("Preliminary Level 4 units for ", strong("MFT1.2 Intertidal forests and shrublands"),"."),
+           p("Based on",tags$a(href='https://global-ecosystems.org/explore/groups/MFT1.2',target="_blank",
+                               "Bishop et al. (2020)"),br(),"Maps and app prepared by JR Ferrer-Paris @ ",
+             tags$a(href='https://www.ecosystem.unsw.edu.au/',target="_blank","Centre for Ecosystem Science, UNSW")),
+          h3("Map"),
+          p("Map shows the Level 4 units, hover to display boundary and labels, click on a unit to update plot and table."),
+          p("Heatmap shows density of mangrove polygons (from",
+            tags$a(href='https://data.unep-wcmc.org/datasets/48', 
+                   target="_blank","Worthington et al. 2020"),")."),
+          h3("Plot"),
+          p("Plot shows the breakdown of area or number of polygons per combination of class and sedimentar in the selected province."),
+            h3("Table"),
+            p("The table shows the list of ",
+              tags$a(href='https://www.worldwildlife.org/publications/marine-ecoregions-of-the-world-a-bioregionalization-of-coastal-and-shelf-areas',
+                     target="_blank","marine ecoregions and provinces"),"used to delineate the level 4 units. 
+              It also includes the area (km<sup>2</sup>) of mangrove occurrences estimated for the year 2016 and the number of key mangrove species in each ecoregion.")
+          
+             )
 )
+
 
 
 # 
