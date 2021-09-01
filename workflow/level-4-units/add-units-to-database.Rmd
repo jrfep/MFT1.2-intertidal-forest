@@ -144,6 +144,21 @@ meow_mgv_summary %<>% mutate(step_4=case_when(
   PROV_CODE %in% c(51,13) ~ "Do not modify",
   TRUE ~ as.character(NA)))
 
+meow_mgv_summary %<>% mutate(description=case_when(
+  ECO_CODE %in% c(20173,20174,20172) ~ "Kept as part of distinct unit",
+  PROV_CODE %in% c(11,6,16,9) ~ "Boundary between tropical and temperate",
+  ECO_CODE %in% c(20175) ~ "Merged to keep continuity in distribution",
+  ECO_CODE %in% c(20169,20164,20181,20074,20192,20097,20099,20093,20120,20114,20150) ~ "Kept as part of province, occurrence not confirmed",
+  ECO_CODE %in% c(20180,20192) ~ "Boundary between tropical and temperate",
+  PROV_CODE %in% c(13) ~ "Keeping original boundaries of the province",
+  PROV_CODE %in% c(28) ~ "Keeping separate as ditinct unit",
+  
+  ECO_CODE %in% c(20062) ~ "Split from rest of province, isolated occurrence",
+  PROV_CODE %in% c(12,17,20,19,18,23,24,27,26,25,30,29,31,35) ~ "Kept as part of distinct unit",
+  ECO_CODE %in% c(20105) ~ "Unmapped but known occurrence",
+  PROV_CODE %in% c(21) ~ "Might be assessed as two units",
+  
+ 
 ```
 
 Final groups
@@ -170,15 +185,22 @@ Use the same leaflet map as a base:
 
 post_units <- meow_mgv_summary  %>% filter(!unit_name %in% 'absent') %>% group_by(unit_name,native) %>% summarise
 
-post_units %<>% left_join({meow_mgv_summary %>% st_drop_geometry %>% filter(!unit_name %in% 'absent') %>% group_by(unit_name,PROVINCE) %>% summarise(ecoregions=paste0(ECOREGION,collapse=", ")) %>% group_by(unit_name) %>% summarise(description=paste(sprintf("Ecoregions %s of the **<emph>%s</emph>** province",ecoregions,PROVINCE),collapse="; "))},by="unit_name")
+post_units_components <- meow_mgv_summary %>% st_drop_geometry %>% filter(!unit_name %in% 'absent')
+#post_units %<>% left_join({meow_mgv_summary %>% st_drop_geometry %>% filter(!unit_name %in% 'absent') %>% group_by(unit_name,PROVINCE) %>% summarise(ecoregions=paste0(ECOREGION,collapse=", ")) %>% group_by(unit_name) %>% summarise(description=paste(sprintf("Ecoregions %s of the **<emph>%s</emph>** province",ecoregions,PROVINCE),collapse="; "))},by="unit_name")
+save(file=sprintf("%s/www/Rdata/selected-units.rda",script.dir), pre_units, post_units, post_units_components)
 
+```
+
+
+Visualise this
+
+```{r}
 clrs <- colorFactor("Dark2",domain=post_units$native)
 
 labels <- sprintf("%s<br/>Native:%s", post_units$unit_name, post_units$native) %>% lapply(htmltools::HTML)
 
 m %>% addPolygons(data = post_units, fillColor = ~clrs(native), highlightOptions = highlightOptions(weight = 2, color = 'black'), color = 'grey', weight = 0.4, fillOpacity = 0.45,label=labels)
 
-save(file=sprintf("%s/www/Rdata/selected-units.rda",script.dir), pre_units, post_units)
 ```
 
 

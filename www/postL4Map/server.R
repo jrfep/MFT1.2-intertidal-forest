@@ -30,11 +30,7 @@ function(input, output, session) {
     leaflet() %>%
       addProviderTiles(providers$CartoDB.Positron) %>%
       setView(lng = 40, lat = 10, zoom = 2) %>%
-         # addPolygons(data = provs, color = 'yellow',  weight = 2, fillOpacity = 0.15,
-        #            highlightOptions = highlightOptions(weight = 2, color = 'black'),
-        #            label=pr_labels,
-        #            group='Marine provinces')  %>%
-      addMarkers(data=known_mgv,group='Known unmapped occurrences',label=~message) %>%
+          addMarkers(data=known_mgv,group='Known unmapped occurrences',label=~message) %>%
       addPolygons(data = post_units, layerId= ~unit_name, color = 'red',  weight = 2, fillOpacity = 0.15,label=l4_labels,
                               highlightOptions = highlightOptions(weight = 2, color = 'black'),
                               group='Level 4 units') %>%
@@ -48,10 +44,26 @@ function(input, output, session) {
   output$uName=renderText({
     data_of_click$clickedUnit$id
     })
-  output$description=renderText({
-    post_units %>% filter(unit_name %in% data_of_click$clickedUnit$id) %>% pull(description) -> desc
-    htmltools::HTML(desc)
+  
+  ## table output
+  output$table <- renderTable({
+    my_place=data_of_click$clickedUnit$id
+    if(is.null(my_place)) {
+      
+    } else {
+        dts <- post_units_components %>% filter(unit_name %in% my_place) %>% 
+          transmute(PROV_CODE,ECO_CODE,Province=PROVINCE,Ecoregion=ECOREGION,Native=native,
+                    `Area (km^2) 2016`=area_gmw_2016,`Nr. key spp.`=round(n_key_mgv_spp),step_1
+                    )
+      dts
+    }
   })
+  
+  
+  #output$description=renderText({
+  #  post_units %>% filter(unit_name %in% data_of_click$clickedUnit$id) %>% pull(description) -> desc
+  #  htmltools::HTML(desc)
+  #})
   
   # Make a barplot 
   output$barplot=renderPlot({
