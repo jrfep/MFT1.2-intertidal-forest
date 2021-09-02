@@ -17,7 +17,7 @@ require(leaflet)
 require(DT)
 require(sf)
 options(dplyr.summarise.inform = FALSE)
-load('dbquery.rda')
+load('Rdata/dbquery.rda')
 ```
 
 # Mangroves in the IUCN Red List of Ecosystems database
