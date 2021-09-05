@@ -1,6 +1,6 @@
 # MFT1.2-intertidal-forest and shrublands - Level 4 units
 
-This repository showcases the data of products of a IUCN workshop on the delimitation of global ecoregional types for the ecosystem functional group _MFT1.2-intertidal-forest and shrublands_. 
+This repository showcases the outputs of a IUCN workshop on the delimitation of global ecoregional types for the ecosystem functional group _MFT1.2-intertidal-forest and shrublands_.
 
 The repository has the following structure:
 
@@ -11,7 +11,7 @@ Defining the programming environment variables for working in Linux/MacOS.
 Includes example configuration files for some applications.
 
 ## _inc_ folder
-Holds the scripts used for specific tasks. Mostly R and (bash) shell scrips, includes the PBS scripts for scheduling jobs in the HPC nodes. 
+Holds the scripts used for specific tasks. Mostly R and (bash) shell scrips, includes the PBS scripts for scheduling jobs in the HPC nodes.
 
 ## _Rdata_ folder
 For `rda` files that contain data used in some R scripts.
