@@ -1,0 +1,374 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r}
+require(dplyr)
+require(XML)
+source(sprintf("%s/proyectos/IUCN-GET/MFT1.2-intertidal-forest/env/project-env.R",Sys.getenv("HOME")))
+for (rda.file in c("mgt-point-data.rda","selected-units.rda","species-occurrence.rda"))
+  load(file=sprintf("%s/www/Rdata/%s",script.dir,rda.file))
+```
+
+Assessment unit correspond to _Regional ecosystem subgroups_ (level 4 of the IUCN Global Ecosystem Typology).
+
+## Initialize document
+```{r}
+doc = newXMLDoc()
+cdg <- 1
+unit_name <- "Bermuda"
+top = newXMLNode("Case-Study", doc=doc)
+```
+
+## Initialize first level nodes
+
+The assessment target node has 14 children nodes:
+
+```{r}
+
+AT.id <- newXMLNode("AT-id",sprintf("MFT1.2-RES-%02d",cdg))
+AT.descriptions <- newXMLNode("AT-descriptions",
+  children=list(newXMLNode("AT-description", attributes=list(lang="en"),
+  "[INSTRUCTIONS: Add here a brief description of the ecosystem type must provide contextual information on its classification; clearly describe four elements that define the ecosystem type (characteristic native biota; abiotic environment; key processes and interactions; and spatial distribution); and describe the threats and collapsed states.]")))
+AT.names <- newXMLNode("AT-names",
+    children=list(newXMLNode("AT-name", attributes=list(lang="en"), sprintf("Intertidal forests and shrublands of %s", unit_name)),
+    newXMLNode("AT-name", attributes=list(lang="es"), sprintf("Bosques de manglar de %s", unit_name))))
+
+AT.biota <- newXMLNode("Characteristic-biota")
+AT.abiotic <- newXMLNode("Abiotic-environment")
+AT.biotic <- newXMLNode("Biotic-processes")
+AT.services <- newXMLNode("Ecosystem-services")
+AT.threats <- newXMLNode("Threats")
+AT.actions <- newXMLNode("Conservation-actions")
+AT.research <- newXMLNode("Research-needs")
+AT.CEM <- newXMLNode("Conceptual-ecosystem-model")
+AT.class <- newXMLNode("Classifications")
+AT.dist <- newXMLNode("Distribution")
+AT.collapse <- newXMLNode("Collapse-definition")
+```
+
+## Populate nodes
+
+Now we can populate each node with relevant information or placeholders to be expanded by experts.
+
+
+### Characteristic biota
+
+For this node we need to add a summary and list of species:
+
+```{r}
+newXMLNode("Biota-Summaries",
+  children=list(
+    newXMLNode("Biota-Summary", 
+               sprintf("[INSTRUCTIONS: The characteristic native biota
+include the genes, populations, species, assemblages of species and their key interactions
+that: (i) compositionally distinguish an ecosystem type from others (diagnostic components);
+and (ii) are central in driving ecosystem dynamics and function, such as ecosystem
+engineers, trophic or structural dominants, or functionally unique elements (functional
+components). The diagnostic components of characteristic native biota should demonstrate
+a level a compositional uniqueness and identify functionally important elements. In general,
+the description need not include exhaustive species inventories. ]"),
+               attrs=list(lang="en"))),
+  parent=AT.biota)
+    
+taxon.list <- newXMLNode("taxons",parent=AT.biota)
+    
+for (taxon in spp.list)
+  newXMLNode("taxon",taxon, #attrs=list(lang="scientific"),
+    parent=taxon.list)
+
+
+```
+
+### Abiotic environment
+
+Here I write some placeholder text based on the profile for the ecosystem functional group.
+
+```{r}
+newXMLNode("Abiotic-Summaries",
+          children=list(newXMLNode("Abiotic-Summary",
+         "Mangroves are physiologically intolerant of low temperatures, which excludes them from regions where mean air temperature during the coldest months is below 20°C, where the seasonal temperature range exceeds 10°C, or where ground frost occurs. Many mangrove soils are low in nutrients, especially nitrogen and phosphorus. Regional distributions are influenced by interactions among landscape position, rainfall, hydrology, sea level, sediment dynamics, subsidence, storm-driven processes, and disturbance by pests and predators. Rainfall and sediment supply from rivers and currents promote mangrove establishment and persistence, while waves and large tidal currents destabilise and erode mangrove substrates, mediating local-scale dynamics in ecosystem distributions. High rainfall reduces salinity stress and increases nutrient loading from adjacent catchments, while tidal flushing also regulates salinity.",
+          attrs=list(lang="en"))),parent=AT.abiotic)
+```
+
+
+### Biotic processes
+Here I write some placeholder text based on the profile for the ecosystem functional group.
+```{r}
+newXMLNode("Processes-Summaries",
+          children=list(newXMLNode("Processes-Summary",
+          "Mangroves are structural engineers and possess traits including pneumatophores, salt excretion glands, vivipary, and propagule buoyancy that promote survival and recruitment in poorly aerated, saline, mobile, and tidally inundated substrates. They are highly efficient in nitrogen use efficiency and nutrient resorption. They produce large amounts of detritus (e.g. leaves, twigs, and bark), which is either buried in waterlogged sediments, consumed by crabs, or more commonly decomposed by fungi and bacteria, mobilising carbon and nutrients to higher trophic levels. These ecosystems are also major blue carbon sinks, incorporating organic matter into sediments and living biomass. Although highly productive, these ecosystems are less speciose than other coastal biogenic systems. Crabs are among the most abundant and important invertebrates. Their burrows oxygenate sediments, enhance groundwater penetration, and provide habitat for other invertebrates such as molluscs and worms. Specialised roots (pneumatophores) provide a complex habitat structure that protects juvenile fish from predators and serves as hard substrate for the attachment of algae as well as sessile and mobile invertebrates (e.g. oysters, mussels, sponges, and gastropods). Mangrove canopies support invertebrate herbivores and other terrestrial biota including invertebrates, reptiles, small mammals, and extensive bird communities. ",
+          attrs=list(lang="en"))),parent=AT.biotic)
+```
+
+### Ecosystem services
+Here I write some placeholder text based on the profile for the ecosystem functional group.
+
+```{r}
+newXMLNode("Services",children=list(newXMLNode("Ecosystem-service")),parent=AT.services)
+  newXMLNode("Services-Summaries", children=list(newXMLNode("Services-Summary","These systems are among the most productive coastal environments. These ecosystems are also major blue carbon sinks, incorporating organic matter into sediments and living biomass. They have well-documented ability of  to protect coastal regions from storms. ",attrs=list(lang="en"))),parent=AT.services)
+
+```
+
+### Threats
+Here I write some placeholder text based on the profile for the ecosystem functional group.
+
+```{r}
+require(readr)
+newXMLNode("Threats-Summaries",children=list(newXMLNode("Threats-Summary",attrs=list(lang="en"),"Mangrove deforestation due to aquaculture. Urbanisation and the associated coastal development, over-harvesting, and pollution from domestic, industrial and agricultural land use urbanisation (coastal development). The position of mangrove forests in intertidal areas renders them vulnerable to predicted sea-level rise as a result of climate change. Tropical storms can damage mangrove forests through direct defoliation and destruction of trees, as well as through the mass mortality of animal communities within the ecosystems. ")),parent=AT.threats)
+
+threats <- read_csv(file=sprintf("%s/input/threats.csv",script.dir)) 
+
+for (k in threats %>%  distinct(Name) %>% pull ) {
+  print(k)
+  this.Threat.class <- newXMLNode("Threat-classification", 
+                                attrs=list(id="IUCN", version="3.2", selected="yes",
+                                           `assigned-by`="Assessment authors"))
+  for (thr in {threats %>% filter(Name %in% k & !is.na(level1)) %>% distinct(level1) %>% pull}) {
+    newXMLNode("Threat-classification-element",thr,attrs=list(level=1),parent=this.Threat.class)
+  }
+  for (thr in {threats %>% filter(Name %in% k & !is.na(level2)) %>% distinct(level2) %>% pull}) {
+    newXMLNode("Threat-classification-element",thr,attrs=list(level=2),parent=this.Threat.class)
+  }
+  for (thr in {threats %>% filter(Name %in% k & !is.na(level3)) %>% distinct(level3) %>% pull}) {
+    newXMLNode("Threat-classification-element",thr,attrs=list(level=3),parent=this.Threat.class)
+  }
+  thr.info <- {threats %>% filter(Name %in% k & !is.na(Description))}
+  newXMLNode("Threat",
+     children=list(
+       newXMLNode("Threat-name",k),
+       newXMLNode("Threat-description",thr.info$Description,attrs=list(lang="en")),
+       newXMLNode("Threat-Impact",
+         children=list(
+           newXMLNode("Threat-Timing",thr.info$timing,attrs=list(id="IUCN", version="3.2", selected="yes", `assigned-by`="JRFP")),
+           newXMLNode("Threat-Scope",thr.info$scope,attrs=list(id="IUCN", version="3.2", selected="yes", `assigned-by`="JRFP")),
+           newXMLNode("Threat-Severity",thr.info$severity,attrs=list(id="IUCN", version="3.2", selected="yes", `assigned-by`="JRFP"))
+       )),
+       this.Threat.class
+     ),
+     parent=AT.threats)
+  }
+    
+```
+
+### Conservation actions
+Here I write some placeholder text based on the profile for the ecosystem functional group.
+
+### Research needs
+Here I write some placeholder text based on the profile for the ecosystem functional group.
+
+### Conceptual ecosystem model
+Here I write some placeholder text based on the profile for the ecosystem functional group.
+
+### Distribution
+Here I write some placeholder text based on the profile for the ecosystem functional group.
+
+### Classification 
+
+Add classification information based on the IUCN Global ecosystem typology and the IUCN habitat classification scheme:
+
+```{r}
+class.typ <- newXMLNode("Classification-system", attrs=list(id="IUCN GET", version="2.0", selected="yes", `assigned-by`="Assessment authors"),
+        parent=AT.class)
+
+newXMLNode("Classification-element", "Transitional Marine-Freshwater-Terrestrial realm", attrs=list(level="1"), parent=class.typ)
+newXMLNode("Classification-element", "MFT1 Brackish tidal biome", attrs=list(level="2"), parent=class.typ)
+newXMLNode("Classification-element", "MFT1.2 Intertidal forests and shrublands", attrs=list(level="3"), parent=class.typ)
+newXMLNode("Classification-element", sprintf("MFT1.2 RES %03d %s",cdg,unit_name), attrs=list(level="4"), parent=class.typ)
+
+
+class.typ <- newXMLNode("Classification-system", attrs=list(id="IUCN habitat", version="3.1", selected="no", `assigned-by`="Assessment authors"),
+        parent=AT.class)
+
+newXMLNode("Classification-element", "1 Forest", attrs=list(level="1"), parent=class.typ)
+newXMLNode("Classification-element", "1.7 Forest – Subtropical/tropical mangrove vegetation above high tide level", attrs=list(level="2"), parent=class.typ)
+newXMLNode("Classification-element", "12 Marine Intertidal", attrs=list(level="1"), parent=class.typ)
+newXMLNode("Classification-element", "12.7 Marine Intertidal - Mangrove Submerged Roots", attrs=list(level="2"), parent=class.typ)
+
+```
+
+### Collapse 
+
+Here I write some placeholders for collapse definitions based on the profile for the ecosystem functional group.
+
+```{r}
+newXMLNode("Collapse-summaries",children=list(newXMLNode("Collapse-summary",attrs=list(lang="en"))),parent=AT.collapse)
+newXMLNode("Spatial-collapse-definitions",children=list(newXMLNode("Spatial-collapse","Mangroves are structural engineers and possess specialised traits that promote high nitrogen use efficiency and nutrient resorption that influences major processes and functions in this ecosystem. Ecosystem collapse is considered to occur when the tree cover of diagnostic species of true mangroves declines to zero (100% loss).",
+      attrs=list(lang="en"))),parent=AT.collapse)
+
+newXMLNode("Functional-collapse-definitions",children=list(newXMLNode("Functional-collapse","These are highly dynamic systems, with species distributions adjusting to local changes in sediment distribution, tidal regimes, and local inundation and salinity gradients. Processes that disrupt this dynamic can lead to ecosystem collapse. Ecosystem collapse may occur under any of the following: a) climatic conditions (low temperatures) restrict recruitment and survival of diagnostic true mangroves; b) changes in rainfall and river inputs and/or waves and tidal currents destabilise and erode substrates and disrupt recruitment and growth, c) changes in rainfall and tidal flushing change salinity stress and nutrient loadings affecting survival.",
+            attrs=list(lang="en"))),parent=AT.collapse)
+
+```
+
+
+
+## Finalise and write output
+
+Aggregate all nodes to the parent node:
+```{r}
+AT = newXMLNode("Assessment-Target", attrs=list(date="2021-09-14", `updated-by`="JRFP", status="draft"), parent=top,
+  children=list(AT.id, AT.descriptions, AT.names, AT.biota, AT.abiotic, AT.biotic, AT.services, AT.threats, AT.actions, AT.research, AT.CEM, AT.class, AT.dist, AT.collapse)) 
+
+```
+
+
+Write output document:
+
+```{r}
+
+output.file <- sprintf("%s/xml/Assessment_target_MFT1.2-RES-%02d.xml",script.dir,cdg)
+
+saveXML(doc,file=output.file,
+     prefix = '<?xml version="1.0" encoding="UTF-8"?>
+     <?xml-stylesheet type="text/css" href="target.css"?>',
+     encoding = "UTF-8")
+
+```
+
+
+```xml
+<Assessment-Target date="" updated-by="" status="">
+      <AT-id></AT-id>
+      <AT-descriptions>
+        <AT-description lang="en"></AT-description>
+      </AT-descriptions>
+      <AT-names>
+        <AT-name lang="en"></AT-name>
+      </AT-names>
+      <Characteristic-biota>
+        <taxons>
+          <taxon></taxon>
+        </taxons>
+        <Biota-Summaries>
+          <Biota-Summary lang="en"></Biota-Summary>
+        </Biota-Summaries>
+      </Characteristic-biota>
+      <Abiotic-environment>
+        <Abiotic-Summaries>
+          <Abiotic-Summary lang="en"></Abiotic-Summary>
+        </Abiotic-Summaries>
+      </Abiotic-environment>
+      <Biotic-processes>
+        <Processes-Summaries>
+          <Processes-Summary lang="en"></Processes-Summary>
+        </Processes-Summaries>
+      </Biotic-processes>
+      <Ecosystem-services>
+        <Services>
+          <Ecosystem-service></Ecosystem-service>
+        </Services>
+        <Services-Summaries>
+          <Services-Summary lang="en"></Services-Summary>
+        </Services-Summaries>
+      </Ecosystem-services>
+      <Threats>
+        <Threats-Summaries>
+          <Threats-Summary lang="en"></Threats-Summary>
+        </Threats-Summaries>
+        <Threat>
+          <Threat-names>
+            <Threat-name lang="en"></Threat-name>
+          </Threat-names>
+          <Threat-Impact>
+            <Threat-Timing id="" version="0" selected="" assigned-by=""></Threat-Timing>
+            <Threat-Scope id="" version="0" selected="" assigned-by=""></Threat-Scope>
+            <Threat-Severity id="" version="0" selected="" assigned-by=""></Threat-Severity>
+          </Threat-Impact>
+          <Threat-descriptions>
+            <Threat-description lang="en"></Threat-description>
+          </Threat-descriptions>
+          <Threat-classification id="" version="0" selected="" assigned-by="">
+            <Threat-classification-element level=""></Threat-classification-element>
+          </Threat-classification>
+        </Threat>
+      </Threats>
+      <Conservation-actions>
+        <Conservation-Summaries>
+          <Conservation-Summary lang="en"></Conservation-Summary>
+        </Conservation-Summaries>
+        <Conservation-action>
+          <Conservation-action-names>
+            <Conservation-action-name lang="en"></Conservation-action-name>
+          </Conservation-action-names>
+          <Conservation-action-descriptions>
+            <Conservation-action-description lang="en"></Conservation-action-description>
+          </Conservation-action-descriptions>
+          <Conservation-action-classification id="" version="0" selected="" assigned-by="">
+            <Conservation-action-classification-element level=""></Conservation-action-classification-element>
+          </Conservation-action-classification>
+        </Conservation-action>
+      </Conservation-actions>
+      <Research-needs>
+        <Research-Summaries>
+          <Research-Summary lang="en"></Research-Summary>
+        </Research-Summaries>
+        <Research-needed>
+          <Research-needed-names>
+            <Research-needed-name lang="en"></Research-needed-name>
+          </Research-needed-names>
+          <Research-needed-descriptions>
+            <Research-needed-description lang="en"></Research-needed-description>
+          </Research-needed-descriptions>
+          <Research-needed-classification id="" version="0" selected="" assigned-by="">
+            <Research-needed-classification-element level=""></Research-needed-classification-element>
+          </Research-needed-classification>
+        </Research-needed>
+      </Research-needs>
+      <Conceptual-ecosystem-model>
+        <CEM-type graphic=""></CEM-type>
+        <CEM-source></CEM-source>
+        <CEM-summaries>
+          <CEM-summary lang="en"></CEM-summary>
+        </CEM-summaries>
+      </Conceptual-ecosystem-model>
+      <Classifications>
+        <Classification-system id="" version="0" selected="" assigned-by="">
+          <Classification-element level=""></Classification-element>
+        </Classification-system>
+      </Classifications>
+      <Distribution>
+        <Distribution-Summaries>
+          <Distribution-Summary lang="en"></Distribution-Summary>
+        </Distribution-Summaries>
+        <Countries>
+          <Country iso-code-2=""></Country>
+        </Countries>
+        <Geographic-region></Geographic-region>
+        <Biogeographic-realms>
+          <Biogeographic-realm></Biogeographic-realm>
+        </Biogeographic-realms>
+        <Region>
+          <Region-classification-system id="" version="0" selected="" assigned-by="">
+            <Region-classification-element level=""></Region-classification-element>
+          </Region-classification-system>
+        </Region>
+        <Spatial-data>
+          <Spatial-point datum="" proj="" type="lower-left-corner">
+            <x></x>
+            <y></y>
+            <radius units=""></radius>
+          </Spatial-point>
+          <Spatial-point datum="" proj="" type="upper-right-corner">
+            <x></x>
+            <y></y>
+            <radius units=""></radius>
+          </Spatial-point>
+        </Spatial-data>
+      </Distribution>
+      <Collapse-definition>
+        <Collapse-Summaries>
+          <Collapse-Summary lang="en"></Collapse-Summary>
+        </Collapse-Summaries>
+        <Spatial-collapse-definitions>
+         <Spatial-collapse lang="en"></Spatial-collapse>
+        </Spatial-collapse-definitions>
+        <Functional-collapse-definitions>
+         <Functional-collapse lang="en"></Functional-collapse>
+        </Functional-collapse-definitions>
+      </Collapse-definition>
+    </Assessment-Target>
+```

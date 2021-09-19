@@ -1,0 +1,69 @@
+Case-Study:before {
+display: semi-block;
+width: 9em;
+font-weight: bold;
+font-size: 170%;
+content: "Case Study";
+margin: -.85em 0px .35em -.35em;
+padding: .2em .20em;
+background-color: #FF0000;
+}
+Case-Study {
+display: block;
+margin: 2em 1em;
+border: 4px solid #B22222;
+padding: 0px 1em;
+background-color:  #cdf;
+}
+Biota-Summaries:before {
+display: semi-block;
+width: 9em;
+font-weight: bold;
+font-size: 110%;
+content: "Characteristic Biota";
+margin: -.85em 0px .35em -.35em;
+padding: .20em .20em;
+background-color: #9999FF;
+}
+Biota-Summaries {
+display: block;
+border: 1px solid #B22222;
+margin-bottom: 1.5em;
+}
+AT-id:before {
+content: "ID: ";
+}
+AT-description {
+  background-color: #e0d2dd;
+
+}
+AT-id {
+display: block;
+font-weight: bold;
+font-size: 80%;
+background-color: #999999;
+}
+AT-name {
+display: block;
+font-weight: bold;
+font-size: 140%;
+background-color: #9092dd;
+}
+areawidth {
+display: block;
+}
+areawidth:before {
+content: "Area width: ";
+}
+area:after {
+content: " million km\B2";
+}
+depth {
+display: block;
+}
+depth:before {
+content: "Mean depth: ";
+}
+depth:after {
+content: " m";
+}

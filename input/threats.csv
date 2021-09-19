@@ -1,0 +1,9 @@
+﻿Name,Description,timing,scope,severity,level1,level2,level3
+Urbanisation,"Urbanisation and the associated coastal development can lead to over-harvesting, and pollution from domestic, industrial and agricultural land use.",Ongoing,Unknown,Unknown,1 Residential and Commercial Development,1.1 Housing & urban areas,
+Aquaculture,"Aquaculture causes damage through deforestation and pollution, due to the release of effluents into the ecosystem",Ongoing,Unknown,Unknown,2 Agriculture & Aquaculture,2.4 Marine & Freshwater Aquaculture,2.4.2 Industrial Aquaculture
+Urbanisation,,,,,5 Biological Resource Use,5.3 Logging & Wood Harvesting,5.3.2 Intentional Use: Large Scale [harvest]
+Urbanisation,,,,,5 Biological Resource Use,5.4 Fishing & Harvesting Aquatic Resources,5.4.2 Intentional Use: Large Scale [harvest]
+Urbanisation,,,,,9 Pollution,9.1 Domestic & Urban Waste Water,9.1.1 Sewage
+Urbanisation,,,,,9 Pollution,9.1 Domestic & Urban Waste Water,9.1.2 Run-off
+Sea level rise,The position in intertidal areas renders them vulnerable to predicted sea-level rise as a result of climate change,Ongoing,Unknown,Unknown,11 Climate Change & Severe Weather,11.1 Habitat Shifting & Alteration,
+Sea level rise,,,,,11 Climate Change & Severe Weather,11.4 Storms & Flooding,
