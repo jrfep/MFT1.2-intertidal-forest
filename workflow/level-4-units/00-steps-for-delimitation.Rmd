@@ -5,6 +5,8 @@ editor_options:
   chunk_output_type: console
 ---
 
+First load all libraries and set-up project environment variables.
+
 ```{r}
 #!/usr/bin/R --vanilla
 require(dplyr)
@@ -18,6 +20,11 @@ require(tidyr)
 source(sprintf("%s/proyectos/IUCN-GET/MFT1.2-intertidal-forest/env/project-env.R",Sys.getenv("HOME")))
 setwd(work.dir)
 
+```
+
+Read spatial data of ecoregions and species distribution data:
+
+```{r}
 meow <- read_sf("mangrove-type-data-sources.vrt","meow")
 
 ##(load(sprintf("%s/www/Rdata/mgv-species-occurrence.rda",script.dir)))
@@ -25,6 +32,11 @@ meow <- read_sf("mangrove-type-data-sources.vrt","meow")
 
 meow %>% left_join({mprov.xy %>% st_drop_geometry %>% transmute(ECO_CODE, n_key_mgv_spp=n_mgv_sppp, n_add_mgv_spp=rowSums(mtzXprov>0))},by="ECO_CODE") -> meow_mgv_summary
 
+```
+
+We intersect the marine ecoregions with different global maps of mangrove distribution:
+
+```{r}
 if (!exists("usgs.meow.its")) {
   usgs.meow.its <- read_sf("intersection-usgs-meow-provs.gpkg")
   usgs.meow.its %<>% mutate(area=st_area(geometry))
@@ -47,7 +59,6 @@ if (!exists("mgt.meow.2016")) {
   mgt.meow.2016 <- read_sf("intersection-type-meow-provs-2016.gpkg")
   mgt.meow.2016 %>% mutate(area=st_area(geometry)) %>%  st_centroid -> mgt_points
 }
-
 
 ```
 
@@ -153,7 +164,7 @@ meow_mgv_summary %<>% mutate(description=case_when(
   ECO_CODE %in% c(20180,20192) ~ "Boundary between tropical and temperate",
   PROV_CODE %in% c(13) ~ "Keeping original boundaries of the province",
   PROV_CODE %in% c(28) ~ "Keeping separate as ditinct unit",
-  
+
   ECO_CODE %in% c(20062) ~ "Split from rest of province, isolated occurrence",
   PROV_CODE %in% c(12,17,20,19,18,23,24,27,26,25,30,29,31:35,55,56,58) ~ "Kept as part of distinct unit",
   ECO_CODE %in% c(20105,20151) ~ "Unmapped but known occurrence",
@@ -161,16 +172,21 @@ meow_mgv_summary %<>% mutate(description=case_when(
   PROV_CODE %in% c(37:40) ~ "Introduced",
   TRUE ~ "")
   )
- 
+
 ```
 
-Final groups
+
+Nomenclature:
 
 ```{r}
 
 prefix <- "Intertidal forests and shrublands"
 prefix <- "Mangroves"
-meow_mgv_summary %<>% mutate(unit_name=case_when(
+code_format <- "MFT1.2_4_%s_%s"
+
+meow_mgv_summary %<>% mutate(
+  unit_code = sprintf(code_format,"MP",PROV_CODE),
+  unit_name = case_when(
   step_1 %in% 'absent' | PROV_CODE %in% c(3) ~ 'absent',
   ECO_CODE %in% c(20106,25195,20200,20201,25198)~'absent',
   ECOREGION %in% "Bermuda" ~ sprintf("%s of %s",prefix,"Bermuda"),
@@ -183,10 +199,9 @@ meow_mgv_summary %<>% mutate(unit_name=case_when(
 
 ```
 
-Use the same leaflet map as a base:
 
 ```{r}
-
+meow_mgv_summary
 post_units <- meow_mgv_summary  %>% filter(!unit_name %in% 'absent') %>% group_by(unit_name,native) %>% summarise
 
 post_units_components <- meow_mgv_summary %>% st_drop_geometry %>% filter(!unit_name %in% 'absent')
@@ -231,6 +246,7 @@ save(file=sprintf("%s/www/Rdata/mgt-point-data.rda",script.dir), mgt_points, uni
 
 
 ```
+
 
 Finally we will add these to the database:
 
