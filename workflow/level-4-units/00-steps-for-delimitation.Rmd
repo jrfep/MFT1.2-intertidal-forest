@@ -182,27 +182,44 @@ Nomenclature:
 
 prefix <- "Intertidal forests and shrublands"
 prefix <- "Mangroves"
-code_format <- "MFT1.2_4_%s_%s"
+code_format <- "MFT1.2_4_%s_%02d%s"
 
 meow_mgv_summary %<>% mutate(
-  unit_code = sprintf(code_format,"MP",PROV_CODE),
+  unit_code = case_when(
+    ECOREGION %in% "Bermuda" ~ sprintf(code_format,"MP",PROV_CODE,"b"),
+    PROV_CODE %in% 12 ~ sprintf(code_format,"MP",PROV_CODE,"a"),
+    ECO_CODE %in% 20104 ~ sprintf(code_format,"MP",PROV_CODE,"b"),
+    ECO_CODE %in% 20103 ~ sprintf(code_format,"MP",PROV_CODE,"a"),
+    PROV_CODE %in% c(43,45) ~ sprintf(code_format,"MP",43,"x"),
+    PROV_CODE %in% c(53,54) ~ sprintf(code_format,"MP",53,"m"),
+    ECOREGION %in% "Leeuwin" | PROVINCE %in% "West Central Australian Shelf" ~ sprintf(code_format,"MP",58,"x"),
+    ECOREGION %in% c("Great Australian Bight", "South Australian Gulfs", "Western Bassian")~ sprintf(code_format,"MP",57,"m"),
+    PROV_CODE %in% c(56) ~ sprintf(code_format,"MP",56,"r"),
+    PROV_CODE %in% c(36,55) ~ sprintf(code_format,"MP",55,"x"),
+    PROV_CODE %in% c(38,39,40) ~ sprintf(code_format,"MP",38,"x"),
+    TRUE ~ sprintf(code_format,"MP",PROV_CODE,"")),
   unit_name = case_when(
   step_1 %in% 'absent' | PROV_CODE %in% c(3) ~ 'absent',
   ECO_CODE %in% c(20106,25195,20200,20201,25198)~'absent',
   ECOREGION %in% "Bermuda" ~ sprintf("%s of %s",prefix,"Bermuda"),
+  ECO_CODE %in% 20104 ~ sprintf("%s of %s",prefix,"South India and Sri Lanka"),
+  ECO_CODE %in% 20103 ~ sprintf("%s of %s",prefix,"Western India"),
   PROV_CODE %in% c(43,45) ~ sprintf("%s of %s",prefix,"East and Southeastern Pacific Coast"),
   PROV_CODE %in% c(53,54) ~ sprintf("%s of %s",prefix,"New Zealand"),
+  PROV_CODE %in% c(36,55) ~ sprintf("%s of %s",prefix,"East Central Australian Shelf"),
   ECOREGION %in% "Leeuwin" | PROVINCE %in% "West Central Australian Shelf" ~ sprintf("%s of %s",prefix,"Western Australian Shelf and Leeuwin"),
   ECOREGION %in% c("Great Australian Bight", "South Australian Gulfs", "Western Bassian")~ sprintf("%s of %s",prefix,"South Australia"),
+  PROV_CODE %in% c(38,39,40) ~ sprintf("%s of %s",prefix,'the Central Pacific'),
   TRUE ~ sprintf("%s of %s",prefix,PROVINCE))
 )
 
+meow_mgv_summary %>% st_drop_geometry %>% filter(unit_name != 'absent') %>% distinct(unit_code,unit_name,native) %>% arrange(unit_code) %>% print.AsIs()
 ```
 
 
 ```{r}
 meow_mgv_summary
-post_units <- meow_mgv_summary  %>% filter(!unit_name %in% 'absent') %>% group_by(unit_name,native) %>% summarise
+post_units <- meow_mgv_summary  %>% filter(!unit_name %in% 'absent') %>% group_by(unit_code,unit_name,native) %>% summarise
 
 post_units_components <- meow_mgv_summary %>% st_drop_geometry %>% filter(!unit_name %in% 'absent')
 #post_units %<>% left_join({meow_mgv_summary %>% st_drop_geometry %>% filter(!unit_name %in% 'absent') %>% group_by(unit_name,PROVINCE) %>% summarise(ecoregions=paste0(ECOREGION,collapse=", ")) %>% group_by(unit_name) %>% summarise(description=paste(sprintf("Ecoregions %s of the **<emph>%s</emph>** province",ecoregions,PROVINCE),collapse="; "))},by="unit_name")
@@ -216,7 +233,7 @@ Visualise this
 ```{r}
 clrs <- colorFactor("Dark2",domain=post_units$native)
 
-labels <- sprintf("%s<br/>Native:%s", post_units$unit_name, post_units$native) %>% lapply(htmltools::HTML)
+labels <- sprintf("%s <strong>%s</strong><br/>Native:%s", post_units$unit_code,post_units$unit_name, post_units$native) %>% lapply(htmltools::HTML)
 
 m %>% addPolygons(data = post_units, fillColor = ~clrs(native), highlightOptions = highlightOptions(weight = 2, color = 'black'), color = 'grey', weight = 0.4, fillOpacity = 0.45,label=labels)
 
@@ -236,11 +253,11 @@ usgs.2000.xy %<>% mutate(area=area %>% set_units(km^2))
 # too many points for a global map
 #m %>%  addCircleMarkers(data=gmw.2016.xy,radius=sqrt(gmw.2016.xy$area),color = 'green', fillColor = 'green', opacity = .3,group="Mangrove occurrences")
 
-mgt_points %<>% left_join({meow_mgv_summary %>% st_drop_geometry() %>% select(ECO_CODE,unit_name)},by="ECO_CODE")
+mgt_points %<>% left_join({meow_mgv_summary %>% st_drop_geometry() %>% select(ECO_CODE,unit_code,unit_name)},by="ECO_CODE")
 
 # mgt_points %>% st_drop_geometry %>% group_by(unit_name,Class,Sedimentar) %>% summarise(total=sum(area) %>% drop_units) %>% pivot_wider(id=c(unit_name), names_from=c(Class,Sedimentar), values_from=total) %>% replace(is.na(.), 0) -> units_type_areas
 
-mgt_points %>% st_drop_geometry %>% group_by(unit_name,Class,Sedimentar) %>% summarise(npols=n(),total=sum(area) %>% set_units('km^2')) -> units_table
+mgt_points %>% st_drop_geometry %>% group_by(unit_code,unit_name,Class,Sedimentar) %>% summarise(npols=n(),total=sum(area) %>% set_units('km^2')) -> units_table
 
 save(file=sprintf("%s/www/Rdata/mgt-point-data.rda",script.dir), mgt_points, units_table)
 
@@ -287,3 +304,8 @@ for (qry in qries) {
 
 mgt.meow.its %>% group_by(Class,Sedimentar,PROV_CODE) %>% summarise(area=sum(st_area(geometry))) -> mgt.area
 ```
+
+
+### References
+
+Ellison, J. C. (1996). Pollen Evidence of Late Holocene Mangrove Development in Bermuda. Global Ecology and Biogeography Letters, 5(6), 315–326. https://doi.org/10.2307/2997587
