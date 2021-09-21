@@ -1,0 +1,826 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="target.xsl"?>
+<Case-Study>
+  <Assessment-Target date="2021-09-14" updated-by="JRFP" status="draft">
+    <AT-id>MFT1.2_4_MP_26</AT-id>
+    <AT-descriptions>
+      <AT-description lang="en">The 'Mangroves of Sunda Shelf' is a regional ecosystem subgroup (level 4 unit of the IUCN Global Ecosystem Typology) that includes intertidal forest and shrublands of the marine ecoregions of Gulf of Thailand (Sunda Shelf province), Malacca Strait (Sunda Shelf province), Southern Vietnam (Sunda Shelf province), Sunda Shelf/Java Sea (Sunda Shelf province). The biota is characterised by 54 species of true mangroves and other key plant taxa that provide structure and resources for approx. 660 mangove-associated taxa. Mangroves in this subgroup have a mapped extent of at least ... km2 in ... countries and are predominantly ... and .... They are threatened by  conversion for urban and tourism development, agriculture and aquaculture, and by increases in frequency of tropical storms. </AT-description>
+    </AT-descriptions>
+    <AT-names>
+      <AT-name lang="en">Mangroves of Sunda Shelf</AT-name>
+      <AT-name lang="es">Bosques de Manglar de Sunda Shelf</AT-name>
+    </AT-names>
+    <Characteristic-biota>
+      <Biota-Summaries>
+        <Biota-Summary lang="en">The biota of 'Mangroves of Sunda Shelf' is characterised by the presence of 54 true mangrove and other key plant species. The range maps of Dolichandrone spathacea, Excoecaria agallocha, Nypa fruticans, Kandelia candel, Bruguiera sexangula, Rhizophora mucronata, Rhizophora apiculata, Bruguiera cylindrica, Acrostichum speciosum, Aegiceras corniculatum, Sonneratia ovata, Bruguiera gymnorhiza, Pemphis acidula, Enhalus acoroides, Halodule pinifolia, Lumnitzera racemosa, Phoenix paludosa, Halophila beccarii, Sonneratia caseolaris, Avicennia officinalis, Ceriops zippeliana, Acanthus ebracteatus, Sonneratia alba, Avicennia alba, Lumnitzera littorea, Halodule uninervis, Heritiera littoralis, Avicennia marina, Rhizophora stylosa, Bruguiera parviflora, Ceriops tagal, Cynometra iripa, Scyphiphora hydrophylacea, Xylocarpus moluccensis, Xylocarpus granatum, Halophila ovalis overlap with most of the distribution of this unit. There are 669 species that have been associated with mangrove habitats in the Red List of Threatened Species database and that have natural history collection records or observations within the distribution of this unit (GBIF 2021). </Biota-Summary>
+      </Biota-Summaries>
+      <taxons>
+        <taxon>Dolichandrone spathacea</taxon>
+        <taxon>Excoecaria agallocha</taxon>
+        <taxon>Nypa fruticans</taxon>
+        <taxon>Kandelia candel</taxon>
+        <taxon>Bruguiera sexangula</taxon>
+        <taxon>Rhizophora mucronata</taxon>
+        <taxon>Rhizophora apiculata</taxon>
+        <taxon>Bruguiera cylindrica</taxon>
+        <taxon>Acrostichum speciosum</taxon>
+        <taxon>Aegiceras corniculatum</taxon>
+        <taxon>Sonneratia ovata</taxon>
+        <taxon>Bruguiera gymnorhiza</taxon>
+        <taxon>Pemphis acidula</taxon>
+        <taxon>Enhalus acoroides</taxon>
+        <taxon>Halodule pinifolia</taxon>
+        <taxon>Lumnitzera racemosa</taxon>
+        <taxon>Phoenix paludosa</taxon>
+        <taxon>Halophila beccarii</taxon>
+        <taxon>Sonneratia caseolaris</taxon>
+        <taxon>Avicennia officinalis</taxon>
+        <taxon>Ceriops zippeliana</taxon>
+        <taxon>Acanthus ebracteatus</taxon>
+        <taxon>Sonneratia alba</taxon>
+        <taxon>Avicennia alba</taxon>
+        <taxon>Lumnitzera littorea</taxon>
+        <taxon>Halodule uninervis</taxon>
+        <taxon>Heritiera littoralis</taxon>
+        <taxon>Avicennia marina</taxon>
+        <taxon>Rhizophora stylosa</taxon>
+        <taxon>Bruguiera parviflora</taxon>
+        <taxon>Ceriops tagal</taxon>
+        <taxon>Cynometra iripa</taxon>
+        <taxon>Scyphiphora hydrophylacea</taxon>
+        <taxon>Xylocarpus moluccensis</taxon>
+        <taxon>Xylocarpus granatum</taxon>
+        <taxon>Halophila ovalis</taxon>
+        <taxon>Thalassodendron ciliatum</taxon>
+        <taxon>Brownlowia argentata</taxon>
+        <taxon>Sonneratia griffithii</taxon>
+        <taxon>Bruguiera hainesii</taxon>
+        <taxon>Brownlowia tersa</taxon>
+        <taxon>Ceriops decandra</taxon>
+        <taxon>Heritiera globosa</taxon>
+        <taxon>Avicennia rumphiana</taxon>
+        <taxon>Camptostemon schultzii</taxon>
+        <taxon>Heritiera fomes</taxon>
+        <taxon>Excoecaria indica</taxon>
+        <taxon>Acrostichum aureum</taxon>
+        <taxon>Kandelia obovata</taxon>
+        <taxon>Osbornia octodonta</taxon>
+        <taxon>Aglaia cucullata</taxon>
+        <taxon>Bruguiera exaristata</taxon>
+        <taxon>Aegiceras floridum</taxon>
+        <taxon>Acanthus volubilis</taxon>
+        <taxon>Accipiter gularis</taxon>
+        <taxon>Accipiter virgatus</taxon>
+        <taxon>Aegithina viridissima</taxon>
+        <taxon>Aethopyga siparaja</taxon>
+        <taxon>Albizia lebbeck</taxon>
+        <taxon>Albula vulpes</taxon>
+        <taxon>Alcedo coerulescens</taxon>
+        <taxon>Alcedo meninting</taxon>
+        <taxon>Amaurornis cinerea</taxon>
+        <taxon>Amazona amazonica</taxon>
+        <taxon>Anas gibberifrons</taxon>
+        <taxon>Anthreptes simplex</taxon>
+        <taxon>Apalone ferox</taxon>
+        <taxon>Aplonis panayensis</taxon>
+        <taxon>Arachnothera chrysogenys</taxon>
+        <taxon>Arachnothera longirostra</taxon>
+        <taxon>Ardea goliath</taxon>
+        <taxon>Ardea sumatrana</taxon>
+        <taxon>Ardeola bacchus</taxon>
+        <taxon>Ardeola speciosa</taxon>
+        <taxon>Arothron hispidus</taxon>
+        <taxon>Aviceda subcristata</taxon>
+        <taxon>Brachypodius atriceps</taxon>
+        <taxon>Busarellus nigricollis</taxon>
+        <taxon>Cacomantis variolosus</taxon>
+        <taxon>Caesio cuning</taxon>
+        <taxon>Callosciurus notatus</taxon>
+        <taxon>Caloenas nicobarica</taxon>
+        <taxon>Caprimulgus affinis</taxon>
+        <taxon>Caprimulgus macrurus</taxon>
+        <taxon>Caranx hippos</taxon>
+        <taxon>Ceyx erithaca</taxon>
+        <taxon>Chalcites minutillus</taxon>
+        <taxon>Chalcoparia singalensis</taxon>
+        <taxon>Chalcophaps indica</taxon>
+        <taxon>Charadrius mongolus</taxon>
+        <taxon>Chloroceryle inda</taxon>
+        <taxon>Chrysococcyx xanthorhynchus</taxon>
+        <taxon>Chrysocolaptes guttacristatus</taxon>
+        <taxon>Chrysophlegma mentale</taxon>
+        <taxon>Chrysophlegma miniaceum</taxon>
+        <taxon>Ciconia episcopus</taxon>
+        <taxon>Clamator coromandus</taxon>
+        <taxon>Clanga clanga</taxon>
+        <taxon>Conocarpus erectus</taxon>
+        <taxon>Coracina striata</taxon>
+        <taxon>Corvus enca</taxon>
+        <taxon>Crypsirina temia</taxon>
+        <taxon>Culicicapa ceylonensis</taxon>
+        <taxon>Cyanoderma erythropterum</taxon>
+        <taxon>Cymbirhynchus macrorhynchos</taxon>
+        <taxon>Cyornis rubeculoides</taxon>
+        <taxon>Cyornis rufigastra</taxon>
+        <taxon>Cyornis sumatrensis</taxon>
+        <taxon>Cyornis turcosus</taxon>
+        <taxon>Dendronanthus indicus</taxon>
+        <taxon>Dicaeum trigonostigma</taxon>
+        <taxon>Dicrurus annectens</taxon>
+        <taxon>Dinopium javanense</taxon>
+        <taxon>Ducula badia</taxon>
+        <taxon>Ducula bicolor</taxon>
+        <taxon>Dugong dugon</taxon>
+        <taxon>Duttaphrynus melanostictus</taxon>
+        <taxon>Egretta eulophotes</taxon>
+        <taxon>Egretta gularis</taxon>
+        <taxon>Egretta sacra</taxon>
+        <taxon>Ephippiorhynchus asiaticus</taxon>
+        <taxon>Epinephelus itajara</taxon>
+        <taxon>Eretmochelys imbricata</taxon>
+        <taxon>Eubleekeria splendens</taxon>
+        <taxon>Eudocimus ruber</taxon>
+        <taxon>Eumyias thalassinus</taxon>
+        <taxon>Favia fragum</taxon>
+        <taxon>Fejervarya cancrivora</taxon>
+        <taxon>Ficedula mugimaki</taxon>
+        <taxon>Ficedula narcissina</taxon>
+        <taxon>Ficedula zanthopygia</taxon>
+        <taxon>Fimbristylis cymosa</taxon>
+        <taxon>Fregata ariel</taxon>
+        <taxon>Fregata minor</taxon>
+        <taxon>Gallus gallus</taxon>
+        <taxon>Gazza minuta</taxon>
+        <taxon>Geopelia maugeus</taxon>
+        <taxon>Gerres filamentosus</taxon>
+        <taxon>Gerygone sulphurea</taxon>
+        <taxon>Gracula religiosa</taxon>
+        <taxon>Gymnothorax funebris</taxon>
+        <taxon>Halcyon coromanda</taxon>
+        <taxon>Halcyon gularis</taxon>
+        <taxon>Halcyon pileata</taxon>
+        <taxon>Harpactes duvaucelii</taxon>
+        <taxon>Hemiprocne comata</taxon>
+        <taxon>Hemiprocne coronata</taxon>
+        <taxon>Hemipus hirundinaceus</taxon>
+        <taxon>Hibiscus tiliaceus</taxon>
+        <taxon>Hierococcyx sparverioides</taxon>
+        <taxon>Himantura uarnak</taxon>
+        <taxon>Hypoplectrus unicolor</taxon>
+        <taxon>Iguana iguana</taxon>
+        <taxon>Ixobrychus cinnamomeus</taxon>
+        <taxon>Ixobrychus flavicollis</taxon>
+        <taxon>Ixobrychus sinensis</taxon>
+        <taxon>Lagocephalus laevigatus</taxon>
+        <taxon>Lalage nigra</taxon>
+        <taxon>Lalage sueurii</taxon>
+        <taxon>Lanius tigrinus</taxon>
+        <taxon>Leiognathus equulus</taxon>
+        <taxon>Leptocoma brasiliana</taxon>
+        <taxon>Leptocoma calcostetha</taxon>
+        <taxon>Leptocoma sperata</taxon>
+        <taxon>Leptoptilos dubius</taxon>
+        <taxon>Leptoptilos javanicus</taxon>
+        <taxon>Lethrinus genivittatus</taxon>
+        <taxon>Lethrinus nebulosus</taxon>
+        <taxon>Lewinia striata</taxon>
+        <taxon>Loriculus galgulus</taxon>
+        <taxon>Lutjanus argentimaculatus</taxon>
+        <taxon>Lutjanus argentiventris</taxon>
+        <taxon>Lutjanus fulviflamma</taxon>
+        <taxon>Lutjanus fulvus</taxon>
+        <taxon>Lutjanus johnii</taxon>
+        <taxon>Lutjanus russellii</taxon>
+        <taxon>Lutjanus sebae</taxon>
+        <taxon>Macaca fascicularis</taxon>
+        <taxon>Macaca mulatta</taxon>
+        <taxon>Macroglossus minimus</taxon>
+        <taxon>Macronus ptilosus</taxon>
+        <taxon>Malaclemys terrapin</taxon>
+        <taxon>Mayaheros urophthalmus</taxon>
+        <taxon>Merops superciliosus</taxon>
+        <taxon>Merops viridis</taxon>
+        <taxon>Micrastur semitorquatus</taxon>
+        <taxon>Micropternus brachyurus</taxon>
+        <taxon>Mixornis bornensis</taxon>
+        <taxon>Mixornis gularis</taxon>
+        <taxon>Monodactylus argenteus</taxon>
+        <taxon>Mulleripicus pulverulentus</taxon>
+        <taxon>Muscicapa dauurica</taxon>
+        <taxon>Mycteria cinerea</taxon>
+        <taxon>Myophonus caeruleus</taxon>
+        <taxon>Nycticorax caledonicus</taxon>
+        <taxon>Oriolus chinensis</taxon>
+        <taxon>Orthotomus ruficeps</taxon>
+        <taxon>Orthotomus sericeus</taxon>
+        <taxon>Pachycephala cinerea</taxon>
+        <taxon>Panthera pardus</taxon>
+        <taxon>Paradoxurus hermaphroditus</taxon>
+        <taxon>Parupeneus barberinus</taxon>
+        <taxon>Pelargopsis capensis</taxon>
+        <taxon>Pellona ditchela</taxon>
+        <taxon>Pericrocotus cinnamomeus</taxon>
+        <taxon>Pericrocotus divaricatus</taxon>
+        <taxon>Phaenicophaeus curvirostris</taxon>
+        <taxon>Phaenicophaeus diardi</taxon>
+        <taxon>Phaenicophaeus sumatranus</taxon>
+        <taxon>Phalacrocorax fuscicollis</taxon>
+        <taxon>Phylloscopus borealis</taxon>
+        <taxon>Phylloscopus coronatus</taxon>
+        <taxon>Phylloscopus examinandus</taxon>
+        <taxon>Phylloscopus fuscatus</taxon>
+        <taxon>Phylloscopus plumbeitarsus</taxon>
+        <taxon>Phylloscopus tenellipes</taxon>
+        <taxon>Picus vittatus</taxon>
+        <taxon>Pitta moluccensis</taxon>
+        <taxon>Pitta sordida</taxon>
+        <taxon>Ploceus philippinus</taxon>
+        <taxon>Prinia familiaris</taxon>
+        <taxon>Prinia hodgsonii</taxon>
+        <taxon>Prionochilus percussus</taxon>
+        <taxon>Pristis pectinata</taxon>
+        <taxon>Psittacula alexandri</taxon>
+        <taxon>Psittacus erithacus</taxon>
+        <taxon>Psittinus cyanurus</taxon>
+        <taxon>Ptilinopus melanospilus</taxon>
+        <taxon>Pycnonotus goiavier</taxon>
+        <taxon>Pycnonotus plumosus</taxon>
+        <taxon>Radjah radjah</taxon>
+        <taxon>Rallina eurizonoides</taxon>
+        <taxon>Rattus exulans</taxon>
+        <taxon>Rattus rattus</taxon>
+        <taxon>Rattus tanezumi</taxon>
+        <taxon>Rhipidura javanica</taxon>
+        <taxon>Rhipidura rufiventris</taxon>
+        <taxon>Rubigula flaviventris</taxon>
+        <taxon>Ruppia maritima</taxon>
+        <taxon>Sardinella albella</taxon>
+        <taxon>Sitta frontalis</taxon>
+        <taxon>Streptopelia bitorquata</taxon>
+        <taxon>Strix seloputo</taxon>
+        <taxon>Surniculus dicruroides</taxon>
+        <taxon>Surniculus lugubris</taxon>
+        <taxon>Syzygium guineense</taxon>
+        <taxon>Terpsiphone affinis</taxon>
+        <taxon>Terpsiphone atrocaudata</taxon>
+        <taxon>Terpsiphone incei</taxon>
+        <taxon>Thespesia populnea</taxon>
+        <taxon>Todiramphus chloris</taxon>
+        <taxon>Treron bicinctus</taxon>
+        <taxon>Treron curvirostra</taxon>
+        <taxon>Treron vernans</taxon>
+        <taxon>Trichastoma rostratum</taxon>
+        <taxon>Turdus dissimilis</taxon>
+        <taxon>Turdus obscurus</taxon>
+        <taxon>Varanus salvator</taxon>
+        <taxon>Xenus cinereus</taxon>
+        <taxon>Zosterops chloris</taxon>
+        <taxon>Ducula rosacea</taxon>
+        <taxon>Conus varius</taxon>
+        <taxon>Nasalis larvatus</taxon>
+        <taxon>Aplonis mysolensis</taxon>
+        <taxon>Bandicota bengalensis</taxon>
+        <taxon>Cerberus australis</taxon>
+        <taxon>Polydactylus approximans</taxon>
+        <taxon>Dinopium rafflesii</taxon>
+        <taxon>Laticauda laticaudata</taxon>
+        <taxon>Ellobium aurisjudae</taxon>
+        <taxon>Galeopterus variegatus</taxon>
+        <taxon>Treron fulvicollis</taxon>
+        <taxon>Hierococcyx bocki</taxon>
+        <taxon>Plectorhinchus gibbosus</taxon>
+        <taxon>Tropidolaemus wagleri</taxon>
+        <taxon>Columba punicea</taxon>
+        <taxon>Conus frigidus</taxon>
+        <taxon>Ambassis vachellii</taxon>
+        <taxon>Ducula luctuosa</taxon>
+        <taxon>Draco maculatus</taxon>
+        <taxon>Lutrogale perspicillata</taxon>
+        <taxon>Myzomela boiei</taxon>
+        <taxon>Trachypithecus cristatus</taxon>
+        <taxon>Rubigula montis</taxon>
+        <taxon>Exyrias puntang</taxon>
+        <taxon>Ophiocara porocephala</taxon>
+        <taxon>Ceriagrion cerinorubellum</taxon>
+        <taxon>Scolopsis ciliata</taxon>
+        <taxon>Hydrophis cyanocinctus</taxon>
+        <taxon>Conus furvus</taxon>
+        <taxon>Acanthopagrus berda</taxon>
+        <taxon>Arothron immaculatus</taxon>
+        <taxon>Cyornis brunneatus</taxon>
+        <taxon>Hippichthys spicifer</taxon>
+        <taxon>Chloropsis sonnerati</taxon>
+        <taxon>Pycnonotus zeylanicus</taxon>
+        <taxon>Bungarus fasciatus</taxon>
+        <taxon>Pomadasys argenteus</taxon>
+        <taxon>Ptilinopus roseicapilla</taxon>
+        <taxon>Ptilinopus monacha</taxon>
+        <taxon>Pipistrellus coromandra</taxon>
+        <taxon>Phylloscopus xanthodryas</taxon>
+        <taxon>Sundamys muelleri</taxon>
+        <taxon>Gerres erythrourus</taxon>
+        <taxon>Cynometra ramiflora</taxon>
+        <taxon>Encrasicholina punctifer</taxon>
+        <taxon>Picus viridanus</taxon>
+        <taxon>Sus barbatus</taxon>
+        <taxon>Yongeichthys nebulosus</taxon>
+        <taxon>Siganus guttatus</taxon>
+        <taxon>Toxotes jaculatrix</taxon>
+        <taxon>Viverra zibetha</taxon>
+        <taxon>Epinephelus coeruleopunctatus</taxon>
+        <taxon>Ophiophagus hannah</taxon>
+        <taxon>Fordonia leucobalia</taxon>
+        <taxon>Valenciennea muralis</taxon>
+        <taxon>Ficus sundaica</taxon>
+        <taxon>Siderastrea savignyana</taxon>
+        <taxon>Takifugu oblongus</taxon>
+        <taxon>Parapocryptes serperaster</taxon>
+        <taxon>Redigobius balteatus</taxon>
+        <taxon>Mortonagrion arthuri</taxon>
+        <taxon>Ambassis macracanthus</taxon>
+        <taxon>Laticauda saintgironsi</taxon>
+        <taxon>Hypsugo vordermanni</taxon>
+        <taxon>Sus verrucosus</taxon>
+        <taxon>Pristis pristis</taxon>
+        <taxon>Melampus sincaporensis</taxon>
+        <taxon>Glossogobius circumspectus</taxon>
+        <taxon>Abdopus aculeatus</taxon>
+        <taxon>Cassidula multiplicata</taxon>
+        <taxon>Anoxypristis cuspidata</taxon>
+        <taxon>Redigobius chrysosoma</taxon>
+        <taxon>Cociella punctata</taxon>
+        <taxon>Malacocincla abbotti</taxon>
+        <taxon>Hippichthys cyanospilos</taxon>
+        <taxon>Parioglossus formosus</taxon>
+        <taxon>Acerodon jubatus</taxon>
+        <taxon>Presbytis femoralis</taxon>
+        <taxon>Trimeresurus cardamomensis</taxon>
+        <taxon>Trimeresurus purpureomaculatus</taxon>
+        <taxon>Raphismia bispina</taxon>
+        <taxon>Conus insculptus</taxon>
+        <taxon>Camacinia gigantea</taxon>
+        <taxon>Aonyx cinereus</taxon>
+        <taxon>Caragobius urolepis</taxon>
+        <taxon>Butis gymnopomus</taxon>
+        <taxon>Amblygobius buanensis</taxon>
+        <taxon>Clithon faba</taxon>
+        <taxon>Neofelis nebulosa</taxon>
+        <taxon>Coracina bicolor</taxon>
+        <taxon>Halcyon cyanoventris</taxon>
+        <taxon>Oriolus bouroensis</taxon>
+        <taxon>Dicaeum everetti</taxon>
+        <taxon>Eos squamata</taxon>
+        <taxon>Columba argentina</taxon>
+        <taxon>Bulbophyllum restrepia</taxon>
+        <taxon>Hippocampus comes</taxon>
+        <taxon>Oxyeleotris urophthalmus</taxon>
+        <taxon>Trypauchenopsis intermedia</taxon>
+        <taxon>Picoides canicapillus</taxon>
+        <taxon>Heliopais personatus</taxon>
+        <taxon>Lyroderma lyra</taxon>
+        <taxon>Secutor hanedai</taxon>
+        <taxon>Auriculastra subula</taxon>
+        <taxon>Iravadia rohdei</taxon>
+        <taxon>Stenothyra glabrata</taxon>
+        <taxon>Picoides moluccensis</taxon>
+        <taxon>Maculabatis pastinacoides</taxon>
+        <taxon>Himantura undulata</taxon>
+        <taxon>Iravadia reticulata</taxon>
+        <taxon>Pastinachus solocirostris</taxon>
+        <taxon>Hesperoptenus tickelli</taxon>
+        <taxon>Dendrobium aloifolium</taxon>
+        <taxon>Pelargopsis melanorhyncha</taxon>
+        <taxon>Centropus nigrorufus</taxon>
+        <taxon>Hippichthys penicillus</taxon>
+        <taxon>Elops hawaiensis</taxon>
+        <taxon>Ambassis urotaenia</taxon>
+        <taxon>Himantura leoparda</taxon>
+        <taxon>Urogymnus granulatus</taxon>
+        <taxon>Prionailurus planiceps</taxon>
+        <taxon>Cyclotropis carinata</taxon>
+        <taxon>Coilia neglecta</taxon>
+        <taxon>Acrocephalus orinus</taxon>
+        <taxon>Plectorhinchus pictus</taxon>
+        <taxon>Zosterops flavus</taxon>
+        <taxon>Ellobium aurismidae</taxon>
+        <taxon>Neritodryas subsulcata</taxon>
+        <taxon>Mapania longiflora</taxon>
+        <taxon>Periophthalmus kalolo</taxon>
+        <taxon>Hipposideros atrox</taxon>
+        <taxon>Neopomacentrus taeniurus</taxon>
+        <taxon>Oryzias javanicus</taxon>
+        <taxon>Periophthalmus chrysospilos</taxon>
+        <taxon>Cymbacephalus beauforti</taxon>
+        <taxon>Brachygobius xanthozonus</taxon>
+        <taxon>Mesopristes cancellatus</taxon>
+        <taxon>Thryssa kammalensis</taxon>
+        <taxon>Pseudogobius poicilosoma</taxon>
+        <taxon>Choeroichthys sculptus</taxon>
+        <taxon>Gobiopterus birtwistlei</taxon>
+        <taxon>Herpestes brachyurus</taxon>
+        <taxon>Eugnathogobius variegatus</taxon>
+        <taxon>Ambassis nalua</taxon>
+        <taxon>Trypauchenichthys sumatrensis</taxon>
+        <taxon>Mugilogobius mertoni</taxon>
+        <taxon>Cassidula aurisfelis</taxon>
+        <taxon>Paphiopedilum bullenianum</taxon>
+        <taxon>Ellobium chinense</taxon>
+        <taxon>Neritina zigzag</taxon>
+        <taxon>Brachygobius kabiliensis</taxon>
+        <taxon>Omobranchus zebra</taxon>
+        <taxon>Arothron reticularis</taxon>
+        <taxon>Siganus vermiculatus</taxon>
+        <taxon>Stigmatogobius sella</taxon>
+        <taxon>Treron seimundi</taxon>
+        <taxon>Lutra sumatrana</taxon>
+        <taxon>Pristis zijsron</taxon>
+        <taxon>Gobiopterus brachypterus</taxon>
+        <taxon>Prionailurus viverrinus</taxon>
+        <taxon>Thryssa mystax</taxon>
+        <taxon>Lethrinus ornatus</taxon>
+        <taxon>Teijsmanniodendron hollrungii</taxon>
+        <taxon>Omobranchus smithi</taxon>
+        <taxon>Batrachostomus javensis</taxon>
+        <taxon>Stolephorus andhraensis</taxon>
+        <taxon>Macroglossus sobrinus</taxon>
+        <taxon>Batagur baska</taxon>
+        <taxon>Rucervus duvaucelii</taxon>
+        <taxon>Butis amboinensis</taxon>
+        <taxon>Brachygobius aggregatus</taxon>
+        <taxon>Oxyurichthys ophthalmonema</taxon>
+        <taxon>Brachygobius doriae</taxon>
+        <taxon>Orcaella brevirostris</taxon>
+        <taxon>Sermyla riqueti</taxon>
+        <taxon>Idiosepius thailandicus</taxon>
+        <taxon>Pseudagrion australasiae</taxon>
+        <taxon>Neostethus bicornis</taxon>
+        <taxon>Laemodonta punctigera</taxon>
+        <taxon>Batagur affinis</taxon>
+        <taxon>Oryzias haugiangensis</taxon>
+        <taxon>Idiosepius pygmaeus</taxon>
+        <taxon>Cacatua alba</taxon>
+        <taxon>Datnioides polota</taxon>
+        <taxon>Apogon hyalosoma</taxon>
+        <taxon>Mangarinus waterousi</taxon>
+        <taxon>Sardinella melanura</taxon>
+        <taxon>Dalbergia parviflora</taxon>
+        <taxon>Mugilogobius rambaiae</taxon>
+        <taxon>Eos bornea</taxon>
+        <taxon>Omox biporos</taxon>
+        <taxon>Hydrophis gracilis</taxon>
+        <taxon>Batrachostomus cornutus</taxon>
+        <taxon>Omobranchus ferox</taxon>
+        <taxon>Omobranchus obliquus</taxon>
+        <taxon>Podocarpus polystachyus</taxon>
+        <taxon>Apogon amboinensis</taxon>
+        <taxon>Polymesoda expansa</taxon>
+        <taxon>Picoides nanus</taxon>
+        <taxon>Zenarchopterus caudovittatus</taxon>
+        <taxon>Brevitrygon imbricata</taxon>
+        <taxon>Boleophthalmus boddarti</taxon>
+        <taxon>Derris maingayana</taxon>
+        <taxon>Lethrinus semicinctus</taxon>
+        <taxon>Takifugu alboplumbeus</taxon>
+        <taxon>Cantoria violacea</taxon>
+        <taxon>Cynoponticus coniceps</taxon>
+        <taxon>Lygosoma siamensis</taxon>
+        <taxon>Oxyurichthys microlepis</taxon>
+        <taxon>Naja kaouthia</taxon>
+        <taxon>Hippichthys heptagonus</taxon>
+        <taxon>Zenarchopterus gilli</taxon>
+        <taxon>Presbytis chrysomelas</taxon>
+        <taxon>Taenioides cirratus</taxon>
+        <taxon>Elops machnata</taxon>
+        <taxon>Stenothyra polita</taxon>
+        <taxon>Echinosorex gymnura</taxon>
+        <taxon>Coelops frithii</taxon>
+        <taxon>Clenchiella microscopica</taxon>
+        <taxon>Gerarda prevostiana</taxon>
+        <taxon>Mahidolia mystacina</taxon>
+        <taxon>Bostrychus sinensis</taxon>
+        <taxon>Zamia roezlii</taxon>
+        <taxon>Chrysophlegma humii</taxon>
+        <taxon>Eviota storthynx</taxon>
+        <taxon>Hippocampus mohnikei</taxon>
+        <taxon>Oxyeleotris urophthalmoides</taxon>
+        <taxon>Neofelis diardi</taxon>
+        <taxon>Gnetum oxycarpum</taxon>
+        <taxon>Lutjanus ehrenbergii</taxon>
+        <taxon>Myotis hasseltii</taxon>
+        <taxon>Coracina schistacea</taxon>
+        <taxon>Periophthalmodon septemradiatus</taxon>
+        <taxon>Anacanthus barbatus</taxon>
+        <taxon>Setipinna breviceps</taxon>
+        <taxon>Paracercion malayanum</taxon>
+        <taxon>Cerithidea decollata</taxon>
+        <taxon>Gnatholepis ophthalmotaenia</taxon>
+        <taxon>Urogymnus lobistoma</taxon>
+        <taxon>Ambassis interrupta</taxon>
+        <taxon>Kittacincla malabarica</taxon>
+        <taxon>Aethriamanta aethra</taxon>
+        <taxon>Morrisonietta acicula</taxon>
+        <taxon>Periophthalmus novemradiatus</taxon>
+        <taxon>Oligolepis acutipennis</taxon>
+        <taxon>Stenogobius ophthalmoporus</taxon>
+        <taxon>Thryssa baelama</taxon>
+        <taxon>Nematalosa nasus</taxon>
+        <taxon>Dalbergia menoeides</taxon>
+        <taxon>Paratrypauchen microcephalus</taxon>
+        <taxon>Uropterygius concolor</taxon>
+        <taxon>Pachycephala phaionota</taxon>
+        <taxon>Phenacostethus posthon</taxon>
+        <taxon>Mystus gulio</taxon>
+        <taxon>Amoya gracilis</taxon>
+        <taxon>Zenarchopterus ectuntio</taxon>
+        <taxon>Intsia palembanica</taxon>
+        <taxon>Tarsius tarsier</taxon>
+        <taxon>Phyllanthus lanceilimbus</taxon>
+        <taxon>Pastinachus gracilicaudus</taxon>
+        <taxon>Trypauchen vagina</taxon>
+        <taxon>Fagraea auriculata</taxon>
+        <taxon>Johnius australis</taxon>
+        <taxon>Baccaurea nanihua</taxon>
+        <taxon>Johnius carouna</taxon>
+        <taxon>Zenarchopterus dunckeri</taxon>
+        <taxon>Planchonia grandis</taxon>
+        <taxon>Thais nodosa</taxon>
+        <taxon>Macaca fascicularis ssp  condorensis</taxon>
+        <taxon>Johnius latifrons</taxon>
+        <taxon>Zenarchopterus striga</taxon>
+        <taxon>Neostethus lankesteri</taxon>
+        <taxon>Pateobatis bleekeri</taxon>
+        <taxon>Panthera pardus ssp  delacouri</taxon>
+        <taxon>Panna microdon</taxon>
+        <taxon>Balionycteris maculata</taxon>
+        <taxon>Periophthalmus novaeguineaensis</taxon>
+        <taxon>Litsea myristicifolia</taxon>
+        <taxon>Boleophthalmus caeruleomaculatus</taxon>
+        <taxon>Taenioides buchanani</taxon>
+        <taxon>Dendrobium canaliculatum</taxon>
+        <taxon>Pangio kuhlii</taxon>
+        <taxon>Barringtonia conoidea</taxon>
+        <taxon>Balionycteris seimundi</taxon>
+        <taxon>Hemigobius hoevenii</taxon>
+        <taxon>Cynoglossus puncticeps</taxon>
+        <taxon>Maculabatis macrura</taxon>
+        <taxon>Cryptocentrus leptocephalus</taxon>
+        <taxon>Pornothemis starrei</taxon>
+        <taxon>Hibiscus sterculiifolius</taxon>
+        <taxon>Phallostethus lehi</taxon>
+        <taxon>Aspericorvina jubata</taxon>
+        <taxon>Trachypithecus cristatus ssp  cristatus</taxon>
+        <taxon>Parachaeturichthys polynema</taxon>
+        <taxon>Amblygobius stethophthalmus</taxon>
+        <taxon>Zenarchopterus buffonis</taxon>
+        <taxon>Locustella fasciolata</taxon>
+        <taxon>Python bivittatus</taxon>
+        <taxon>Siganus lineatus</taxon>
+        <taxon>Acanthus ilicifolius</taxon>
+        <taxon>Epinephelus coioides</taxon>
+        <taxon>Atule mate</taxon>
+        <taxon>Lethrinus harak</taxon>
+        <taxon>Tragulus kanchil</taxon>
+        <taxon>Pityriasis gymnocephala</taxon>
+        <taxon>Megalops cyprinoides</taxon>
+        <taxon>Acrochordus granulatus</taxon>
+        <taxon>Epinephelus tauvina</taxon>
+        <taxon>Glossogobius olivaceus</taxon>
+        <taxon>Pitta megarhyncha</taxon>
+        <taxon>Istigobius ornatus</taxon>
+        <taxon>Cacatua sulphurea</taxon>
+        <taxon>Falco severus</taxon>
+        <taxon>Diagramma labiosum</taxon>
+        <taxon>Lagocephalus lunaris</taxon>
+        <taxon>Pelargopsis amauroptera</taxon>
+        <taxon>Hipposideros ater</taxon>
+        <taxon>Hydrophis schistosus</taxon>
+        <taxon>Coracina caledonica</taxon>
+        <taxon>Cerberus rynchops</taxon>
+        <taxon>Cerithium coralium</taxon>
+        <taxon>Scatophagus argus</taxon>
+        <taxon>Alcedo euryzona</taxon>
+        <taxon>Rattus losea</taxon>
+        <taxon>Platax orbicularis</taxon>
+        <taxon>Megaderma spasma</taxon>
+        <taxon>Epinephelus malabaricus</taxon>
+        <taxon>Pongamia pinnata</taxon>
+        <taxon>Littoraria undulata</taxon>
+        <taxon>Holothuria impatiens</taxon>
+        <taxon>Phodilus badius</taxon>
+        <taxon>Arothron stellatus</taxon>
+        <taxon>Macaca nemestrina</taxon>
+        <taxon>Panthera tigris</taxon>
+        <taxon>Cordia subcordata</taxon>
+        <taxon>Holothuria scabra</taxon>
+        <taxon>Pachycephala fulvotincta</taxon>
+        <taxon>Laticauda colubrina</taxon>
+        <taxon>Uromys caudimaculatus</taxon>
+        <taxon>Eleotris fusca</taxon>
+        <taxon>Viverricula indica</taxon>
+        <taxon>Ficedula elisae</taxon>
+        <taxon>Ilex cymosa</taxon>
+        <taxon>Trichoglossus ornatus</taxon>
+        <taxon>Erythrina variegata</taxon>
+        <taxon>Funambulus palmarum</taxon>
+        <taxon>Periophthalmus argentilineatus</taxon>
+        <taxon>Arachnothera crassirostris</taxon>
+        <taxon>Neophocaena phocaenoides</taxon>
+        <taxon>Hipposideros galeritus</taxon>
+        <taxon>Prionailurus bengalensis</taxon>
+        <taxon>Pipistrellus tenuis</taxon>
+        <taxon>Inocarpus fagifer</taxon>
+        <taxon>Pluvialis fulva</taxon>
+        <taxon>Numenius phaeopus</taxon>
+        <taxon>Phalacrocorax sulcirostris</taxon>
+        <taxon>Sus scrofa</taxon>
+        <taxon>Egretta novaehollandiae</taxon>
+        <taxon>Tringa nebularia</taxon>
+        <taxon>Todiramphus sanctus</taxon>
+        <taxon>Cairina moschata</taxon>
+        <taxon>Nycticorax nycticorax</taxon>
+        <taxon>Pandion haliaetus</taxon>
+        <taxon>Butorides striata</taxon>
+        <taxon>Egretta garzetta</taxon>
+        <taxon>Ceryle rudis</taxon>
+        <taxon>Ardea intermedia</taxon>
+        <taxon>Apus affinis</taxon>
+        <taxon>Anhinga melanogaster</taxon>
+        <taxon>Ardea purpurea</taxon>
+        <taxon>Ardea cinerea</taxon>
+        <taxon>Charadrius dubius</taxon>
+        <taxon>Platalea leucorodia</taxon>
+        <taxon>Prinia subflava</taxon>
+        <taxon>Actitis hypoleucos</taxon>
+        <taxon>Bostrychia hagedash</taxon>
+        <taxon>Threskiornis aethiopicus</taxon>
+        <taxon>Alcedo atthis</taxon>
+        <taxon>Phylloscopus collybita</taxon>
+        <taxon>Numenius arquata</taxon>
+        <taxon>Prinia flaviventris</taxon>
+        <taxon>Cinnyris jugularis</taxon>
+        <taxon>Centropus sinensis</taxon>
+        <taxon>Prinia inornata</taxon>
+        <taxon>Spilornis cheela</taxon>
+        <taxon>Dicrurus paradiseus</taxon>
+        <taxon>Artamus leucoryn</taxon>
+        <taxon>Acrocephalus palustris</taxon>
+        <taxon>Copsychus saularis</taxon>
+        <taxon>Cypsiurus balasiensis</taxon>
+        <taxon>Halcyon smyrnensis</taxon>
+        <taxon>Dicrurus leucophaeus</taxon>
+        <taxon>Oriolus xanthornus</taxon>
+        <taxon>Phylloscopus trochiloides</taxon>
+        <taxon>Corvus macrorhynchos</taxon>
+        <taxon>Aegithina tiphia</taxon>
+        <taxon>Ardeola grayii</taxon>
+        <taxon>Amaurornis phoenicurus</taxon>
+        <taxon>Merops philippinus</taxon>
+        <taxon>Orthotomus sutorius</taxon>
+        <taxon>Microcarbo niger</taxon>
+        <taxon>Psilopogon haemacephalus</taxon>
+        <taxon>Dendrocygna javanica</taxon>
+        <taxon>Haliastur indus</taxon>
+        <taxon>Threskiornis melanocephalus</taxon>
+        <taxon>Parus major</taxon>
+        <taxon>Acridotheres tristis</taxon>
+        <taxon>Coracina novaehollandiae</taxon>
+        <taxon>Pachycephala pectoralis</taxon>
+        <taxon>Zosterops simplex</taxon>
+        <taxon>Trichoglossus haematodus</taxon>
+        <taxon>Haliaeetus leucocephalus</taxon>
+        <taxon>Dicrurus bracteatus</taxon>
+        <taxon>Microcarbo melanoleucos</taxon>
+        <taxon>Neochmia temporalis</taxon>
+        <taxon>Lichmera indistincta</taxon>
+      </taxons>
+    </Characteristic-biota>
+    <Abiotic-environment>
+      <Abiotic-Summaries>
+        <Abiotic-Summary lang="en">Many mangrove soils are low in nutrients, especially nitrogen and phosphorus. Regional distributions are influenced by interactions among landscape position, rainfall, hydrology, sea level, sediment dynamics, subsidence, storm-driven processes, and disturbance by pests and predators. Rainfall and sediment supply from rivers and currents promote mangrove establishment and persistence, while waves and large tidal currents destabilise and erode mangrove substrates, mediating local-scale dynamics in ecosystem distributions. High rainfall reduces salinity stress and increases nutrient loading from adjacent catchments, while tidal flushing also regulates salinity.</Abiotic-Summary>
+      </Abiotic-Summaries>
+    </Abiotic-environment>
+    <Biotic-processes>
+      <Processes-Summaries>
+        <Processes-Summary lang="en">Mangroves are structural engineers and possess traits including pneumatophores, salt excretion glands, vivipary, and propagule buoyancy that promote survival and recruitment in poorly aerated, saline, mobile, and tidally inundated substrates. They are highly efficient in nitrogen use efficiency and nutrient resorption. They produce large amounts of detritus (e.g. leaves, twigs, and bark), which is either buried in waterlogged sediments, consumed by crabs, or more commonly decomposed by fungi and bacteria, mobilising carbon and nutrients to higher trophic levels. These ecosystems are also major blue carbon sinks, incorporating organic matter into sediments and living biomass. Although highly productive, these ecosystems are less speciose than other coastal biogenic systems. Crabs are among the most abundant and important invertebrates. Their burrows oxygenate sediments, enhance groundwater penetration, and provide habitat for other invertebrates such as molluscs and worms. Specialised roots (pneumatophores) provide a complex habitat structure that protects juvenile fish from predators and serves as hard substrate for the attachment of algae as well as sessile and mobile invertebrates (e.g. oysters, mussels, sponges, and gastropods). Mangrove canopies support invertebrate herbivores and other terrestrial biota including invertebrates, reptiles, small mammals, and extensive bird communities. </Processes-Summary>
+      </Processes-Summaries>
+    </Biotic-processes>
+    <Ecosystem-services>
+      <Services>
+        <Ecosystem-service/>
+      </Services>
+      <Services-Summaries>
+        <Services-Summary lang="en">These systems are among the most productive coastal environments. These ecosystems are also major blue carbon sinks, incorporating organic matter into sediments and living biomass. They have well-documented ability of  to protect coastal regions from storms. </Services-Summary>
+      </Services-Summaries>
+    </Ecosystem-services>
+    <Threats>
+      <Threats-Summaries>
+        <Threats-Summary lang="en">Mangrove deforestation due to aquaculture. Urbanisation and the associated coastal development, over-harvesting, and pollution from domestic, industrial and agricultural land use urbanisation (coastal development). The position of mangrove forests in intertidal areas renders them vulnerable to predicted sea-level rise as a result of climate change. Tropical storms can damage mangrove forests through direct defoliation and destruction of trees, as well as through the mass mortality of animal communities within the ecosystems. </Threats-Summary>
+      </Threats-Summaries>
+      <Threat>
+        <Threat-name>Urbanisation</Threat-name>
+        <Threat-description lang="en">Urbanisation and the associated coastal development can lead to over-harvesting, and pollution from domestic, industrial and agricultural land use.</Threat-description>
+        <Threat-Impact>
+          <Threat-Timing id="IUCN" version="3.2" selected="yes" assigned-by="JRFP">Ongoing</Threat-Timing>
+          <Threat-Scope id="IUCN" version="3.2" selected="yes" assigned-by="JRFP">Unknown</Threat-Scope>
+          <Threat-Severity id="IUCN" version="3.2" selected="yes" assigned-by="JRFP">Unknown</Threat-Severity>
+        </Threat-Impact>
+        <Threat-classification id="IUCN" version="3.2" selected="yes" assigned-by="Assessment authors">
+          <Threat-classification-element level="1">1 Residential and Commercial Development</Threat-classification-element>
+          <Threat-classification-element level="1">5 Biological Resource Use</Threat-classification-element>
+          <Threat-classification-element level="1">9 Pollution</Threat-classification-element>
+          <Threat-classification-element level="2">1.1 Housing &amp; urban areas</Threat-classification-element>
+          <Threat-classification-element level="2">5.3 Logging &amp; Wood Harvesting</Threat-classification-element>
+          <Threat-classification-element level="2">5.4 Fishing &amp; Harvesting Aquatic Resources</Threat-classification-element>
+          <Threat-classification-element level="2">9.1 Domestic &amp; Urban Waste Water</Threat-classification-element>
+          <Threat-classification-element level="3">5.3.2 Intentional Use: Large Scale [harvest]</Threat-classification-element>
+          <Threat-classification-element level="3">5.4.2 Intentional Use: Large Scale [harvest]</Threat-classification-element>
+          <Threat-classification-element level="3">9.1.1 Sewage</Threat-classification-element>
+          <Threat-classification-element level="3">9.1.2 Run-off</Threat-classification-element>
+        </Threat-classification>
+      </Threat>
+      <Threat>
+        <Threat-name>Aquaculture</Threat-name>
+        <Threat-description lang="en">Aquaculture causes damage through deforestation and pollution, due to the release of effluents into the ecosystem</Threat-description>
+        <Threat-Impact>
+          <Threat-Timing id="IUCN" version="3.2" selected="yes" assigned-by="JRFP">Ongoing</Threat-Timing>
+          <Threat-Scope id="IUCN" version="3.2" selected="yes" assigned-by="JRFP">Unknown</Threat-Scope>
+          <Threat-Severity id="IUCN" version="3.2" selected="yes" assigned-by="JRFP">Unknown</Threat-Severity>
+        </Threat-Impact>
+        <Threat-classification id="IUCN" version="3.2" selected="yes" assigned-by="Assessment authors">
+          <Threat-classification-element level="1">2 Agriculture &amp; Aquaculture</Threat-classification-element>
+          <Threat-classification-element level="2">2.4 Marine &amp; Freshwater Aquaculture</Threat-classification-element>
+          <Threat-classification-element level="3">2.4.2 Industrial Aquaculture</Threat-classification-element>
+        </Threat-classification>
+      </Threat>
+      <Threat>
+        <Threat-name>Sea level rise</Threat-name>
+        <Threat-description lang="en">The position in intertidal areas renders them vulnerable to predicted sea-level rise as a result of climate change</Threat-description>
+        <Threat-Impact>
+          <Threat-Timing id="IUCN" version="3.2" selected="yes" assigned-by="JRFP">Ongoing</Threat-Timing>
+          <Threat-Scope id="IUCN" version="3.2" selected="yes" assigned-by="JRFP">Unknown</Threat-Scope>
+          <Threat-Severity id="IUCN" version="3.2" selected="yes" assigned-by="JRFP">Unknown</Threat-Severity>
+        </Threat-Impact>
+        <Threat-classification id="IUCN" version="3.2" selected="yes" assigned-by="Assessment authors">
+          <Threat-classification-element level="1">11 Climate Change &amp; Severe Weather</Threat-classification-element>
+          <Threat-classification-element level="2">11.1 Habitat Shifting &amp; Alteration</Threat-classification-element>
+          <Threat-classification-element level="2">11.4 Storms &amp; Flooding</Threat-classification-element>
+        </Threat-classification>
+      </Threat>
+    </Threats>
+    <Conservation-actions/>
+    <Research-needs/>
+    <Conceptual-ecosystem-model/>
+    <Classifications>
+      <Classification-system id="IUCN GET" version="2.0" selected="yes" assigned-by="Assessment authors">
+        <Classification-element level="1">Transitional Marine-Freshwater-Terrestrial realm</Classification-element>
+        <Classification-element level="2">MFT1 Brackish tidal biome</Classification-element>
+        <Classification-element level="3">MFT1.2 Intertidal forests and shrublands</Classification-element>
+        <Classification-element level="4">MFT1.2_4_MP_26 Mangroves of Sunda Shelf</Classification-element>
+      </Classification-system>
+      <Classification-system id="IUCN habitat" version="3.1" selected="no" assigned-by="Assessment authors">
+        <Classification-element level="1">1 Forest</Classification-element>
+        <Classification-element level="2">1.7 Forest – Subtropical/tropical mangrove vegetation above high tide level</Classification-element>
+        <Classification-element level="1">12 Marine Intertidal</Classification-element>
+        <Classification-element level="2">12.7 Marine Intertidal - Mangrove Submerged Roots</Classification-element>
+      </Classification-system>
+    </Classifications>
+    <Distribution>
+      <Distribution-Summaries>
+        <Distribution-Summary lang="en">The 'Mangroves of Sunda Shelf' includes intertidal forest and shrublands of the marine ecoregions of Gulf of Thailand (Sunda Shelf province), Malacca Strait (Sunda Shelf province), Southern Vietnam (Sunda Shelf province), Sunda Shelf/Java Sea (Sunda Shelf province), that extent across 8 countries and territories in the regions of East Asia &amp; Pacific. </Distribution-Summary>
+      </Distribution-Summaries>
+      <Countries>
+        <Country iso-code-2="ID">Indonesia</Country>
+        <Country iso-code-2="MY">Malaysia</Country>
+        <Country iso-code-2="VN">Vietnam</Country>
+        <Country iso-code-2="KH">Cambodia</Country>
+        <Country iso-code-2="LA">Lao People's Democratic Republic</Country>
+        <Country iso-code-2="TH">Thailand</Country>
+        <Country iso-code-2="MM">Myanmar</Country>
+        <Country iso-code-2="SG">Singapore</Country>
+      </Countries>
+      <Spatial-data>
+        <Spatial-point datum="WGS84" proj="+proj=longlat +datum=WGS84 +no_defs" type="lower-left-corner">
+          <x>96.0439814237375</x>
+          <y>-8.42803754122053</y>
+          <radius units="m">1000</radius>
+        </Spatial-point>
+        <Spatial-point datum="WGS84" proj="+proj=longlat +datum=WGS84 +no_defs" type="lower-left-corner">
+          <x>115.639344986017</x>
+          <y>18.5952675024112</y>
+          <radius units="m">1000</radius>
+        </Spatial-point>
+      </Spatial-data>
+    </Distribution>
+    <Collapse-definition>
+      <Collapse-summaries>
+        <Collapse-summary lang="en"/>
+      </Collapse-summaries>
+      <Spatial-collapse-definitions>
+        <Spatial-collapse lang="en">Mangroves are structural engineers and possess specialised traits that promote high nitrogen use efficiency and nutrient resorption that influences major processes and functions in this ecosystem. Ecosystem collapse is considered to occur when the tree cover of diagnostic species of true mangroves declines to zero (100% loss).</Spatial-collapse>
+      </Spatial-collapse-definitions>
+      <Functional-collapse-definitions>
+        <Functional-collapse lang="en">These are highly dynamic systems, with species distributions adjusting to local changes in sediment distribution, tidal regimes, and local inundation and salinity gradients. Processes that disrupt this dynamic can lead to ecosystem collapse. Ecosystem collapse may occur under any of the following: a) climatic conditions (low temperatures) restrict recruitment and survival of diagnostic true mangroves; b) changes in rainfall and river inputs and/or waves and tidal currents destabilise and erode substrates and disrupt recruitment and growth, c) changes in rainfall and tidal flushing change salinity stress and nutrient loadings affecting survival.</Functional-collapse>
+      </Functional-collapse-definitions>
+    </Collapse-definition>
+  </Assessment-Target>
+</Case-Study>

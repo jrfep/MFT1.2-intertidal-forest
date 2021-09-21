@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="target.xsl"?>
+<Case-Study>
+  <Assessment-Target date="2021-09-14" updated-by="JRFP" status="draft">
+    <AT-id>MFT1.2_4_MP_58x</AT-id>
+    <AT-descriptions>
+      <AT-description lang="en">The 'Mangroves of Western Australian Shelf and Leeuwin' is a regional ecosystem subgroup (level 4 unit of the IUCN Global Ecosystem Typology) that includes intertidal forest and shrublands of the marine ecoregions of Houtman (West Central Australian Shelf province), Leeuwin (Southwest Australian Shelf province), Shark Bay (West Central Australian Shelf province). The biota is characterised by 7 species of true mangroves and other key plant taxa that provide structure and resources for approx. 170 mangove-associated taxa. Mangroves in this subgroup have a mapped extent of at least ... km2 in ... countries and are predominantly ... and .... They are threatened by  conversion for urban and tourism development, agriculture and aquaculture, and by increases in frequency of tropical storms. </AT-description>
+    </AT-descriptions>
+    <AT-names>
+      <AT-name lang="en">Mangroves of Western Australian Shelf and Leeuwin</AT-name>
+      <AT-name lang="es">Bosques de Manglar de Western Australian Shelf and Leeuwin</AT-name>
+    </AT-names>
+    <Characteristic-biota>
+      <Biota-Summaries>
+        <Biota-Summary lang="en">The biota of 'Mangroves of Western Australian Shelf and Leeuwin' is characterised by the presence of 7 true mangrove and other key plant species. The range maps of Halodule uninervis, Avicennia marina, Cynometra iripa, Halophila ovalis overlap with most of the distribution of this unit. There are 176 species that have been associated with mangrove habitats in the Red List of Threatened Species database and that have natural history collection records or observations within the distribution of this unit (GBIF 2021). </Biota-Summary>
+      </Biota-Summaries>
+      <taxons>
+        <taxon>Halodule uninervis</taxon>
+        <taxon>Avicennia marina</taxon>
+        <taxon>Cynometra iripa</taxon>
+        <taxon>Halophila ovalis</taxon>
+        <taxon>Halodule pinifolia</taxon>
+        <taxon>Zostera muelleri</taxon>
+        <taxon>Rhizophora stylosa</taxon>
+        <taxon>Acanthiza iredalei</taxon>
+        <taxon>Acanthopagrus australis</taxon>
+        <taxon>Accipiter novaehollandiae</taxon>
+        <taxon>Aegotheles cristatus</taxon>
+        <taxon>Albizia lebbeck</taxon>
+        <taxon>Aprosmictus erythropterus</taxon>
+        <taxon>Ardea sumatrana</taxon>
+        <taxon>Argyrosomus hololepidotus</taxon>
+        <taxon>Arothron hispidus</taxon>
+        <taxon>Artamus personatus</taxon>
+        <taxon>Caesio cuning</taxon>
+        <taxon>Centropus phasianinus</taxon>
+        <taxon>Ceyx azureus</taxon>
+        <taxon>Chalcites lucidus</taxon>
+        <taxon>Charadrius mongolus</taxon>
+        <taxon>Chlamydera nuchalis</taxon>
+        <taxon>Colluricincla megarhyncha</taxon>
+        <taxon>Cryptoblepharus virgatus</taxon>
+        <taxon>Ctenotus robustus</taxon>
+        <taxon>Dacelo leachii</taxon>
+        <taxon>Dendrelaphis punctulatus</taxon>
+        <taxon>Dugong dugon</taxon>
+        <taxon>Egretta sacra</taxon>
+        <taxon>Epthianura albifrons</taxon>
+        <taxon>Eretmochelys imbricata</taxon>
+        <taxon>Eurostopodus argus</taxon>
+        <taxon>Fimbristylis cymosa</taxon>
+        <taxon>Fregata ariel</taxon>
+        <taxon>Fregata minor</taxon>
+        <taxon>Gallus gallus</taxon>
+        <taxon>Gavicalis versicolor</taxon>
+        <taxon>Gerygone levigaster</taxon>
+        <taxon>Gerygone magnirostris</taxon>
+        <taxon>Gerygone tenebrosa</taxon>
+        <taxon>Hydromys chrysogaster</taxon>
+        <taxon>Hypotaenidia philippensis</taxon>
+        <taxon>Ixobrychus dubius</taxon>
+        <taxon>Ixobrychus flavicollis</taxon>
+        <taxon>Ixobrychus minutus</taxon>
+        <taxon>Lalage sueurii</taxon>
+        <taxon>Lampropholis delicata</taxon>
+        <taxon>Lethrinus genivittatus</taxon>
+        <taxon>Lethrinus nebulosus</taxon>
+        <taxon>Lutjanus fulviflamma</taxon>
+        <taxon>Lutjanus fulvus</taxon>
+        <taxon>Lutjanus russellii</taxon>
+        <taxon>Lutjanus sebae</taxon>
+        <taxon>Malurus amabilis</taxon>
+        <taxon>Meliphaga notata</taxon>
+        <taxon>Monarcha melanopsis</taxon>
+        <taxon>Monodactylus argenteus</taxon>
+        <taxon>Neophema chrysostoma</taxon>
+        <taxon>Neophema petrophila</taxon>
+        <taxon>Nycticorax caledonicus</taxon>
+        <taxon>Pachycephala lanioides</taxon>
+        <taxon>Pachycephala melanura</taxon>
+        <taxon>Panicum effusum</taxon>
+        <taxon>Parupeneus barberinus</taxon>
+        <taxon>Platycercus venustus</taxon>
+        <taxon>Plectorhyncha lanceolata</taxon>
+        <taxon>Poodytes gramineus</taxon>
+        <taxon>Porzana fluminea</taxon>
+        <taxon>Pteropus scapulatus</taxon>
+        <taxon>Radjah radjah</taxon>
+        <taxon>Rattus rattus</taxon>
+        <taxon>Rhipidura dryas</taxon>
+        <taxon>Rhipidura phasiana</taxon>
+        <taxon>Ruppia maritima</taxon>
+        <taxon>Saccolaimus flaviventris</taxon>
+        <taxon>Tetractenos glaber</taxon>
+        <taxon>Todiramphus chloris</taxon>
+        <taxon>Trichoglossus rubritorquis</taxon>
+        <taxon>Tyto novaehollandiae</taxon>
+        <taxon>Varanus panoptes</taxon>
+        <taxon>Xenus cinereus</taxon>
+        <taxon>Zosterops luteus</taxon>
+        <taxon>Lethrinus laticaudis</taxon>
+        <taxon>Conus varius</taxon>
+        <taxon>Osbornia octodonta</taxon>
+        <taxon>Arothron manilensis</taxon>
+        <taxon>Tetractenos hamiltoni</taxon>
+        <taxon>Acanthopagrus berda</taxon>
+        <taxon>Arothron immaculatus</taxon>
+        <taxon>Pomadasys argenteus</taxon>
+        <taxon>Macroderma gigas</taxon>
+        <taxon>Contusus brevicaudus</taxon>
+        <taxon>Yongeichthys nebulosus</taxon>
+        <taxon>Epinephelus coeruleopunctatus</taxon>
+        <taxon>Selenotoca multifasciata</taxon>
+        <taxon>Takifugu oblongus</taxon>
+        <taxon>Pristis pristis</taxon>
+        <taxon>Lophognathus longirostris</taxon>
+        <taxon>Acanthopagrus morrisoni</taxon>
+        <taxon>Hippichthys penicillus</taxon>
+        <taxon>Elops hawaiensis</taxon>
+        <taxon>Maculabatis toshi</taxon>
+        <taxon>Colurodontis paxmani</taxon>
+        <taxon>Heteroscenes pallidus</taxon>
+        <taxon>Ascorhis occidua</taxon>
+        <taxon>Ephalophis greyae</taxon>
+        <taxon>Drombus halei</taxon>
+        <taxon>Cacatua alba</taxon>
+        <taxon>Festucalex scalaris</taxon>
+        <taxon>Cerithidea ornata</taxon>
+        <taxon>Elops machnata</taxon>
+        <taxon>Eviota storthynx</taxon>
+        <taxon>Anacanthus barbatus</taxon>
+        <taxon>Parachaeturichthys polynema</taxon>
+        <taxon>Epinephelus coioides</taxon>
+        <taxon>Epinephelus tauvina</taxon>
+        <taxon>Lagocephalus lunaris</taxon>
+        <taxon>Synodus sageneus</taxon>
+        <taxon>Acrostichum speciosum</taxon>
+        <taxon>Cerithium coralium</taxon>
+        <taxon>Platax orbicularis</taxon>
+        <taxon>Epinephelus malabaricus</taxon>
+        <taxon>Littoraria undulata</taxon>
+        <taxon>Holothuria impatiens</taxon>
+        <taxon>Arothron stellatus</taxon>
+        <taxon>Periophthalmus argentilineatus</taxon>
+        <taxon>Pluvialis fulva</taxon>
+        <taxon>Numenius phaeopus</taxon>
+        <taxon>Zosterops lateralis</taxon>
+        <taxon>Phalacrocorax sulcirostris</taxon>
+        <taxon>Sus scrofa</taxon>
+        <taxon>Egretta novaehollandiae</taxon>
+        <taxon>Rhipidura fuliginosa</taxon>
+        <taxon>Tringa nebularia</taxon>
+        <taxon>Todiramphus sanctus</taxon>
+        <taxon>Cairina moschata</taxon>
+        <taxon>Pandion haliaetus</taxon>
+        <taxon>Butorides striata</taxon>
+        <taxon>Egretta garzetta</taxon>
+        <taxon>Ardea intermedia</taxon>
+        <taxon>Anhinga melanogaster</taxon>
+        <taxon>Ardea purpurea</taxon>
+        <taxon>Charadrius dubius</taxon>
+        <taxon>Actitis hypoleucos</taxon>
+        <taxon>Numenius arquata</taxon>
+        <taxon>Artamus leucoryn</taxon>
+        <taxon>Haliastur indus</taxon>
+        <taxon>Acridotheres tristis</taxon>
+        <taxon>Coracina novaehollandiae</taxon>
+        <taxon>Pachycephala pectoralis</taxon>
+        <taxon>Trichoglossus haematodus</taxon>
+        <taxon>Platalea regia</taxon>
+        <taxon>Dicrurus bracteatus</taxon>
+        <taxon>Coracina papuensis</taxon>
+        <taxon>Microcarbo melanoleucos</taxon>
+        <taxon>Pachycephala rufiventris</taxon>
+        <taxon>Anhinga novaehollandiae</taxon>
+        <taxon>Psephotus haematonotus</taxon>
+        <taxon>Colluricincla harmonica</taxon>
+        <taxon>Trichoglossus moluccanus</taxon>
+        <taxon>Myiagra rubecula</taxon>
+        <taxon>Sericornis frontalis</taxon>
+        <taxon>Melithreptus albogularis</taxon>
+        <taxon>Gavicalis virescens</taxon>
+        <taxon>Acanthiza nana</taxon>
+        <taxon>Phaps chalcoptera</taxon>
+        <taxon>Cacomantis flabelliformis</taxon>
+        <taxon>Philemon citreogularis</taxon>
+        <taxon>Acanthiza lineata</taxon>
+        <taxon>Phalacrocorax varius</taxon>
+        <taxon>Rhipidura albiscapa</taxon>
+        <taxon>Neochmia temporalis</taxon>
+        <taxon>Lichmera indistincta</taxon>
+        <taxon>Pardalotus striatus</taxon>
+        <taxon>Anas castanea</taxon>
+        <taxon>Artamus cinereus</taxon>
+        <taxon>Dicaeum hirundinaceum</taxon>
+        <taxon>Entomyzon cyanotis</taxon>
+      </taxons>
+    </Characteristic-biota>
+    <Abiotic-environment>
+      <Abiotic-Summaries>
+        <Abiotic-Summary lang="en">Many mangrove soils are low in nutrients, especially nitrogen and phosphorus. Regional distributions are influenced by interactions among landscape position, rainfall, hydrology, sea level, sediment dynamics, subsidence, storm-driven processes, and disturbance by pests and predators. Rainfall and sediment supply from rivers and currents promote mangrove establishment and persistence, while waves and large tidal currents destabilise and erode mangrove substrates, mediating local-scale dynamics in ecosystem distributions. High rainfall reduces salinity stress and increases nutrient loading from adjacent catchments, while tidal flushing also regulates salinity.</Abiotic-Summary>
+      </Abiotic-Summaries>
+    </Abiotic-environment>
+    <Biotic-processes>
+      <Processes-Summaries>
+        <Processes-Summary lang="en">Mangroves are structural engineers and possess traits including pneumatophores, salt excretion glands, vivipary, and propagule buoyancy that promote survival and recruitment in poorly aerated, saline, mobile, and tidally inundated substrates. They are highly efficient in nitrogen use efficiency and nutrient resorption. They produce large amounts of detritus (e.g. leaves, twigs, and bark), which is either buried in waterlogged sediments, consumed by crabs, or more commonly decomposed by fungi and bacteria, mobilising carbon and nutrients to higher trophic levels. These ecosystems are also major blue carbon sinks, incorporating organic matter into sediments and living biomass. Although highly productive, these ecosystems are less speciose than other coastal biogenic systems. Crabs are among the most abundant and important invertebrates. Their burrows oxygenate sediments, enhance groundwater penetration, and provide habitat for other invertebrates such as molluscs and worms. Specialised roots (pneumatophores) provide a complex habitat structure that protects juvenile fish from predators and serves as hard substrate for the attachment of algae as well as sessile and mobile invertebrates (e.g. oysters, mussels, sponges, and gastropods). Mangrove canopies support invertebrate herbivores and other terrestrial biota including invertebrates, reptiles, small mammals, and extensive bird communities. </Processes-Summary>
+      </Processes-Summaries>
+    </Biotic-processes>
+    <Ecosystem-services>
+      <Services>
+        <Ecosystem-service/>
+      </Services>
+      <Services-Summaries>
+        <Services-Summary lang="en">These systems are among the most productive coastal environments. These ecosystems are also major blue carbon sinks, incorporating organic matter into sediments and living biomass. They have well-documented ability of  to protect coastal regions from storms. </Services-Summary>
+      </Services-Summaries>
+    </Ecosystem-services>
+    <Threats>
+      <Threats-Summaries>
+        <Threats-Summary lang="en">Mangrove deforestation due to aquaculture. Urbanisation and the associated coastal development, over-harvesting, and pollution from domestic, industrial and agricultural land use urbanisation (coastal development). The position of mangrove forests in intertidal areas renders them vulnerable to predicted sea-level rise as a result of climate change. Tropical storms can damage mangrove forests through direct defoliation and destruction of trees, as well as through the mass mortality of animal communities within the ecosystems. </Threats-Summary>
+      </Threats-Summaries>
+      <Threat>
+        <Threat-name>Urbanisation</Threat-name>
+        <Threat-description lang="en">Urbanisation and the associated coastal development can lead to over-harvesting, and pollution from domestic, industrial and agricultural land use.</Threat-description>
+        <Threat-Impact>
+          <Threat-Timing id="IUCN" version="3.2" selected="yes" assigned-by="JRFP">Ongoing</Threat-Timing>
+          <Threat-Scope id="IUCN" version="3.2" selected="yes" assigned-by="JRFP">Unknown</Threat-Scope>
+          <Threat-Severity id="IUCN" version="3.2" selected="yes" assigned-by="JRFP">Unknown</Threat-Severity>
+        </Threat-Impact>
+        <Threat-classification id="IUCN" version="3.2" selected="yes" assigned-by="Assessment authors">
+          <Threat-classification-element level="1">1 Residential and Commercial Development</Threat-classification-element>
+          <Threat-classification-element level="1">5 Biological Resource Use</Threat-classification-element>
+          <Threat-classification-element level="1">9 Pollution</Threat-classification-element>
+          <Threat-classification-element level="2">1.1 Housing &amp; urban areas</Threat-classification-element>
+          <Threat-classification-element level="2">5.3 Logging &amp; Wood Harvesting</Threat-classification-element>
+          <Threat-classification-element level="2">5.4 Fishing &amp; Harvesting Aquatic Resources</Threat-classification-element>
+          <Threat-classification-element level="2">9.1 Domestic &amp; Urban Waste Water</Threat-classification-element>
+          <Threat-classification-element level="3">5.3.2 Intentional Use: Large Scale [harvest]</Threat-classification-element>
+          <Threat-classification-element level="3">5.4.2 Intentional Use: Large Scale [harvest]</Threat-classification-element>
+          <Threat-classification-element level="3">9.1.1 Sewage</Threat-classification-element>
+          <Threat-classification-element level="3">9.1.2 Run-off</Threat-classification-element>
+        </Threat-classification>
+      </Threat>
+      <Threat>
+        <Threat-name>Aquaculture</Threat-name>
+        <Threat-description lang="en">Aquaculture causes damage through deforestation and pollution, due to the release of effluents into the ecosystem</Threat-description>
+        <Threat-Impact>
+          <Threat-Timing id="IUCN" version="3.2" selected="yes" assigned-by="JRFP">Ongoing</Threat-Timing>
+          <Threat-Scope id="IUCN" version="3.2" selected="yes" assigned-by="JRFP">Unknown</Threat-Scope>
+          <Threat-Severity id="IUCN" version="3.2" selected="yes" assigned-by="JRFP">Unknown</Threat-Severity>
+        </Threat-Impact>
+        <Threat-classification id="IUCN" version="3.2" selected="yes" assigned-by="Assessment authors">
+          <Threat-classification-element level="1">2 Agriculture &amp; Aquaculture</Threat-classification-element>
+          <Threat-classification-element level="2">2.4 Marine &amp; Freshwater Aquaculture</Threat-classification-element>
+          <Threat-classification-element level="3">2.4.2 Industrial Aquaculture</Threat-classification-element>
+        </Threat-classification>
+      </Threat>
+      <Threat>
+        <Threat-name>Sea level rise</Threat-name>
+        <Threat-description lang="en">The position in intertidal areas renders them vulnerable to predicted sea-level rise as a result of climate change</Threat-description>
+        <Threat-Impact>
+          <Threat-Timing id="IUCN" version="3.2" selected="yes" assigned-by="JRFP">Ongoing</Threat-Timing>
+          <Threat-Scope id="IUCN" version="3.2" selected="yes" assigned-by="JRFP">Unknown</Threat-Scope>
+          <Threat-Severity id="IUCN" version="3.2" selected="yes" assigned-by="JRFP">Unknown</Threat-Severity>
+        </Threat-Impact>
+        <Threat-classification id="IUCN" version="3.2" selected="yes" assigned-by="Assessment authors">
+          <Threat-classification-element level="1">11 Climate Change &amp; Severe Weather</Threat-classification-element>
+          <Threat-classification-element level="2">11.1 Habitat Shifting &amp; Alteration</Threat-classification-element>
+          <Threat-classification-element level="2">11.4 Storms &amp; Flooding</Threat-classification-element>
+        </Threat-classification>
+      </Threat>
+    </Threats>
+    <Conservation-actions/>
+    <Research-needs/>
+    <Conceptual-ecosystem-model/>
+    <Classifications>
+      <Classification-system id="IUCN GET" version="2.0" selected="yes" assigned-by="Assessment authors">
+        <Classification-element level="1">Transitional Marine-Freshwater-Terrestrial realm</Classification-element>
+        <Classification-element level="2">MFT1 Brackish tidal biome</Classification-element>
+        <Classification-element level="3">MFT1.2 Intertidal forests and shrublands</Classification-element>
+        <Classification-element level="4">MFT1.2_4_MP_58x Mangroves of Western Australian Shelf and Leeuwin</Classification-element>
+      </Classification-system>
+      <Classification-system id="IUCN habitat" version="3.1" selected="no" assigned-by="Assessment authors">
+        <Classification-element level="1">1 Forest</Classification-element>
+        <Classification-element level="2">1.7 Forest – Subtropical/tropical mangrove vegetation above high tide level</Classification-element>
+        <Classification-element level="1">12 Marine Intertidal</Classification-element>
+        <Classification-element level="2">12.7 Marine Intertidal - Mangrove Submerged Roots</Classification-element>
+      </Classification-system>
+    </Classifications>
+    <Distribution>
+      <Distribution-Summaries>
+        <Distribution-Summary lang="en">The 'Mangroves of Western Australian Shelf and Leeuwin' includes intertidal forest and shrublands of the marine ecoregions of Houtman (West Central Australian Shelf province), Leeuwin (Southwest Australian Shelf province), Shark Bay (West Central Australian Shelf province), that extent across 1 countries and territories in the regions of East Asia &amp; Pacific. </Distribution-Summary>
+      </Distribution-Summaries>
+      <Countries>
+        <Country iso-code-2="AU">Australia</Country>
+      </Countries>
+      <Spatial-data>
+        <Spatial-point datum="WGS84" proj="+proj=longlat +datum=WGS84 +no_defs" type="lower-left-corner">
+          <x>109.576786884615</x>
+          <y>-38.504236526664</y>
+          <radius units="m">1000</radius>
+        </Spatial-point>
+        <Spatial-point datum="WGS84" proj="+proj=longlat +datum=WGS84 +no_defs" type="lower-left-corner">
+          <x>125.859411309135</x>
+          <y>-23.3485070250703</y>
+          <radius units="m">1000</radius>
+        </Spatial-point>
+      </Spatial-data>
+    </Distribution>
+    <Collapse-definition>
+      <Collapse-summaries>
+        <Collapse-summary lang="en"/>
+      </Collapse-summaries>
+      <Spatial-collapse-definitions>
+        <Spatial-collapse lang="en">Mangroves are structural engineers and possess specialised traits that promote high nitrogen use efficiency and nutrient resorption that influences major processes and functions in this ecosystem. Ecosystem collapse is considered to occur when the tree cover of diagnostic species of true mangroves declines to zero (100% loss).</Spatial-collapse>
+      </Spatial-collapse-definitions>
+      <Functional-collapse-definitions>
+        <Functional-collapse lang="en">These are highly dynamic systems, with species distributions adjusting to local changes in sediment distribution, tidal regimes, and local inundation and salinity gradients. Processes that disrupt this dynamic can lead to ecosystem collapse. Ecosystem collapse may occur under any of the following: a) climatic conditions (low temperatures) restrict recruitment and survival of diagnostic true mangroves; b) changes in rainfall and river inputs and/or waves and tidal currents destabilise and erode substrates and disrupt recruitment and growth, c) changes in rainfall and tidal flushing change salinity stress and nutrient loadings affecting survival.</Functional-collapse>
+      </Functional-collapse-definitions>
+    </Collapse-definition>
+  </Assessment-Target>
+</Case-Study>
