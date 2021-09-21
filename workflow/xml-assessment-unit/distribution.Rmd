@@ -5,6 +5,17 @@ editor_options:
 ---
 
 
+```sh
+source $HOME/proyectos/IUCN-GET/MFT1.2-intertidal-forest/env/project-env.sh
+cd $SCRIPTDIR/xml
+for ARCH in $(ls *xml)
+do
+  xmllint --format $ARCH > tst
+  mv tst $ARCH
+done
+
+```
+
 ```{r}
 require(dplyr)
 require(XML)
