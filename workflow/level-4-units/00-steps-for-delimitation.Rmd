@@ -91,12 +91,15 @@ meow_mgv_summary %<>% mutate(step_1=case_when(
   (mgv_eco %in% 'unmapped')~ 'Consider exclusion',
   (PROV_CODE %in% c(3))~ 'Consider exclusion',
   PROV_CODE %in% c(6,9,11,47,53,54,16,28,44,45) ~ "Potential merge",
+  PROV_CODE %in% c(38,39,40) ~ "Potential merge (non-native)",
   PROV_CODE %in% c(12,18,21) ~ "Potential split",
+  ECOREGION %in% c("Lord Howe and Norfolk Islands") ~'Potential merge (unmapped, but known)',
   PROV_CODE %in% c(56,57,58,13,51) ~ "Potential modification",
   TRUE ~ "Included"))
 
 meow_mgv_summary %>% filter(PROV_CODE %in% c(36)) %>% dplyr::select(ECOREGION,n_key_mgv_spp,n_add_mgv_spp,min_area,max_area,native,mgv_eco)
 meow_mgv_summary %>% filter(PROV_CODE %in% c(54)) %>% dplyr::select(ECOREGION,n_key_mgv_spp,n_add_mgv_spp,min_area,max_area,native,mgv_eco)
+
 
 ```
 |PROV CODE| PROVINCE | exclusion |
@@ -142,7 +145,7 @@ All other steps
 ```{r}
 
 meow_mgv_summary %<>% mutate(step_2=case_when(
-  PROV_CODE %in% c(45,53,54) ~ "Merge",
+  PROV_CODE %in% c(45,53,54,36,38,39,40) ~ "Merge",
   PROV_CODE %in% c(11,6,47,9,28,16,51) ~ "Do not merge",
   TRUE ~ as.character(NA)))
 
@@ -264,6 +267,15 @@ save(file=sprintf("%s/www/Rdata/mgt-point-data.rda",script.dir), mgt_points, uni
 
 ```
 
+
+```{r}
+# unzip(sprintf("%s/admin/global/World-Bank/wb_countries_admin0_10m.zip",gis.data))
+adm0 <- read_sf("WB_countries_Admin0_10m")
+post_units_countries <- post_units %>% select(unit_code) %>% st_intersection(adm0 %>% filter(!ISO_A2 %in% -99) %>% select(WB_NAME, TYPE, ISO_A2, CONTINENT, REGION_UN, SUBREGION, REGION_WB)) %>% st_drop_geometry()
+
+save(file=sprintf("%s/www/Rdata/selected-units.rda",script.dir), pre_units, post_units, post_units_components, post_units_countries)
+
+```
 
 Finally we will add these to the database:
 

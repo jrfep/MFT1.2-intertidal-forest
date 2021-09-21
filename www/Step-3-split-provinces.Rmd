@@ -39,7 +39,7 @@ We evaluated three cases were a province could be split from its parent marine p
 |--------------|----------------------|:------:|--------------|
 |Tropical Northwestern Atlantic|Bermuda| Split|Isolated, mixed biota|
 |Red Sea and Gulf of Aden|Gulf of Aden| Keep|Poorly known region|
-|West and South Indian Shelf|Sri Lanka| Keep|Ask regional specialists|
+|West and South Indian Shelf|South India and Sri Lanka| Split|Ask regional specialists|
 
 ## Visualization of ecological and environmental data
 
@@ -184,9 +184,9 @@ The three ecoregions of the Red Sea and Gulf of Aden province share the same spe
 
 The West and South India Shelf is distinct from the Bay of Bengal in terms of climate (drier, lagoonal vs wetter, deltaic). But experience of some workshop participants suggest that within Sri Lanka there is a lot of variability with different mangrove areas displaying very different numbers of species because of the climate zones going from arid to wet.
 
-We considered spliting Sri Lanka as a separate assessment unit. The strongest argument for spliting is due to the discontinuous distribution of mangroves along Western India ecoregion and closer geographical connection between Sri Lanka and South India and Eastern India but the preliminary analysis of the biota suggests closer association within the boundaries of marine provinces as they stand.
+We considered spliting Sri Lanka as a separate assessment unit. The strongest argument for spliting is due to the discontinuous distribution of mangroves along Western India ecoregion and closer geographical connection between Sri Lanka and South India and Eastern India. Preliminary analysis of the biota suggests closer association within the boundaries of marine provinces as they stand.
 
-We suggest to ask the opinion of regional experts within the Mangrove Specialist Group, but will keep the province boundaries as they stand for now.
+We decided to split this province following the ecoregion boundaries as suggested by several workshop participants but  suggest to ask the opinion of regional experts within the Mangrove Specialist Group to confirm this split.
 
 
 ## Next steps
