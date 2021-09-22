@@ -53,8 +53,8 @@ nohup Rscript $SCRIPTDIR/inc/R/spp-per-province.R > nohup-spp-x-province.out &
 Now we can use these matrices to calculate biotic dissimilarity between ecoregions and provinces. First for key mangrove species
 
 ```{r}
-load(sprintf("%s/www/Rdata/mgv-species-occurrence.rda",script.dir))
-load(sprintf("%s/www/Rdata/species-occurrence.rda",script.dir))
+(load(sprintf("%s/www/Rdata/mgv-species-occurrence.rda",script.dir)))
+(load(sprintf("%s/www/Rdata/species-occurrence.rda",script.dir)))
 
 mgv.spp <- prov.mgv.spp %>% st_drop_geometry %>% select(Dolichandrone.spathacea:Ceriops.australis)
 mga.spp <- mtzXprov[,(gsub("_",".",colnames(mtzXprov)) %in% colnames(mgv.spp))]
@@ -134,11 +134,37 @@ wbland <- read_sf("WB_Boundaries_GeoJSON_lowres/WB_Coastlines_10m_lowres.geojson
 
 # Mangrove species
 
-Data on mangroves was requested to RLTS and the file downloaded.
+Data on mangroves was requested from the RLTS team and the file downloaded.
 
 ```{r}
 
 mangroves %>% st_drop_geometry %>% group_by(kingdom,phylum,class,order_) %>% summarise(nspp=n_distinct(id_no))
+mangroves %>% st_make_valid %>% st_intersects(post_units,sparse=F) -> tst
+
+gsub("Mangroves of ", "",colnames(tst))
+colnames(tst) <- post_units %>% st_drop_geometry %>% transmute(nms=gsub("Mangroves of ", "",unit_name)) %>% pull
+
+# Kingdom plantae, phylum TRACHEOPHYTA 
+mangroves %>% st_drop_geometry %>% select(id_no,binomial,legend,class,order_,family,code) %>% bind_cols(tibble(data.frame(tst))) -> key_spp_data
+
+write_csv(key_spp_data,file=sprintf("%s/mangrove-species-table.csv",work.dir))
+
+
+mangrove_species %>% filter(!(taxonid %in% key_spp_data$id_no) & majorimportance %in% "Yes" & suitability %in% 'Suitable') %>% distinct(taxonid,.keep_all = TRUE) %>%  select(taxonid,kingdom_name,phylum_name,class_name,order_name,family_name,genus_name,scientific_name,taxonomic_authority,category,main_common_name) -> mga_spp
+
+mga_spp %<>% mutate(mcolumn=match(scientific_name,gsub("_"," ",colnames(mtzXprov))))
+
+mga_spp %>% filter(is.na(mcolumn))
+
+
+mangrove_species %>% filter(majorimportance %in% "Yes" & suitability %in% 'Suitable') %>% summarise(total=n(),nspp=n_distinct(taxonid))  
+mangrove_species %>% select(taxonid,code,suitability,season,majorimportance) -> spp_habitat
+
+require(tidyr)
+
+spp_habitat %>% pivot_wider(taxonid,names_from=code,values_from=c(suitability,season,majorimportance))
+
+spp_habitat %>% filter(majorimportance %in% "Yes" & suitability %in% 'Suitable') %>% select(majorimportance,season) %>% table()
 
 
 load(sprintf("%s/www/prov-data.rda",script.dir))
