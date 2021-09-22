@@ -273,6 +273,13 @@ save(file=sprintf("%s/www/Rdata/mgt-point-data.rda",script.dir), mgt_points, uni
 adm0 <- read_sf("WB_countries_Admin0_10m")
 post_units_countries <- post_units %>% select(unit_code) %>% st_intersection(adm0 %>% filter(!ISO_A2 %in% -99) %>% select(WB_NAME, TYPE, ISO_A2, CONTINENT, REGION_UN, SUBREGION, REGION_WB)) %>% st_drop_geometry()
 
+# Alternative shortnames:
+post_units %>% 
+  mutate(shortname=gsub(
+    "Mangroves of |the |orth|ast|est|ern|outh|ical|erate|entral", "", unit_name))
+
+# Warm Temp NW Atlantic	Bermuda	Trop NW Atlantic	N Brazil Shelf	Trop SW Atlantic	Warm Temp SW Atlantic	W African Transition	Gulf.of.Guinea	Agulhas	W Indian.Ocean	Red.Sea.and.Gulf.of.Aden	Somali.Arabian	C Indian Ocean Is	W India	S India + Sri.Lanka	Bay.of.Bengal	Andaman	Java.Transitional	Sunda.Shelf	S China Sea	W .Coral Triangle	South.Kuroshio	Warm Temp NW Pacific	Trop NW Pacific	E Coral Triangle	Trop SW Pacific	Sahul.Shelf	NE Australian Shelf	NW Australian Shelf	EC Australian Shelf	SE Australian Shelf	S Australia	W Australian Shelf+Leeuwin	New.Zealand	Hawaii	C Pacific	Warm Temp NE Pacific	Galapagos	E + SE Pacific Coast
+
 save(file=sprintf("%s/www/Rdata/selected-units.rda",script.dir), pre_units, post_units, post_units_components, post_units_countries)
 
 ```
