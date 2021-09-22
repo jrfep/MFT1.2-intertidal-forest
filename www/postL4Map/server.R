@@ -8,6 +8,7 @@ require(tidyr)
 library(ggplot2)
 library(units)
 library(ggforce)
+require(xml2)
 
 
 options(dplyr.summarise.inform = FALSE)
@@ -24,7 +25,7 @@ function(input, output, session) {
   output$map <- renderLeaflet({
   #  pr_labels <- sprintf("PROVINCE:<br/><strong>%s</strong> ",
    #                       provs$PROVINCE) %>% lapply(htmltools::HTML)
-    l4_labels <- sprintf("UNIT:<br/><strong>%s</strong><br/> Native: %s ", post_units$unit_name, post_units$native) %>% lapply(htmltools::HTML)
+    l4_labels <- sprintf("UNIT %s:<br/><strong>%s</strong><br/> Native: %s ", post_units$unit_code, post_units$unit_name, post_units$native) %>% lapply(htmltools::HTML)
     #ku_labels <- sprintf("%s", known_mgv$message) %>% lapply(htmltools::HTML)
 
     leaflet() %>%
@@ -86,5 +87,14 @@ function(input, output, session) {
       }
     }
   })  
+  
+  # tst <- read_xml("tst.xml")
+  # 
+  # output$XMLdesc <- renderText({
+  #   tst %>% xml_find_first("//AT-description") %>% xml_text
+  # })
+  # output$XMLbiota <- renderText({
+  #   tst %>% xml_find_first("//Biota-Summary") %>% xml_text
+  # })
   
 }

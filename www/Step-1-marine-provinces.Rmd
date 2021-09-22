@@ -126,7 +126,7 @@ We **include** three ecoregions where the global maps did not detect occurrence 
 
 - Maldives in the _Central Indian Ocean Islands_ Province (Kathiresan & Rajendran 2005),
 - Lord Howe and Norfolk Islands (Department of Environment and Climate Change (NSW) 2007),
-- [Bunbury, Western Australia](https://www.fish.wa.gov.au/Documents/recreational_fishing/fact_sheets/fact_sheet_mangroves.pdf)) in the Leeuwin Ecoregion, _Southwest Australian Shelf_ Province.
+- [Bunbury, Western Australia](https://www.fish.wa.gov.au/Documents/recreational_fishing/fact_sheets/fact_sheet_mangroves.pdf) in the Leeuwin Ecoregion, _Southwest Australian Shelf_ Province.
 
 ## Non-native occurrences
 
@@ -138,7 +138,7 @@ We marked four provinces as **non-native occurrences** when the occurrences are 
 
 These populations should not be assesed using IUCN RLE protocol and should not be considered of  conservation concern.
 
-There are also other regions where some mangrove species have been introduced and have become invasive. Some examples were mentioned during the workshop: Nypa in W-Africa, and other species in China (South China Sea?).
+There are also other regions where some mangrove species have been introduced and have become invasive. Some examples were mentioned during the workshop: Nypa in W-Africa, and other species in China (South China Sea?). In these areas there are native and non-native species of mangroves.
 
 ## Provinces included with or without modifications
 

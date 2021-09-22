@@ -13,7 +13,7 @@ load("../Rdata/mgt-point-data.rda")
 
 slc <- c("Mangroves of Hawaii","Mangroves of New Zealand","Mangroves of Central Polynesia",
          "Mangroves of Marshall, Gilbert and Ellis Islands","Mangroves of Tropical Southwestern Pacific",
-         "Mangroves of Southeast Polynesia" )
+         "Mangroves of Southeast Polynesia" ,"Mangroves of the Central Pacific")
 
 
 mgt_points <- mgt_points %>% filter(unit_name %in% slc) %>% st_shift_longitude() %>% bind_rows({mgt_points %>% filter(!unit_name %in% slc)})

@@ -33,7 +33,7 @@ my_attribution <- "© <a href='https://www.mapbox.com/map-feedback/'>Mapbox</a> 
 
 # Step 2: Merging provinces
 
-We evaluated nine cases were adjacent provinces could be merged. We decided to always keep temperate provinces separated from tropical provinces (five cases). For the West African Transition, South Kuroshio and the Galapagos provinces the evidence suggest to keep them separated. However, we decided to merge the provinces of Northern and Southern New Zealand into one because they share a similar biota, have similar environmental condition, have a continuous distribution and appear to be connected by ocean current.
+We evaluated twelve cases were adjacent provinces could be merged. We decided to keep temperate provinces separated from tropical provinces (five cases). The only exception is in the east pacific where very few occurrences in Peru are combined with the tropical province. Two cases of disconnected but very small occurrences (one in Australia and one in the central pacific) were also merged for convenience of assessment. For the West African Transition, South Kuroshio and the Galapagos provinces the evidence suggest to keep them separated. However, we decided to merge the provinces of Northern and Southern New Zealand into one because they share a similar biota, have similar environmental condition, have a continuous distribution and appear to be connected by ocean current.
 
 | Larger province  | Province to merge | Decision | Comment |
 |--------------|----------------------|:------:|--------------|
@@ -46,11 +46,23 @@ We evaluated nine cases were adjacent provinces could be merged. We decided to a
 |Gulf of Guinea | W Africa Transition | Keep | Transition Tropical/Temperate, see below |
 |(several)|South Kuroshio|Keep|Transition Tropical/Temperate, see below |
 |Trop E Pacific|Galapagos|Keep|Tropical, isolated, see below|
+|East Central Australian Shelf|Lord Howe and Norfolk Islands|Merge|Very few occurrences in Lord Howe|
 |S New Zealand|N New Zealand|Merge|Both temperate, see below|
+|Central Polynesia|Marshall islands and Southeast Polynesia|Merge|Small, non-native occurrences|
 
-## Visualization of ecological and environmental data
+## Realm boundaries
 
 In almost every edge of range location, mangroves extend into the adjacent temperate realm. The consensus among workshop participants was to keep all provinces at the boundaries between temperate versus tropical as distinct units. The only exception was between Tropical East Pacific and one ecoregion in the Warm Temperate Southeastern Pacific: there are very few (marginal?) occurrences between Piura and Chiclayo which are very likely connected to the mangroves of the Guayaquil ecoregion.
+
+## Very small occurrences 
+
+There are two cases with disconnected but very small occurrences that were merged for convenience. 
+
+The first one is related to a single occurrence of less than one hectar of mangroves in Lord Howe island (Sheringham et al. 2016). The plant species are the same ones found between Sydney and Victoria, so it was decided to merge them with the East Central Australian Shelf province.
+
+There are disconnected but very small occurrences (< 5 km^2) of mangroves in Marshall Islands, Central Polynesia and Southeast Polynesia. Since all of these occurrences are considered non-native, we decided to combine them into a single unit.
+
+## Visualization of ecological and environmental data
 
 For the other four cases of potential merges we argue the reasons for merging or not merging provinces based on qualitative assessment of:
 
@@ -213,6 +225,9 @@ We decided to merge the *North and South New Zealand Provinces* into one after c
 |Step 2| Merge neighboring provinces | This document |
 |Step 3| Split provinces | [LINK](Step-3-split-provinces.Rmd) |
 |Step 4| Boundary shifts between provinces | [LINK](Step-4-shift-borders.Rmd) |
+
+### References
+Sheringham P., Richards P., Gilmour P., & Kemmerer E., 2016, *A Systematic Flora Survey, Floristic Classification and High-Resolution Vegetation Map of Lord Howe Island*. Lord Howe Island Board, Lord Howe Island, NSW.
 
 ---
 [Data Sources](/MangrovesData/) / [Interactive map](/MangrovesMap/) / [Local RLE assessments of Mangroves](rle-assessments.Rmd)
