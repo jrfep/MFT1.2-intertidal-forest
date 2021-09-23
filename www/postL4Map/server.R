@@ -88,13 +88,13 @@ function(input, output, session) {
     }
   })  
   
-   tst <- read_xml("../xml/Assessment_target_MFT1.2_4_MP_06.xml")
+  # tst <- read_xml("../xml/Assessment_target_MFT1.2_4_MP_06.xml")
    
-   output$XMLdesc <- renderText({
-     tst %>% xml_find_first("//AT-description") %>% xml_text
-   })
-   output$XMLbiota <- renderText({
-     tst %>% xml_find_first("//Biota-Summary") %>% xml_text
-   })
+  # output$XMLdesc <- renderText({
+  #   tst %>% xml_find_first("//AT-description") %>% xml_text
+  # })
+  # output$XMLbiota <- renderText({
+  #   tst %>% xml_find_first("//Biota-Summary") %>% xml_text
+  # })
   
 }
