@@ -45,6 +45,9 @@ function(input, output, session) {
   output$uName=renderText({
     data_of_click$clickedUnit$id
     })
+  output$unitName=renderText({
+    data_of_click$clickedUnit$id
+  })
   
   ## table output
   output$table <- renderTable({
