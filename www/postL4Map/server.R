@@ -22,12 +22,18 @@ function(input, output, session) {
     data_of_click$clickedUnit <- input$map_shape_click
   })
   
+  xmlData <- reactive({
+    if (is.null(data_of_click$clickedUnit)) {
+        code <- post_units %>% slice(1) %>% pull(unit_code)
+      } else {
+        code <- post_units %>% filter(unit_name %in% data_of_click$clickedUnit$id) %>% pull(unit_code)
+      }
+    read_xml(sprintf("../xml/Assessment_target_%s.xml",code))
+  })
+  
   output$map <- renderLeaflet({
-  #  pr_labels <- sprintf("PROVINCE:<br/><strong>%s</strong> ",
-   #                       provs$PROVINCE) %>% lapply(htmltools::HTML)
-    l4_labels <- sprintf("UNIT %s:<br/><strong>%s</strong><br/> Native: %s ", post_units$unit_code, post_units$unit_name, post_units$native) %>% lapply(htmltools::HTML)
-    #ku_labels <- sprintf("%s", known_mgv$message) %>% lapply(htmltools::HTML)
-
+     l4_labels <- sprintf("UNIT %s:<br/><strong>%s</strong><br/> Native: %s ", post_units$unit_code, post_units$unit_name, post_units$native) %>% lapply(htmltools::HTML)
+ 
     leaflet() %>%
       addProviderTiles(providers$CartoDB.Positron) %>%
       setView(lng = 40, lat = 10, zoom = 2) %>%
@@ -45,9 +51,7 @@ function(input, output, session) {
   output$uName=renderText({
     data_of_click$clickedUnit$id
     })
-  output$unitName=renderText({
-    data_of_click$clickedUnit$id
-  })
+  
   
   ## table output
   output$table <- renderTable({
@@ -91,13 +95,23 @@ function(input, output, session) {
     }
   })  
   
-   tst <- read_xml("../xml/Assessment_target_MFT1.2_4_MP_06.xml")
-   
-   output$XMLdesc <- renderText({
-     tst %>% xml_find_first("//AT-description") %>% xml_text
+  output$XMLname=renderText({
+    xmlData() %>% xml_find_first("//AT-name") %>% xml_text
+  })
+    output$XMLdesc <- renderUI({
+     text1 <- xmlData() %>% xml_find_first("//AT-description") %>% xml_text
+     text2 <- xmlData() %>% xml_find_first("//Biota-Summary") %>% xml_text
+     text3 <- xmlData() %>% xml_find_first("//Abiotic-Summary") %>% xml_text
+     text4 <- xmlData() %>% xml_find_first("//Processes-Summary") %>% xml_text
+     tags$div(
+       tags$h3("Unit description"),
+       tags$p(text1),       
+       tags$h3("Characteristic biota"),
+       tags$p(text2),
+       tags$h3("Abiotic environment"),
+       tags$p(text3),
+       tags$h3("Biotic processes"),
+       tags$p(text4))
    })
-  # output$XMLbiota <- renderText({
-  #   tst %>% xml_find_first("//Biota-Summary") %>% xml_text
-  # })
   
 }
