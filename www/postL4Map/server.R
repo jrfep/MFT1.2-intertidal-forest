@@ -30,7 +30,8 @@ function(input, output, session) {
       }
     read_xml(sprintf("../xml/Assessment_target_%s.xml",code))
   })
-  
+
+    
   output$map <- renderLeaflet({
      l4_labels <- sprintf("UNIT %s:<br/><strong>%s</strong><br/> Native: %s ", post_units$unit_code, post_units$unit_name, post_units$native) %>% lapply(htmltools::HTML)
  
@@ -48,7 +49,7 @@ function(input, output, session) {
         })
   
   ## test of text output
-  output$uName=renderText({
+  output$selectedName <-   output$uName <- renderText({
     data_of_click$clickedUnit$id
     })
   
@@ -68,6 +69,37 @@ function(input, output, session) {
     }
   })
   
+  #key species table
+  
+  
+  
+  output$keySppTable <- DT::renderDataTable({
+    my_place=data_of_click$clickedUnit$id
+    if(is.null(my_place)) {
+      
+    } else {
+      code <- post_units %>% filter(unit_name %in% my_place) %>% pull(shortname)
+      key_spp_data %>% select(!!code) %>% pull -> ss
+      dts <- key_spp_data %>% filter(ss) %>% transmute(Class=class,Order=order_,Family=family,Species=binomial,Occurrence=legend,`IUCN category`=code)
+      dts
+    }
+  })
+  
+  
+  output$assocSppTable <- DT::renderDataTable({
+    my_place=data_of_click$clickedUnit$id
+    if(is.null(my_place)) {
+      
+    } else {
+      code <- post_units %>% filter(unit_name %in% my_place) %>% pull(shortname)
+      mga_spp_data %>% ungroup %>% select(!!code) %>% pull -> ss
+      dts <- mga_spp_data %>% ungroup %>% filter(!is.na(ss)) %>% 
+        transmute(Kingdom=kingdom_name,Class=class_name,Order=order_name,Family=family_name,Species=scientific_name,
+                  `Common name`=main_common_name,`IUCN category`=category,Seasonality=season)
+      
+      dts
+    }
+  })
   
   #output$description=renderText({
   #  post_units %>% filter(unit_name %in% data_of_click$clickedUnit$id) %>% pull(description) -> desc

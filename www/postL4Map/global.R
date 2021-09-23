@@ -6,6 +6,7 @@ options(dplyr.summarise.inform = FALSE)
 
 load("../Rdata/selected-units.rda")
 load("../Rdata/mgt-point-data.rda")
+load("../Rdata/mangrove-species-units.rda")
 
 
 ## this introduces an error in the server

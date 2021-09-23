@@ -19,6 +19,13 @@ navbarPage("MFT1.2 Intertidal forests and shrublands",
                         h2(htmlOutput("uName")),
                         tableOutput("table")
                         )))),
+  tabPanel("Characteristic Biota",
+           h2(htmlOutput("selectedName")),
+           h3("Key Mangrove Species"),
+           DTOutput("keySppTable"),
+           h3("Species associated with Mangroves"),
+           DTOutput("assocSppTable")
+  ),
   tabPanel("Description of units",
            h2("Selected unit"),
            h1(textOutput("XMLname")),
@@ -48,6 +55,13 @@ navbarPage("MFT1.2 Intertidal forests and shrublands",
               tags$a(href='https://www.worldwildlife.org/publications/marine-ecoregions-of-the-world-a-bioregionalization-of-coastal-and-shelf-areas',
                      target="_blank","marine ecoregions and provinces"),"used to delineate the level 4 units. 
               It also includes the area (km<sup>2</sup>) of mangrove occurrences estimated for the year 2016 and the number of key mangrove species in each ecoregion."),
+          h3("Characteristic biota"),
+          p("The tables show the characteristic biota of the selected unit."),
+          h4("Key Mangrove Species"),
+          p("List of plant species considered true mangroves or key species in mangrove communities with range maps intersecting the unit. Based on spatial data provided by the Red List of Threatened Species (RLTS)."),
+          h4("Species associated with Mangroves"),
+          p("List of taxa that are associated with mangrove habitats  in the RLTS database. We included only species with entries for Habitat 1.7: ", em("Forest - Subtropical/Tropical Mangrove Vegetation Above High Tide Level"), " or Habitat 12.7 for ",em("Marine Intertidal - Mangrove Submerged Roots"),", and with suitability recorded as ",em("Suitable"),", Major Importance recorded as ",em("Yes"),", and any value of seasonality except ",em("Passage"),".  We further filtered species with spatial point records in GBIF (some species are excluded due to mismatch in taxonomic names or lack of georeferenced records)."),
+          
           h3("Description of units"),
           p("Summary of draft descriptions for the selected unit. Currently includes a general summary, characteristic biota, abiotic environment and biotic processes and interactions."),
           
