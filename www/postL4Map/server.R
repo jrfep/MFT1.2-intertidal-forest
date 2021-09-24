@@ -92,8 +92,8 @@ function(input, output, session) {
       
     } else {
       code <- post_units %>% filter(unit_name %in% my_place) %>% pull(shortname)
-      mga_spp_data %>% ungroup %>% select(!!code) %>% pull -> ss
-      dts <- mga_spp_data %>% ungroup %>% filter(!is.na(ss)) %>% 
+      mga_spp_data %>% select(!!code) %>% pull -> ss
+      dts <- mga_spp_data %>% filter(!is.na(ss)) %>% 
         transmute(Kingdom=kingdom_name,Class=class_name,Order=order_name,Family=family_name,Species=scientific_name,
                   `Common name`=main_common_name,`IUCN category`=category,Seasonality=season)
       

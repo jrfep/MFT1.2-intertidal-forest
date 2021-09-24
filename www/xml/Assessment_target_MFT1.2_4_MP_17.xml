@@ -4,7 +4,7 @@
   <Assessment-Target date="2021-09-14" updated-by="JRFP" status="draft">
     <AT-id>MFT1.2_4_MP_17</AT-id>
     <AT-descriptions>
-      <AT-description lang="en">The 'Mangroves of Gulf of Guinea' is a regional ecosystem subgroup (level 4 unit of the IUCN Global Ecosystem Typology) that includes intertidal forest and shrublands of the marine ecoregions of Gulf of Guinea Central (Gulf of Guinea province), Gulf of Guinea Islands (Gulf of Guinea province), Gulf of Guinea Upwelling (Gulf of Guinea province), Gulf of Guinea West (Gulf of Guinea province), Gulf of Guinea South (Gulf of Guinea province), Angolan (Gulf of Guinea province). The biota is characterised by 8 species of true mangroves and other key plant taxa that provide structure and resources for approx. 290 mangove-associated taxa. Mangroves in this subgroup have a mapped extent of at least ... km2 in ... countries and are predominantly ... and .... They are threatened by  conversion for urban and tourism development, agriculture and aquaculture, and by increases in frequency of tropical storms. </AT-description>
+      <AT-description lang="en">The 'Mangroves of Gulf of Guinea' is a regional ecosystem subgroup (level 4 unit of the IUCN Global Ecosystem Typology) that includes intertidal forest and shrublands of the marine ecoregions of Gulf of Guinea Central (Gulf of Guinea province), Gulf of Guinea Islands (Gulf of Guinea province), Gulf of Guinea Upwelling (Gulf of Guinea province), Gulf of Guinea West (Gulf of Guinea province), Gulf of Guinea South (Gulf of Guinea province), Angolan (Gulf of Guinea province). The biota is characterised by 8 species of true mangroves and other key plant taxa that provide structure and resources for other mangove-associated taxa. Mangroves in this subgroup have a mapped extent of at least ... km2 in ... countries and are predominantly ... and .... They are threatened by  conversion for urban and tourism development, agriculture and aquaculture, and by increases in frequency of tropical storms. </AT-description>
     </AT-descriptions>
     <AT-names>
       <AT-name lang="en">Mangroves of Gulf of Guinea</AT-name>
@@ -12,300 +12,38 @@
     </AT-names>
     <Characteristic-biota>
       <Biota-Summaries>
-        <Biota-Summary lang="en">The biota of 'Mangroves of Gulf of Guinea' is characterised by the presence of 8 true mangrove and other key plant species. The range maps of Avicennia germinans, Halodule wrightii, Acrostichum danaeifolium, Rhizophora mangle, Acrostichum aureum overlap with most of the distribution of this unit. There are 290 species that have been associated with mangrove habitats in the Red List of Threatened Species database and that have natural history collection records or observations within the distribution of this unit (GBIF 2021). </Biota-Summary>
+        <Biota-Summary lang="en">The biota of 'Mangroves of Gulf of Guinea' is characterised by the presence of 8 true mangrove and other key plant species. There are at least 21 species of the GASTROPODA, ACTINOPTERYGII, MAGNOLIOPSIDA, CHONDRICHTHYES, AVES, REPTILIA that have been associated with mangrove habitats in the Red List of Threatened Species database and have natural history collection records or observations within the distribution of this unit (GBIF 2021). </Biota-Summary>
       </Biota-Summaries>
       <taxons>
+        <taxon>Laguncularia racemosa</taxon>
+        <taxon>Rhizophora racemosa</taxon>
         <taxon>Avicennia germinans</taxon>
         <taxon>Halodule wrightii</taxon>
+        <taxon>Conocarpus erectus</taxon>
         <taxon>Acrostichum danaeifolium</taxon>
         <taxon>Rhizophora mangle</taxon>
         <taxon>Acrostichum aureum</taxon>
-        <taxon>Laguncularia racemosa</taxon>
-        <taxon>Rhizophora racemosa</taxon>
-        <taxon>Conocarpus erectus</taxon>
-        <taxon>Accipiter minullus</taxon>
-        <taxon>Accipiter tachiro</taxon>
-        <taxon>Aegiceras corniculatum</taxon>
-        <taxon>Albizia lebbeck</taxon>
-        <taxon>Albula vulpes</taxon>
-        <taxon>Anthreptes longuemarei</taxon>
-        <taxon>Apalis flavida</taxon>
-        <taxon>Ardea goliath</taxon>
-        <taxon>Ardeola idae</taxon>
-        <taxon>Argyrosomus hololepidotus</taxon>
-        <taxon>Arothron hispidus</taxon>
-        <taxon>Avicennia marina</taxon>
-        <taxon>Bathygobius soporator</taxon>
-        <taxon>Bothus lunatus</taxon>
-        <taxon>Bulbostylis capillaris</taxon>
-        <taxon>Burhinus senegalensis</taxon>
-        <taxon>Busarellus nigricollis</taxon>
-        <taxon>Buteogallus urubitinga</taxon>
-        <taxon>Bycanistes fistulator</taxon>
-        <taxon>Camaroptera brachyura</taxon>
-        <taxon>Campethera nivosa</taxon>
-        <taxon>Canthigaster rostrata</taxon>
-        <taxon>Caranx hippos</taxon>
-        <taxon>Chaetodipterus faber</taxon>
-        <taxon>Charadrius mongolus</taxon>
-        <taxon>Chlorocebus pygerythrus</taxon>
-        <taxon>Ciconia episcopus</taxon>
-        <taxon>Cinnyris bifasciatus</taxon>
-        <taxon>Cinnyris chloropygius</taxon>
-        <taxon>Cinnyris cupreus</taxon>
-        <taxon>Cinnyris pulchellus</taxon>
-        <taxon>Cinnyris superbus</taxon>
-        <taxon>Cinnyris venustus</taxon>
-        <taxon>Citharichthys spilopterus</taxon>
-        <taxon>Colaptes punctigula</taxon>
-        <taxon>Columba arquatrix</taxon>
-        <taxon>Corythornis cristatus</taxon>
-        <taxon>Cossypha niveicapilla</taxon>
-        <taxon>Crocodylus niloticus</taxon>
-        <taxon>Cyanomitra olivacea</taxon>
-        <taxon>Cyanomitra verticalis</taxon>
-        <taxon>Dalbergia ecastaphyllum</taxon>
-        <taxon>Dendropicos fuscescens</taxon>
-        <taxon>Dendropicos goertae</taxon>
-        <taxon>Dormitator maculatus</taxon>
-        <taxon>Dryoscopus gambensis</taxon>
-        <taxon>Egretta ardesiaca</taxon>
-        <taxon>Egretta gularis</taxon>
-        <taxon>Eidolon helvum</taxon>
-        <taxon>Elminia longicauda</taxon>
-        <taxon>Elops saurus</taxon>
-        <taxon>Epinephelus itajara</taxon>
-        <taxon>Eremomela pusilla</taxon>
-        <taxon>Eretmochelys imbricata</taxon>
-        <taxon>Eurillas virens</taxon>
-        <taxon>Eurystomus glaucurus</taxon>
-        <taxon>Fimbristylis cymosa</taxon>
-        <taxon>Galactia tenuiflora</taxon>
-        <taxon>Gallus gallus</taxon>
-        <taxon>Gypohierax angolensis</taxon>
-        <taxon>Halcyon malimbica</taxon>
-        <taxon>Hibiscus tiliaceus</taxon>
-        <taxon>Himantura uarnak</taxon>
-        <taxon>Hippopotamus amphibius</taxon>
-        <taxon>Hypergerus atriceps</taxon>
-        <taxon>Ixobrychus minutus</taxon>
-        <taxon>Ixobrychus sturmii</taxon>
-        <taxon>Lagocephalus laevigatus</taxon>
-        <taxon>Lamprotornis splendidus</taxon>
-        <taxon>Laniarius barbarus</taxon>
-        <taxon>Laniarius bicolor</taxon>
-        <taxon>Leiognathus equulus</taxon>
-        <taxon>Loxodonta africana</taxon>
-        <taxon>Lutjanus griseus</taxon>
-        <taxon>Megaceryle maxima</taxon>
-        <taxon>Megalops atlanticus</taxon>
-        <taxon>Merops albicollis</taxon>
-        <taxon>Merops nubicoides</taxon>
-        <taxon>Merops persicus</taxon>
-        <taxon>Merops superciliosus</taxon>
-        <taxon>Mulloidichthys martinicus</taxon>
-        <taxon>Myophonus caeruleus</taxon>
-        <taxon>Nigrita bicolor</taxon>
-        <taxon>Nyctibius griseus</taxon>
-        <taxon>Oeceoclades maculata</taxon>
-        <taxon>Oriolus nigripennis</taxon>
-        <taxon>Otus senegalensis</taxon>
-        <taxon>Panthera pardus</taxon>
-        <taxon>Paradoxurus hermaphroditus</taxon>
-        <taxon>Pecari tajacu</taxon>
-        <taxon>Pelecanus rufescens</taxon>
-        <taxon>Platysteira cyanea</taxon>
-        <taxon>Platysteira peltata</taxon>
-        <taxon>Plicofollis dussumieri</taxon>
-        <taxon>Ploceus nigricollis</taxon>
-        <taxon>Ploceus pelzelni</taxon>
-        <taxon>Podica senegalensis</taxon>
-        <taxon>Pogoniulus atroflavus</taxon>
-        <taxon>Prionops retzii</taxon>
-        <taxon>Pristis pectinata</taxon>
-        <taxon>Psittacus erithacus</taxon>
-        <taxon>Rattus exulans</taxon>
-        <taxon>Rattus rattus</taxon>
-        <taxon>Rhipsalis baccifera</taxon>
-        <taxon>Rhopocichla atriceps</taxon>
-        <taxon>Rousettus aegyptiacus</taxon>
-        <taxon>Ruppia maritima</taxon>
-        <taxon>Strongylura marina</taxon>
-        <taxon>Syconycteris australis</taxon>
-        <taxon>Sylvietta brachyura</taxon>
-        <taxon>Symphonia globulifera</taxon>
-        <taxon>Syzygium guineense</taxon>
-        <taxon>Terpsiphone rufiventer</taxon>
-        <taxon>Thespesia populnea</taxon>
-        <taxon>Trogon massena</taxon>
-        <taxon>Trogon melanurus</taxon>
-        <taxon>Turtur afer</taxon>
-        <taxon>Xenus cinereus</taxon>
-        <taxon>Epomops buettikoferi</taxon>
-        <taxon>Nanonycteris veldkampii</taxon>
-        <taxon>Aplocheilichthys spilauchen</taxon>
-        <taxon>Hypsignathus monstrosus</taxon>
-        <taxon>Conus varius</taxon>
-        <taxon>Ellobium aurisjudae</taxon>
-        <taxon>Periophthalmus barbarus</taxon>
-        <taxon>Lutjanus dentatus</taxon>
-        <taxon>Sonneratia caseolaris</taxon>
-        <taxon>Cyphomyrus discorhynchus</taxon>
-        <taxon>Cercocebus torquatus</taxon>
-        <taxon>Hydrophis cyanocinctus</taxon>
-        <taxon>Heteropterys leona</taxon>
-        <taxon>Cercopithecus nictitans</taxon>
-        <taxon>Hippichthys spicifer</taxon>
-        <taxon>Cercopithecus mona</taxon>
-        <taxon>Papio cynocephalus</taxon>
-        <taxon>Berlinia bracteosa</taxon>
-        <taxon>Lasimorpha senegalensis</taxon>
-        <taxon>Trionyx triunguis</taxon>
-        <taxon>Encrasicholina punctifer</taxon>
-        <taxon>Anabathmis reichenbachii</taxon>
-        <taxon>Chalcomitra fuliginosa</taxon>
-        <taxon>Campethera maculosa</taxon>
-        <taxon>Himantornis haematopus</taxon>
-        <taxon>Nypa fruticans</taxon>
-        <taxon>Bradornis ussheri</taxon>
-        <taxon>Aonyx capensis</taxon>
-        <taxon>Accipiter toussenelii</taxon>
-        <taxon>Dendroaspis viridis</taxon>
-        <taxon>Platysteira albifrons</taxon>
-        <taxon>Ploceus subpersonatus</taxon>
-        <taxon>Terpsiphone batesi</taxon>
-        <taxon>Dalbergia oligophylla</taxon>
-        <taxon>Pristis pristis</taxon>
-        <taxon>Scotopelia ussheri</taxon>
-        <taxon>Cynorkis gabonensis</taxon>
-        <taxon>Ploceus brachypterus</taxon>
-        <taxon>Microphis brachyurus ssp  lineatus</taxon>
-        <taxon>Neoromicia tenuipinnis</taxon>
-        <taxon>Nycteris arge</taxon>
-        <taxon>Hypleurochilus aequipinnis</taxon>
-        <taxon>Bycanistes sharpii</taxon>
-        <taxon>Ardea brachyrhyncha</taxon>
-        <taxon>Warneckea mangrovensis</taxon>
-        <taxon>Caracal aurata</taxon>
-        <taxon>Tigriornis leucolopha</taxon>
-        <taxon>Yongeichthys thomasi</taxon>
-        <taxon>Angraecum pungens</taxon>
-        <taxon>Piliocolobus badius ssp  temminckii</taxon>
-        <taxon>Galatea nux</taxon>
-        <taxon>Tympanotonos fuscatus</taxon>
-        <taxon>Agama africana</taxon>
-        <taxon>Psittacus timneh</taxon>
-        <taxon>Trichechus senegalensis</taxon>
-        <taxon>Dormitator lebretonis</taxon>
-        <taxon>Corythornis leucogaster</taxon>
-        <taxon>Raphia vinifera</taxon>
-        <taxon>Petropedetes johnstoni</taxon>
-        <taxon>Terpsiphone rufocinerea</taxon>
-        <taxon>Aristogeitonia gabonica</taxon>
-        <taxon>Hypsugo eisentrauti</taxon>
-        <taxon>Cercopithecus sclateri</taxon>
-        <taxon>Salacia lucida</taxon>
-        <taxon>Liza grandisquamis</taxon>
-        <taxon>Ciconia microscelis</taxon>
-        <taxon>Cercopithecus campbelli</taxon>
-        <taxon>Isoetes melanotheca</taxon>
-        <taxon>Eleotris acanthopomus</taxon>
-        <taxon>Crossarchus platycephalus</taxon>
-        <taxon>Glareola cinerea</taxon>
-        <taxon>Hydrictis maculicollis</taxon>
-        <taxon>Myrophis plumbeus</taxon>
-        <taxon>Cercocebus atys</taxon>
-        <taxon>Cercopithecus lowei</taxon>
-        <taxon>Cercocebus lunulatus</taxon>
-        <taxon>Presbytis chrysomelas</taxon>
-        <taxon>Aonyx congicus</taxon>
-        <taxon>Bostrychia olivacea</taxon>
-        <taxon>Anthreptes aurantius</taxon>
-        <taxon>Enneacampus kaupi</taxon>
-        <taxon>Awaous lateristriga</taxon>
-        <taxon>Aframomum rostratum</taxon>
-        <taxon>Millettia pallens</taxon>
-        <taxon>Planchonia grandis</taxon>
-        <taxon>Thais nodosa</taxon>
-        <taxon>Terminalia scutifera</taxon>
-        <taxon>Tarenna thomasii</taxon>
-        <taxon>Cavacoa baldwinii</taxon>
-        <taxon>Sterculia rhinopetala</taxon>
-        <taxon>Millettia rhodantha</taxon>
-        <taxon>Cercopithecus petaurista ssp  petaurista</taxon>
-        <taxon>Cercopithecus cephus ssp  cephus</taxon>
-        <taxon>Prioria mannii</taxon>
-        <taxon>Scholleropsis lutea</taxon>
-        <taxon>Hibiscus sterculiifolius</taxon>
-        <taxon>Cercopithecus cephus ssp  cephodes</taxon>
-        <taxon>Cassipourea plumosa</taxon>
-        <taxon>Crassostrea tulipa</taxon>
         <taxon>Neritina virginea</taxon>
-        <taxon>Lycaon pictus</taxon>
-        <taxon>Natriciteres olivacea</taxon>
-        <taxon>Heritiera littoralis</taxon>
-        <taxon>Macrolobium acaciifolium</taxon>
-        <taxon>Rhaphidura sabini</taxon>
-        <taxon>Pongamia pinnata</taxon>
-        <taxon>Chlorocebus sabaeus</taxon>
         <taxon>Littoraria undulata</taxon>
-        <taxon>Anthreptes gabonicus</taxon>
-        <taxon>Spilocuscus maculatus</taxon>
-        <taxon>Phodilus badius</taxon>
-        <taxon>Poicephalus fuscicollis</taxon>
-        <taxon>Alcedo quadribrachys</taxon>
-        <taxon>Hirundo nigrita</taxon>
-        <taxon>Erythrina variegata</taxon>
-        <taxon>Periophthalmus argentilineatus</taxon>
-        <taxon>Heliosciurus rufobrachium</taxon>
-        <taxon>Pluvialis fulva</taxon>
-        <taxon>Numenius phaeopus</taxon>
-        <taxon>Sus scrofa</taxon>
-        <taxon>Tringa nebularia</taxon>
-        <taxon>Tyrannus melancholicus</taxon>
-        <taxon>Chloroceryle americana</taxon>
-        <taxon>Crotophaga ani</taxon>
-        <taxon>Zenaida auriculata</taxon>
-        <taxon>Cairina moschata</taxon>
-        <taxon>Nycticorax nycticorax</taxon>
-        <taxon>Pandion haliaetus</taxon>
-        <taxon>Butorides striata</taxon>
-        <taxon>Egretta caerulea</taxon>
-        <taxon>Megaceryle torquata</taxon>
-        <taxon>Tyrannus savana</taxon>
-        <taxon>Streptopelia semitorquata</taxon>
-        <taxon>Egretta garzetta</taxon>
-        <taxon>Ceryle rudis</taxon>
-        <taxon>Ardea intermedia</taxon>
-        <taxon>Apus affinis</taxon>
+        <taxon>Ellobium aurisjudae</taxon>
+        <taxon>Bothus lunatus</taxon>
+        <taxon>Elops saurus</taxon>
+        <taxon>Megalops atlanticus</taxon>
+        <taxon>Conus varius</taxon>
+        <taxon>Albula vulpes</taxon>
+        <taxon>Epinephelus itajara</taxon>
+        <taxon>Leiognathus equulus</taxon>
+        <taxon>Aristogeitonia gabonica</taxon>
+        <taxon>Pristis pristis</taxon>
         <taxon>Anhinga melanogaster</taxon>
-        <taxon>Apus caffer</taxon>
-        <taxon>Microcarbo africanus</taxon>
-        <taxon>Cecropis abyssinica</taxon>
-        <taxon>Ardea purpurea</taxon>
-        <taxon>Ardea cinerea</taxon>
-        <taxon>Charadrius dubius</taxon>
-        <taxon>Platalea leucorodia</taxon>
-        <taxon>Anhinga rufa</taxon>
-        <taxon>Haliaeetus vocifer</taxon>
-        <taxon>Sylvia atricapilla</taxon>
-        <taxon>Prinia subflava</taxon>
-        <taxon>Actitis hypoleucos</taxon>
-        <taxon>Bostrychia hagedash</taxon>
-        <taxon>Phylloscopus trochilus</taxon>
-        <taxon>Threskiornis aethiopicus</taxon>
-        <taxon>Oriolus larvatus</taxon>
-        <taxon>Alcedo atthis</taxon>
-        <taxon>Phylloscopus collybita</taxon>
-        <taxon>Numenius arquata</taxon>
-        <taxon>Laniarius ferrugineus</taxon>
-        <taxon>Pitangus sulphuratus</taxon>
-        <taxon>Poecile palustris</taxon>
-        <taxon>Melanerpes rubricapillus</taxon>
-        <taxon>Amazilia tzacatl</taxon>
-        <taxon>Parkesia noveboracensis</taxon>
-        <taxon>Dryoscopus cubla</taxon>
-        <taxon>Nyctidromus albicollis</taxon>
+        <taxon>Platysteira albifrons</taxon>
+        <taxon>Anthreptes gabonicus</taxon>
+        <taxon>Ploceus subpersonatus</taxon>
+        <taxon>Bycanistes fistulator</taxon>
+        <taxon>Pristis pectinata</taxon>
+        <taxon>Crocodylus niloticus</taxon>
+        <taxon>Berlinia bracteosa</taxon>
+        <taxon>Encrasicholina punctifer</taxon>
       </taxons>
     </Characteristic-biota>
     <Abiotic-environment>

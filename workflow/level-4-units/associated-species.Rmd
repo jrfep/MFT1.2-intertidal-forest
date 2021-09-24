@@ -75,7 +75,7 @@ if (file.exists(key_spp_file)) {
   #We export this to a spreadsheet for sharing with specialists:
   write_csv(key_spp_data,path=key_spp_file)
 }
-  save(file=sprintf("%s/mangrove-species-units.rda",script.dir),key_spp_data)
+  save(file=sprintf("%s/www/Rdata/mangrove-species-units.rda",script.dir),key_spp_data)
 
 ```
 
@@ -115,11 +115,11 @@ a %>% bind_cols(b) %>%
   ungroup %>% 
   pivot_wider(id_cols=Species,names_from=unit_name,values_from=total) -> spp_mtz
 
-mga_spp %>%  inner_join(spp_mtz, by=c("scientific_name"="Species")) -> mga_spp_data
+mga_spp %>%  inner_join(spp_mtz, by=c("scientific_name"="Species")) %>% ungroup %>% distinct(scientific_name,.keep_all = TRUE) -> mga_spp_data
 
   write_csv(mga_spp_data,file=mga_spp_file)
 }
-  save(file=sprintf("%s/mangrove-species-units.rda",script.dir),key_spp_data,mga_spp_data)
+  save(file=sprintf("%s/www/Rdata/mangrove-species-units.rda",script.dir),key_spp_data,mga_spp_data)
 
 ```
 

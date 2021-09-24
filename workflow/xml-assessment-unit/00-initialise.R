@@ -6,31 +6,38 @@ require(sf)
 require(readr)
 
 source(sprintf("%s/proyectos/IUCN-GET/MFT1.2-intertidal-forest/env/project-env.R",Sys.getenv("HOME")))
-for (rda.file in c("mgt-point-data.rda","selected-units.rda","species-occurrence.rda"))
+for (rda.file in c("mgt-point-data.rda","selected-units.rda","species-occurrence.rda","mangrove-species-units.rda"))
   load(file=sprintf("%s/www/Rdata/%s",script.dir,rda.file))
 
 
 # Assessment unit correspond to _Regional ecosystem subgroups_ (level 4 of the IUCN Global Ecosystem Typology).
 
+## translation tables:
+categories <- c(CR="Critically Endangered",EN="Endangered",VU="Vulnerable")
+presence <- c("NA"="occurs in this region","Breeding Season"="breeds in the mangroves of this region","Non-Breeding Season"="occurs in this region","Resident"="is a resident of the mangroves in this region", "Seasonal Occurrence Unknown"="occurs in this region")
+
+threats <- read_csv(file=sprintf("%s/input/threats.csv",script.dir),col_types = "cccccccc")
+
 ## Initialize document
-post_units %>% st_drop_geometry %>% select(unit_code,unit_name) -> slc
+post_units %>% st_drop_geometry %>% select(unit_code,unit_name,shortname) -> slc
 
 for (k in 1:nrow(slc)) {
   doc = newXMLDoc()
   cdg <- slc$unit_code[k]
   unit_name <- slc$unit_name[k]
+  short_name <- slc$shortname[k]
+  
   top = newXMLNode("Case-Study", doc=doc)
 
   unit_components <- post_units_components %>% filter(unit_code %in% cdg) %>% transmute(qry=sprintf("%s (%s province)",ECOREGION,PROVINCE)) %>% pull %>% paste(collapse=', ')
 
-  mprov.xy %>% filter(ECO_CODE %in% {post_units_components %>% filter(unit_code %in% cdg) %>% pull(ECO_CODE)}) %>% st_drop_geometry %>% select(Dolichandrone.spathacea:Ceriops.australis) %>% t()-> ss
+  key_spp_data %>% select(!!short_name) %>% pull -> ss
+  key_spp_data %>% filter(ss) -> key.spp
+  mga_spp_data %>% select(!!short_name) %>% pull -> ss
+  mga_spp_data %>% filter(!is.na(ss)) -> assoc.spp
+  
 
-  key.spp <- ss[rowSums(ss)>0,,drop=FALSE]
-
-  mtzXprov %>% filter(mprov.xy$ECO_CODE %in% {post_units_components %>% filter(unit_code %in% cdg) %>% pull(ECO_CODE)}) %>% t %>% rowSums() -> assoc.spp
-
-
-  short_desc <- sprintf("The '%s' is a regional ecosystem subgroup (level 4 unit of the IUCN Global Ecosystem Typology) that includes intertidal forest and shrublands of the marine ecoregions of %s. The biota is characterised by %01d species of true mangroves and other key plant taxa that provide structure and resources for approx. %01d mangove-associated taxa. Mangroves in this subgroup have a mapped extent of at least ... km2 in ... countries and are predominantly ... and .... They are threatened by  conversion for urban and tourism development, agriculture and aquaculture, and by increases in frequency of tropical storms. ", unit_name,unit_components,nrow(key.spp),(sum(assoc.spp>0) %/% 10) * 10)
+  short_desc <- sprintf("The '%s' is a regional ecosystem subgroup (level 4 unit of the IUCN Global Ecosystem Typology) that includes intertidal forest and shrublands of the marine ecoregions of %s. The biota is characterised by %01d species of true mangroves and other key plant taxa that provide structure and resources for other mangove-associated taxa. Mangroves in this subgroup have a mapped extent of at least ... km2 in ... countries and are predominantly ... and .... They are threatened by  conversion for urban and tourism development, agriculture and aquaculture, and by increases in frequency of tropical storms. ", unit_name,unit_components,nrow(key.spp))
 
 
     ## Initialize first level nodes
@@ -79,21 +86,30 @@ for (k in 1:nrow(slc)) {
   ### Characteristic biota
   # For this node we need to add a summary and list of species:
 
-    biota_desc <- sprintf("The biota of '%s' is characterised by the presence of %01d true mangrove and other key plant species. The range maps of %s overlap with most of the distribution of this unit. There are %02d species that have been associated with mangrove habitats in the Red List of Threatened Species database and that have natural history collection records or observations within the distribution of this unit (GBIF 2021). ", unit_name,nrow(key.spp), paste(gsub("."," ",rownames(key.spp)[apply(key.spp,1,all) ],fixed=T), collapse=", "), sum(assoc.spp>0))
+    biota_desc <- sprintf("The biota of '%s' is characterised by the presence of %01d true mangrove and other key plant species. There are at least %02d species of the %s that have been associated with mangrove habitats in the Red List of Threatened Species database and have natural history collection records or observations within the distribution of this unit (GBIF 2021). ", unit_name,nrow(key.spp), nrow(assoc.spp), paste(unique(assoc.spp$class_name),collapse=", "))
 
+    nThreatened <- {assoc.spp %>% filter(category %in% c("VU","EN","CR")) %>% nrow()}
+
+    biota_thr <- switch(nThreatened+1,
+           "",
+           {
+             assoc.spp %>% filter(category %in% c("VU","EN","CR")) -> tst
+             sprintf("The %s %s %s.",
+                     categories[tst$category], tst$main_common_name, presence[tst$season])
+           },
+           "These include %s threatened species.")
+    
 
   newXMLNode("Biota-Summaries",
              children=list(
                newXMLNode("Biota-Summary",
-                          biota_desc,
+                          paste0(biota_desc,biota_thr),
                           attrs=list(lang="en"))),
              parent=AT.biota)
 
-  spp.list <- c(rownames(key.spp)[apply(key.spp,1,all) ],
-                rownames(key.spp),
-                names(assoc.spp[assoc.spp>0])
-  )
-  spp.list <- unique(gsub("\\.|_"," ",spp.list))
+  spp.list <- unique(c(key.spp$binomial,
+                assoc.spp$scientific_name))
+  
   taxon.list <- newXMLNode("taxons",parent=AT.biota)
 
   for (taxon in spp.list)
@@ -166,7 +182,6 @@ for (k in 1:nrow(slc)) {
   
   newXMLNode("Threats-Summaries",children=list(newXMLNode("Threats-Summary",attrs=list(lang="en"),"Mangrove deforestation due to aquaculture. Urbanisation and the associated coastal development, over-harvesting, and pollution from domestic, industrial and agricultural land use urbanisation (coastal development). The position of mangrove forests in intertidal areas renders them vulnerable to predicted sea-level rise as a result of climate change. Tropical storms can damage mangrove forests through direct defoliation and destruction of trees, as well as through the mass mortality of animal communities within the ecosystems. ")),parent=AT.threats)
   
-  threats <- read_csv(file=sprintf("%s/input/threats.csv",script.dir),col_types = "cccccccc")
   
   for (k in threats %>%  distinct(Name) %>% pull ) {
     print(k)

@@ -4,7 +4,7 @@
   <Assessment-Target date="2021-09-14" updated-by="JRFP" status="draft">
     <AT-id>MFT1.2_4_MP_18</AT-id>
     <AT-descriptions>
-      <AT-description lang="en">The 'Mangroves of Red Sea and Gulf of Aden' is a regional ecosystem subgroup (level 4 unit of the IUCN Global Ecosystem Typology) that includes intertidal forest and shrublands of the marine ecoregions of Gulf of Aden (Red Sea and Gulf of Aden province), Northern and Central Red Sea (Red Sea and Gulf of Aden province), Southern Red Sea (Red Sea and Gulf of Aden province). The biota is characterised by 7 species of true mangroves and other key plant taxa that provide structure and resources for approx. 200 mangove-associated taxa. Mangroves in this subgroup have a mapped extent of at least ... km2 in ... countries and are predominantly ... and .... They are threatened by  conversion for urban and tourism development, agriculture and aquaculture, and by increases in frequency of tropical storms. </AT-description>
+      <AT-description lang="en">The 'Mangroves of Red Sea and Gulf of Aden' is a regional ecosystem subgroup (level 4 unit of the IUCN Global Ecosystem Typology) that includes intertidal forest and shrublands of the marine ecoregions of Gulf of Aden (Red Sea and Gulf of Aden province), Northern and Central Red Sea (Red Sea and Gulf of Aden province), Southern Red Sea (Red Sea and Gulf of Aden province). The biota is characterised by 7 species of true mangroves and other key plant taxa that provide structure and resources for other mangove-associated taxa. Mangroves in this subgroup have a mapped extent of at least ... km2 in ... countries and are predominantly ... and .... They are threatened by  conversion for urban and tourism development, agriculture and aquaculture, and by increases in frequency of tropical storms. </AT-description>
     </AT-descriptions>
     <AT-names>
       <AT-name lang="en">Mangroves of Red Sea and Gulf of Aden</AT-name>
@@ -12,7 +12,7 @@
     </AT-names>
     <Characteristic-biota>
       <Biota-Summaries>
-        <Biota-Summary lang="en">The biota of 'Mangroves of Red Sea and Gulf of Aden' is characterised by the presence of 7 true mangrove and other key plant species. The range maps of Thalassodendron ciliatum, Rhizophora mucronata, Enhalus acoroides, Ruppia maritima, Halodule uninervis, Avicennia marina, Halophila ovalis overlap with most of the distribution of this unit. There are 206 species that have been associated with mangrove habitats in the Red List of Threatened Species database and that have natural history collection records or observations within the distribution of this unit (GBIF 2021). </Biota-Summary>
+        <Biota-Summary lang="en">The biota of 'Mangroves of Red Sea and Gulf of Aden' is characterised by the presence of 7 true mangrove and other key plant species. There are at least 26 species of the GASTROPODA, ACTINOPTERYGII, CHONDRICHTHYES, AVES, REPTILIA that have been associated with mangrove habitats in the Red List of Threatened Species database and have natural history collection records or observations within the distribution of this unit (GBIF 2021). </Biota-Summary>
       </Biota-Summaries>
       <taxons>
         <taxon>Thalassodendron ciliatum</taxon>
@@ -22,206 +22,32 @@
         <taxon>Halodule uninervis</taxon>
         <taxon>Avicennia marina</taxon>
         <taxon>Halophila ovalis</taxon>
-        <taxon>Accipiter minullus</taxon>
-        <taxon>Accipiter tachiro</taxon>
-        <taxon>Albizia lebbeck</taxon>
-        <taxon>Apalis flavida</taxon>
-        <taxon>Ardea goliath</taxon>
-        <taxon>Arothron hispidus</taxon>
-        <taxon>Avicennia germinans</taxon>
-        <taxon>Burhinus senegalensis</taxon>
-        <taxon>Camaroptera brachyura</taxon>
-        <taxon>Caranx hippos</taxon>
-        <taxon>Charadrius mongolus</taxon>
-        <taxon>Chlorocebus pygerythrus</taxon>
-        <taxon>Ciconia episcopus</taxon>
-        <taxon>Cinnyris cupreus</taxon>
-        <taxon>Cinnyris pulchellus</taxon>
-        <taxon>Cinnyris superbus</taxon>
-        <taxon>Cinnyris venustus</taxon>
-        <taxon>Clanga clanga</taxon>
-        <taxon>Columba arquatrix</taxon>
-        <taxon>Conocarpus erectus</taxon>
-        <taxon>Corythornis cristatus</taxon>
-        <taxon>Crocodylus niloticus</taxon>
-        <taxon>Cyanomitra olivacea</taxon>
-        <taxon>Dendropicos fuscescens</taxon>
-        <taxon>Dendropicos goertae</taxon>
-        <taxon>Dryoscopus gambensis</taxon>
-        <taxon>Dugong dugon</taxon>
-        <taxon>Egretta ardesiaca</taxon>
-        <taxon>Egretta gularis</taxon>
-        <taxon>Egretta sacra</taxon>
-        <taxon>Eidolon helvum</taxon>
+        <taxon>Littoraria undulata</taxon>
+        <taxon>Strongylura notata</taxon>
+        <taxon>Platax orbicularis</taxon>
         <taxon>Elops saurus</taxon>
-        <taxon>Eretmochelys imbricata</taxon>
-        <taxon>Eubleekeria splendens</taxon>
-        <taxon>Eurystomus glaucurus</taxon>
-        <taxon>Favia fragum</taxon>
-        <taxon>Fimbristylis cymosa</taxon>
-        <taxon>Fregata ariel</taxon>
-        <taxon>Gallus gallus</taxon>
-        <taxon>Gazza minuta</taxon>
-        <taxon>Gerres cinereus</taxon>
-        <taxon>Gerres filamentosus</taxon>
-        <taxon>Halodule pinifolia</taxon>
-        <taxon>Hibiscus tiliaceus</taxon>
-        <taxon>Himantura uarnak</taxon>
-        <taxon>Hippolais languida</taxon>
-        <taxon>Hippopotamus amphibius</taxon>
-        <taxon>Ixobrychus minutus</taxon>
-        <taxon>Ixobrychus sinensis</taxon>
-        <taxon>Ixobrychus sturmii</taxon>
-        <taxon>Lamprotornis splendidus</taxon>
-        <taxon>Laniarius barbarus</taxon>
-        <taxon>Leiognathus equulus</taxon>
-        <taxon>Lethrinus nebulosus</taxon>
-        <taxon>Loxodonta africana</taxon>
-        <taxon>Lutjanus argentimaculatus</taxon>
+        <taxon>Conus frigidus</taxon>
+        <taxon>Feia nympha</taxon>
+        <taxon>Albula glossodonta</taxon>
         <taxon>Lutjanus fulviflamma</taxon>
         <taxon>Lutjanus fulvus</taxon>
-        <taxon>Lutjanus johnii</taxon>
-        <taxon>Lutjanus sebae</taxon>
-        <taxon>Megaceryle maxima</taxon>
-        <taxon>Merops albicollis</taxon>
-        <taxon>Merops persicus</taxon>
-        <taxon>Merops superciliosus</taxon>
-        <taxon>Monodactylus argenteus</taxon>
-        <taxon>Mulloidichthys martinicus</taxon>
-        <taxon>Muscicapa dauurica</taxon>
-        <taxon>Otus senegalensis</taxon>
-        <taxon>Panthera pardus</taxon>
-        <taxon>Parupeneus barberinus</taxon>
-        <taxon>Pelecanus rufescens</taxon>
-        <taxon>Phylloscopus borealis</taxon>
-        <taxon>Phylloscopus fuscatus</taxon>
-        <taxon>Phylloscopus nitidus</taxon>
-        <taxon>Platysteira cyanea</taxon>
-        <taxon>Plicofollis dussumieri</taxon>
-        <taxon>Porites porites</taxon>
-        <taxon>Prinia gracilis</taxon>
-        <taxon>Pristis pectinata</taxon>
-        <taxon>Pycnonotus goiavier</taxon>
-        <taxon>Pycnonotus leucotis</taxon>
-        <taxon>Rattus exulans</taxon>
-        <taxon>Rattus rattus</taxon>
-        <taxon>Rousettus aegyptiacus</taxon>
-        <taxon>Sardinella albella</taxon>
-        <taxon>Strongylura notata</taxon>
-        <taxon>Sylvietta brachyura</taxon>
-        <taxon>Syzygium guineense</taxon>
-        <taxon>Todiramphus chloris</taxon>
-        <taxon>Turtur afer</taxon>
-        <taxon>Xenus cinereus</taxon>
-        <taxon>Saurida nebulosa</taxon>
-        <taxon>Plectorhinchus gibbosus</taxon>
-        <taxon>Conus frigidus</taxon>
-        <taxon>Ophiocara porocephala</taxon>
-        <taxon>Acanthopagrus berda</taxon>
-        <taxon>Arothron immaculatus</taxon>
-        <taxon>Hippichthys spicifer</taxon>
-        <taxon>Papio cynocephalus</taxon>
-        <taxon>Pomadasys argenteus</taxon>
-        <taxon>Trionyx triunguis</taxon>
-        <taxon>Encrasicholina punctifer</taxon>
-        <taxon>Yongeichthys nebulosus</taxon>
-        <taxon>Pirenella conica</taxon>
-        <taxon>Siganus guttatus</taxon>
-        <taxon>Epinephelus coeruleopunctatus</taxon>
-        <taxon>Aonyx capensis</taxon>
-        <taxon>Siderastrea savignyana</taxon>
-        <taxon>Paramonacanthus frenatus</taxon>
-        <taxon>Larus hemprichii</taxon>
-        <taxon>Pristis pristis</taxon>
-        <taxon>Cociella punctata</taxon>
-        <taxon>Sousa plumbea</taxon>
-        <taxon>Hippichthys cyanospilos</taxon>
-        <taxon>Melampus massauensis</taxon>
-        <taxon>Holothuria parva</taxon>
-        <taxon>Himantura undulata</taxon>
-        <taxon>Feia nympha</taxon>
         <taxon>Himantura leoparda</taxon>
-        <taxon>Plectorhinchus pictus</taxon>
-        <taxon>Periophthalmus kalolo</taxon>
-        <taxon>Albula glossodonta</taxon>
-        <taxon>Neopomacentrus taeniurus</taxon>
-        <taxon>Pristurus obsti</taxon>
-        <taxon>Cymbacephalus beauforti</taxon>
-        <taxon>Trichechus senegalensis</taxon>
-        <taxon>Pristis zijsron</taxon>
-        <taxon>Lagocephalus guentheri</taxon>
-        <taxon>Brevitrygon imbricata</taxon>
-        <taxon>Acanthopagrus bifasciatus</taxon>
         <taxon>Gymnothorax monochrous</taxon>
-        <taxon>Elops machnata</taxon>
-        <taxon>Lutjanus ehrenbergii</taxon>
-        <taxon>Cerithidea decollata</taxon>
-        <taxon>Oligolepis acutipennis</taxon>
-        <taxon>Thryssa baelama</taxon>
         <taxon>Uropterygius concolor</taxon>
-        <taxon>Terminalia scutifera</taxon>
-        <taxon>Cynoglossus puncticeps</taxon>
-        <taxon>Epinephelus coioides</taxon>
-        <taxon>Atule mate</taxon>
+        <taxon>Plectorhinchus gibbosus</taxon>
+        <taxon>Leiognathus equulus</taxon>
         <taxon>Lethrinus harak</taxon>
-        <taxon>Bruguiera gymnorhiza</taxon>
-        <taxon>Epinephelus tauvina</taxon>
-        <taxon>Istigobius ornatus</taxon>
-        <taxon>Lagocephalus lunaris</taxon>
-        <taxon>Cerithium coralium</taxon>
-        <taxon>Platax orbicularis</taxon>
-        <taxon>Epinephelus malabaricus</taxon>
-        <taxon>Littoraria undulata</taxon>
-        <taxon>Holothuria impatiens</taxon>
-        <taxon>Arothron stellatus</taxon>
-        <taxon>Holothuria scabra</taxon>
-        <taxon>Epiphyllum phyllanthus</taxon>
-        <taxon>Eleotris fusca</taxon>
-        <taxon>Periophthalmus argentilineatus</taxon>
-        <taxon>Pluvialis fulva</taxon>
-        <taxon>Numenius phaeopus</taxon>
-        <taxon>Sus scrofa</taxon>
-        <taxon>Tringa nebularia</taxon>
-        <taxon>Cairina moschata</taxon>
-        <taxon>Nycticorax nycticorax</taxon>
-        <taxon>Pandion haliaetus</taxon>
-        <taxon>Butorides striata</taxon>
-        <taxon>Streptopelia semitorquata</taxon>
-        <taxon>Egretta garzetta</taxon>
-        <taxon>Ceryle rudis</taxon>
-        <taxon>Ardea intermedia</taxon>
-        <taxon>Apus affinis</taxon>
-        <taxon>Apus caffer</taxon>
-        <taxon>Microcarbo africanus</taxon>
-        <taxon>Cecropis abyssinica</taxon>
-        <taxon>Ardea purpurea</taxon>
-        <taxon>Ardea cinerea</taxon>
-        <taxon>Charadrius dubius</taxon>
-        <taxon>Platalea leucorodia</taxon>
-        <taxon>Anhinga rufa</taxon>
-        <taxon>Haliaeetus vocifer</taxon>
-        <taxon>Sylvia atricapilla</taxon>
-        <taxon>Prinia subflava</taxon>
-        <taxon>Actitis hypoleucos</taxon>
-        <taxon>Bostrychia hagedash</taxon>
-        <taxon>Phylloscopus trochilus</taxon>
-        <taxon>Threskiornis aethiopicus</taxon>
-        <taxon>Oriolus larvatus</taxon>
-        <taxon>Alcedo atthis</taxon>
-        <taxon>Phylloscopus collybita</taxon>
-        <taxon>Numenius arquata</taxon>
-        <taxon>Laniarius ferrugineus</taxon>
-        <taxon>Luscinia luscinia</taxon>
-        <taxon>Acrocephalus palustris</taxon>
-        <taxon>Copsychus saularis</taxon>
-        <taxon>Halcyon smyrnensis</taxon>
-        <taxon>Amaurornis phoenicurus</taxon>
-        <taxon>Dendrocygna javanica</taxon>
-        <taxon>Parus major</taxon>
-        <taxon>Acridotheres tristis</taxon>
-        <taxon>Anguilla anguilla</taxon>
-        <taxon>Megaceryle alcyon</taxon>
-        <taxon>Nyctanassa violacea</taxon>
+        <taxon>Lethrinus nebulosus</taxon>
+        <taxon>Pristis pristis</taxon>
+        <taxon>Atule mate</taxon>
+        <taxon>Todiramphus chloris</taxon>
+        <taxon>Pristis pectinata</taxon>
+        <taxon>Crocodylus niloticus</taxon>
+        <taxon>Plectorhinchus pictus</taxon>
+        <taxon>Siganus guttatus</taxon>
+        <taxon>Cymbacephalus beauforti</taxon>
+        <taxon>Encrasicholina punctifer</taxon>
+        <taxon>Paramonacanthus frenatus</taxon>
       </taxons>
     </Characteristic-biota>
     <Abiotic-environment>
