@@ -95,9 +95,9 @@ for (k in 1:nrow(slc)) {
 
     nThreatened <- {assoc.spp %>% filter(category %in% c("VU","EN","CR")) %>% nrow()}
 
-    biota_thr <- switch(nThreatened+1,
-           "",
-           {
+    biota_thr <- switch(as.character(nThreatened),
+           "0"="",
+           "1"={
              assoc.spp %>% filter(category %in% c("VU","EN","CR")) -> tst
              sprintf("The %s %s %s.",
                      categories[tst$category], tst$main_common_name, presence[tst$season])
