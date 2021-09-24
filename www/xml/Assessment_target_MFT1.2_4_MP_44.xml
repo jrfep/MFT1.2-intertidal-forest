@@ -4,7 +4,7 @@
   <Assessment-Target date="2021-09-14" updated-by="JRFP" status="draft">
     <AT-id>MFT1.2_4_MP_44</AT-id>
     <AT-descriptions>
-      <AT-description lang="en">The 'Mangroves of Galapagos' is a regional ecosystem subgroup (level 4 unit of the IUCN Global Ecosystem Typology) that includes intertidal forest and shrublands of the marine ecoregions of Eastern Galapagos Islands (Galapagos province), Northern Galapagos Islands (Galapagos province), Western Galapagos Islands (Galapagos province). The biota is characterised by 3 species of true mangroves and other key plant taxa that provide structure and resources for approx. 90 mangove-associated taxa. Mangroves in this subgroup have a mapped extent of at least ... km2 in ... countries and are predominantly ... and .... They are threatened by  conversion for urban and tourism development, agriculture and aquaculture, and by increases in frequency of tropical storms. </AT-description>
+      <AT-description lang="en">The 'Mangroves of Galapagos' is a regional ecosystem subgroup (level 4 unit of the IUCN Global Ecosystem Typology) that includes intertidal forest and shrublands of the marine ecoregions of Eastern Galapagos Islands (Galapagos province), Northern Galapagos Islands (Galapagos province), Western Galapagos Islands (Galapagos province). The biota is characterised by 3 species of true mangroves and other key plant taxa that provide structure and resources for other mangove-associated taxa. Mangroves in this subgroup have a mapped extent of at least ... km2 in ... countries and are predominantly ... and .... They are threatened by  conversion for urban and tourism development, agriculture and aquaculture, and by increases in frequency of tropical storms. </AT-description>
     </AT-descriptions>
     <AT-names>
       <AT-name lang="en">Mangroves of Galapagos</AT-name>
@@ -12,100 +12,17 @@
     </AT-names>
     <Characteristic-biota>
       <Biota-Summaries>
-        <Biota-Summary lang="en">The biota of 'Mangroves of Galapagos' is characterised by the presence of 3 true mangrove and other key plant species. The range maps of Rhizophora samoensis, Avicennia germinans, Conocarpus erectus overlap with most of the distribution of this unit. There are 90 species that have been associated with mangrove habitats in the Red List of Threatened Species database and that have natural history collection records or observations within the distribution of this unit (GBIF 2021). </Biota-Summary>
+        <Biota-Summary lang="en">The biota of 'Mangroves of Galapagos' is characterised by the presence of 3 true mangrove and other key plant species. There are at least 05 species of the ACTINOPTERYGII, AVES that have been associated with mangrove habitats in the Red List of Threatened Species database and have natural history collection records or observations within the distribution of this unit (GBIF 2021). </Biota-Summary>
       </Biota-Summaries>
       <taxons>
         <taxon>Rhizophora samoensis</taxon>
         <taxon>Avicennia germinans</taxon>
         <taxon>Conocarpus erectus</taxon>
         <taxon>Albula vulpes</taxon>
-        <taxon>Anisotremus surinamensis</taxon>
-        <taxon>Arothron hispidus</taxon>
-        <taxon>Bathygobius soporator</taxon>
-        <taxon>Caranx hippos</taxon>
-        <taxon>Coccyzus melacoryphus</taxon>
-        <taxon>Dormitator maculatus</taxon>
-        <taxon>Eretmochelys imbricata</taxon>
-        <taxon>Fregata minor</taxon>
-        <taxon>Gallus gallus</taxon>
-        <taxon>Gerres cinereus</taxon>
         <taxon>Gymnothorax funebris</taxon>
-        <taxon>Haemulon parra</taxon>
-        <taxon>Hibiscus tiliaceus</taxon>
-        <taxon>Hypoplectrus unicolor</taxon>
-        <taxon>Laguncularia racemosa</taxon>
-        <taxon>Lutjanus argentiventris</taxon>
-        <taxon>Mimus melanotis</taxon>
-        <taxon>Mimus parvulus</taxon>
-        <taxon>Nomonyx dominicus</taxon>
-        <taxon>Rattus rattus</taxon>
-        <taxon>Rhizophora mangle</taxon>
-        <taxon>Rhizophora stylosa</taxon>
-        <taxon>Sphoeroides annulatus</taxon>
-        <taxon>Polydactylus approximans</taxon>
-        <taxon>Lutjanus novemfasciatus</taxon>
-        <taxon>Anisotremus interruptus</taxon>
-        <taxon>Chloroscombrus orqueta</taxon>
-        <taxon>Eucinostomus gracilis</taxon>
-        <taxon>Citharichthys gilberti</taxon>
-        <taxon>Eleotris picta</taxon>
-        <taxon>Diapterus peruvianus</taxon>
-        <taxon>Archosargus pourtalesii</taxon>
-        <taxon>Trinectes fonsecensis</taxon>
-        <taxon>Gymnothorax dovii</taxon>
-        <taxon>Hyporhamphus naos</taxon>
-        <taxon>Achirus klunzingeri</taxon>
-        <taxon>Lutjanus jordani</taxon>
-        <taxon>Centropomus nigrescens</taxon>
-        <taxon>Notarius kessleri</taxon>
-        <taxon>Nebris occidentalis</taxon>
-        <taxon>Cratinus agassizii</taxon>
-        <taxon>Eugerres lineatus</taxon>
-        <taxon>Gerres simillimus</taxon>
-        <taxon>Macrodon mordax</taxon>
-        <taxon>Centropomus viridis</taxon>
-        <taxon>Kathetostoma averruncus</taxon>
-        <taxon>Cynoscion praedatorius</taxon>
-        <taxon>Bagre panamensis</taxon>
-        <taxon>Hyporhamphus roberti</taxon>
-        <taxon>Symphurus melanurus</taxon>
-        <taxon>Mycteroperca xenarcha</taxon>
-        <taxon>Larimus pacificus</taxon>
-        <taxon>Evorthodus minutus</taxon>
-        <taxon>Symphurus varius</taxon>
-        <taxon>Gymnothorax castaneus</taxon>
-        <taxon>Hyporhamphus gilli</taxon>
-        <taxon>Larimus argenteus</taxon>
-        <taxon>Strongylura exilis</taxon>
-        <taxon>Xenomugil thoburni</taxon>
-        <taxon>Lutjanus aratus</taxon>
-        <taxon>Syacium latifrons</taxon>
-        <taxon>Gobiomorus maculatus</taxon>
-        <taxon>Mugil incilis</taxon>
-        <taxon>Eucinostomus currani</taxon>
-        <taxon>Holothuria impatiens</taxon>
-        <taxon>Dormitator latifrons</taxon>
-        <taxon>Lutjanus guttatus</taxon>
-        <taxon>Pluvialis fulva</taxon>
-        <taxon>Numenius phaeopus</taxon>
-        <taxon>Sus scrofa</taxon>
-        <taxon>Tyrannus melancholicus</taxon>
-        <taxon>Crotophaga ani</taxon>
-        <taxon>Myiodynastes maculatus</taxon>
-        <taxon>Zenaida auriculata</taxon>
-        <taxon>Nycticorax nycticorax</taxon>
-        <taxon>Pandion haliaetus</taxon>
-        <taxon>Butorides striata</taxon>
-        <taxon>Egretta caerulea</taxon>
         <taxon>Fregata magnificens</taxon>
-        <taxon>Pitangus sulphuratus</taxon>
-        <taxon>Parkesia noveboracensis</taxon>
-        <taxon>Megaceryle alcyon</taxon>
-        <taxon>Nyctanassa violacea</taxon>
-        <taxon>Quiscalus mexicanus</taxon>
-        <taxon>Egretta tricolor</taxon>
-        <taxon>Chaetura pelagica</taxon>
         <taxon>Protonotaria citrea</taxon>
+        <taxon>Archosargus pourtalesii</taxon>
       </taxons>
     </Characteristic-biota>
     <Abiotic-environment>

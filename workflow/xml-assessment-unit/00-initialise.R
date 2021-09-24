@@ -33,8 +33,13 @@ for (k in 1:nrow(slc)) {
 
   key_spp_data %>% select(!!short_name) %>% pull -> ss
   key_spp_data %>% filter(ss) -> key.spp
-  mga_spp_data %>% select(!!short_name) %>% pull -> ss
-  mga_spp_data %>% filter(!is.na(ss)) -> assoc.spp
+  if (short_name %in% colnames(mga_spp_data)) {
+    mga_spp_data %>% select(!!short_name) %>% pull -> ss
+    mga_spp_data %>% filter(!is.na(ss)) -> assoc.spp
+  } else {
+    assoc.spp <- mga_spp_data %>% slice(0)
+  }
+  
   
 
   short_desc <- sprintf("The '%s' is a regional ecosystem subgroup (level 4 unit of the IUCN Global Ecosystem Typology) that includes intertidal forest and shrublands of the marine ecoregions of %s. The biota is characterised by %01d species of true mangroves and other key plant taxa that provide structure and resources for other mangove-associated taxa. Mangroves in this subgroup have a mapped extent of at least ... km2 in ... countries and are predominantly ... and .... They are threatened by  conversion for urban and tourism development, agriculture and aquaculture, and by increases in frequency of tropical storms. ", unit_name,unit_components,nrow(key.spp))
@@ -97,7 +102,7 @@ for (k in 1:nrow(slc)) {
              sprintf("The %s %s %s.",
                      categories[tst$category], tst$main_common_name, presence[tst$season])
            },
-           "These include %s threatened species.")
+           sprintf("These include %s threatened species.",nThreatened))
     
 
   newXMLNode("Biota-Summaries",
@@ -184,7 +189,6 @@ for (k in 1:nrow(slc)) {
   
   
   for (k in threats %>%  distinct(Name) %>% pull ) {
-    print(k)
     this.Threat.class <- newXMLNode("Threat-classification",
                                     attrs=list(id="IUCN", version="3.2", selected="yes",
                                                `assigned-by`="Assessment authors"))
@@ -243,6 +247,8 @@ for (k in 1:nrow(slc)) {
           encoding = "UTF-8")
   rm(doc,top)
   gc()
+  system(sprintf("xmllint --format %s > tst",output.file))
+  system(sprintf("mv tst %s",output.file))
 }
 
 ## if we want to add a style:
