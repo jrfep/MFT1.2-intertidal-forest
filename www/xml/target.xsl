@@ -66,6 +66,15 @@
             font-style:italic;
             margin-left: 40px;
         }
+        span.tagbox {
+            color:#636363;
+            display:inline-block;
+            font-size:small;
+            margin: 4px;
+            padding: 4px;
+            border: 1px solid #636363;
+            border-radius: 3px;
+        }
         </style>
 
       <script type="text/javascript" src="target.js"></script>
@@ -86,8 +95,10 @@
           <div class="w3-bar w3-black">
             <button class="w3-bar-item w3-button" onclick="openCity('Classification')">Ecosystem classification</button>
             <button class="w3-bar-item w3-button" onclick="openCity('Biota')">Characteristic Biota</button>
-            <button class="w3-bar-item w3-button" onclick="openCity('Abiotic')">Abiotic envrionment</button>
+            <button class="w3-bar-item w3-button" onclick="openCity('Abiotic')">Abiotic environment</button>
             <button class="w3-bar-item w3-button" onclick="openCity('Biotic')">Biotic processes</button>
+            <button class="w3-bar-item w3-button" onclick="openCity('Distribution')">Distribution</button>
+
             <button class="w3-bar-item w3-button" onclick="openCity('Collapse')">Collapse definitions</button>
             <button class="w3-bar-item w3-button" onclick="openCity('Services')">Ecosystem services</button>
             <button class="w3-bar-item w3-button" onclick="openCity('Threats')">Threats</button>
@@ -103,8 +114,10 @@
   <xsl:template match="AT-id">
     </xsl:template>
 
-<xsl:template match="AT-description">
-</xsl:template>
+    <xsl:template match="AT-description">
+    </xsl:template>
+    <xsl:template match="Spatial-data">
+    </xsl:template>
 
 <xsl:template match="Classifications">
   <div id="Classification" class="w3-container city" style="display:none">
@@ -121,12 +134,18 @@
   </div>
 </xsl:template>
 
-<xsl:template match="Biota-Summary">
+<xsl:template match="Characteristic-biota">
   <div id="Biota" class="w3-container city" style="display:none">
     <h4>Characteristic biota</h4>
-    <span class="summary-text"><xsl:value-of select="."/></span>
+          <xsl:apply-templates/>
+
   </div>
   </xsl:template>
+
+    <xsl:template match="Biota-Summaries">
+      <span class="summary-text"><xsl:value-of select="Biota-Summary"/></span>
+    </xsl:template>
+
 
 <xsl:template match="Abiotic-Summary">
   <div id="Abiotic" class="w3-container city" style="display:none">
@@ -150,6 +169,17 @@
   </div>
 </xsl:template>
 
+<xsl:template match="Distribution">
+  <div id="Distribution" class="w3-container city" style="display:none">
+    <h4>Distribution</h4>
+          <xsl:apply-templates/>
+  </div>
+  </xsl:template>
+
+  <xsl:template match="Distribution-Summaries">
+    <span class="summary-text"><xsl:value-of select="Distribution-Summary"/></span>
+  </xsl:template>
+
 <xsl:template match="Threats">
   <div id="Threats" class="w3-container city" style="display:none">
 
@@ -158,10 +188,25 @@
   </div>
 </xsl:template>
 
-
-
 <xsl:template match="Threats-Summaries">
   <span class="summary-text"><xsl:value-of select="Threats-Summary"/></span>
+</xsl:template>
+
+
+<xsl:template match="Countries">
+  <h4>Countries</h4>
+
+  <xsl:for-each select="Country">
+    <span class='tagbox'><xsl:value-of select="."/></span>
+  </xsl:for-each>
+</xsl:template>
+
+
+<xsl:template match="taxons">
+  <h5>Species list</h5>
+  <xsl:for-each select="taxon">
+    <span class='tagbox'><xsl:value-of select="."/></span>
+  </xsl:for-each>
 </xsl:template>
 
 <xsl:template match="Threat">
