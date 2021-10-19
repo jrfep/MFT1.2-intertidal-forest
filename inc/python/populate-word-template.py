@@ -82,7 +82,7 @@ def main(argv):
     outfile=ucode+'-'+uname+'.docx'
     with open(Path(outdir) / outfile, "wb") as f:
         document.write(f)
-
+    #document.write(Path(outdir) / outfile)
 
 if __name__ == "__main__":
     main(sys.argv[1:])

@@ -24,5 +24,5 @@ done
 
 ```sh
 source $HOME/proyectos/IUCN-GET/MFT1.2-intertidal-forest/env/project-env.sh
-python $SCRIPTDIR/inc/python/populate-word-template.py -w $SCRIPTDIR/input/word-template.docx -x $SCRIPTDIR/www/xml/Assessment_target_MFT1.2_4_MP_06.xml -o $SCRIPTDIR/sanbox
+python $SCRIPTDIR/inc/python/populate-word-template.py -w $SCRIPTDIR/input/word-template.docx -x $SCRIPTDIR/www/xml/Assessment_target_MFT1.2_4_MP_06.xml -o $SCRIPTDIR/sandbox
 ```
