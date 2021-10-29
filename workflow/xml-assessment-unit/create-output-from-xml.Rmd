@@ -25,4 +25,11 @@ done
 ```sh
 source $HOME/proyectos/IUCN-GET/MFT1.2-intertidal-forest/env/project-env.sh
 python $SCRIPTDIR/inc/python/populate-word-template.py -w $SCRIPTDIR/input/word-template.docx -x $SCRIPTDIR/www/xml/Assessment_target_MFT1.2_4_MP_06.xml -o $SCRIPTDIR/sandbox
+
+
+for j in $(ls /Users/jferrer/proyectos/IUCN-GET/MFT1.2-intertidal-forest/www/xml/Assessment_target_MFT1.2_4_MP_*.xml)
+do
+  python $SCRIPTDIR/inc/python/populate-word-template.py -w $SCRIPTDIR/input/word-template.docx -x $j -o ~/Google\ Drive/Mangrove-level-4-units/
+  echo $j listo
+done
 ```
