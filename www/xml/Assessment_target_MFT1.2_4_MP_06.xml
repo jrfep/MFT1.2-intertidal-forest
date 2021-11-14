@@ -149,7 +149,7 @@
       </Classifications>
       <Distribution>
          <Distribution-Summaries>
-            <Distribution-Summary lang="en">The 'Mangroves of Warm Temperate Northwest Atlantic' includes intertidal forest and shrublands of the marine ecoregions of Carolinian (Warm Temperate Northwest Atlantic province), Northern Gulf of Mexico (Warm Temperate Northwest Atlantic province), that extent across 2 countries and territories in the regions of North America, Latin America &amp; Caribbean. Mangrove extent in this region is estimated between 50 and 99 km^2 (Giri et al. 2011; Bunting et al. 2018).</Distribution-Summary>
+            <Distribution-Summary lang="en">The 'Mangroves of Warm Temperate Northwest Atlantic' includes intertidal forest and shrublands of the marine ecoregions Carolinian and Northern Gulf of Mexico (Warm Temperate Northwest Atlantic province), that extent across the United States of America and Mexico. Mangrove forest extent in this region is estimated between 50 and 99 km^2 (Giri et al. 2011; Bunting et al. 2018) but these estimate do not include large sections of coastlines along the Florida peninsula and the northern part of the Gulf of Mexico where Mangroves occurrences have been documented (Candy Feller, pers. comm.). Mangroves in the temperate-tropical ecotone are for the most part low stature, multi-stemmed shrubs, and many are no taller than the surrounding saltmarsh vegetation. That makes them very difficult to detect or map with satellite images. The shrub growth form of mangroves extents along the coastlines of the Florida peninsula and the northern part of the Gulf of Mexico with some confirmed absences in Louisiana and Mississippi. Range expansion has been documented by multiple surveys, even after big freeze events in the Gulf of Mexico and Florida coasts in 2010, 2018 and 2021 (Candy Feller and Richard Day, pers. comm.).</Distribution-Summary>
          </Distribution-Summaries>
          <Countries>
             <Country iso-code-2="US">United States of America</Country>
@@ -188,7 +188,7 @@
          <Reference id="Giri et al. 2011">Giri et al. (2011) . *Status and distribution of mangrove forests of the world using earth observation satellite data* (version 1.3, updated by UNEP-WCMC). **Global Ecology and Biogeography** 20: 154-159. doi: [10.1111/j.1466-8238.2010.00584.x].</Reference>
          <Reference id="Bunting et al. 2018">Bunting et al. (2018)  The Global Mangrove Watch – a New 2010 Global Baseline of Mangrove Extent. Remote Sensing 10(10): 1669. doi: 10.3390/rs1010669.</Reference>
        <Reference id="Duke et al. 2019">Duke Norman C., Field Colin, Mackenzie Jock R., Meynecke Jan-Olaf, Wood Apanie L. (2019) Rainfall and its possible hysteresis effect on the proportional cover of tropical tidal-wetland mangroves and saltmarsh–saltpans. Marine and Freshwater Research 70, 1047-1055. https://doi.org/10.1071/MF18321</Reference>
-       <Reference id="NatureServe 2021">NatureServe. 2021. NatureServe Explorer [web application]. NatureServe, Arlington, Virginia. Available https://explorer.natureserve.org/. (Accessed: November 4, 2021).</Reference>  
+       <Reference id="NatureServe 2021">NatureServe. 2021. NatureServe Explorer [web application]. NatureServe, Arlington, Virginia. Available https://explorer.natureserve.org/. (Accessed: November 4, 2021).</Reference>
      </References>
    </Assessment-Target>
 </Case-Study>
