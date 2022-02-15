@@ -1,0 +1,95 @@
+---
+title: "Maps for level 4 units"
+author: "JR Ferrer-Paris"
+date: "15/02/2022"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+First load all libraries and set-up project environment variables.
+
+```{r}
+#!/usr/bin/R --vanilla
+require(dplyr)
+require(magrittr)
+require(readr)
+require(sf)
+require(units)
+require(leaflet)
+require(tidyr)
+
+source(sprintf("%s/proyectos/IUCN-GET/MFT1.2-intertidal-forest/env/project-env.R",Sys.getenv("HOME")))
+setwd(work.dir)
+
+```
+
+Read spatial data from file `00-steps-for-delimitation`:
+
+```{r}
+
+load(file=sprintf("%s/www/Rdata/selected-units.rda",script.dir))
+
+#pre_units, post_units, post_units_components, post_units_countries
+
+```
+
+```{r}
+
+slc_unit <- post_units[1,] 
+mb.style <- "jrfep/ckspr4rl70jch17pg3rnix3fz"
+mb.token <- "pk.eyJ1IjoianJmZXAiLCJhIjoiY2s5N3RxZWhwMTl5NjNnbjFmdzhubTFjdiJ9.KFBzgxBPjKnERRfR9awR_g"
+
+my_url <- sprintf("https://api.mapbox.com/styles/v1/%s/tiles/{z}/{x}/{y}?access_token=%s",mb.style,mb.token)
+
+my_attribution <- "© <a href='https://www.mapbox.com/map-feedback/'>Mapbox</a> CC-BY-4.0 <a href='https://global-ecosystems.org/explore/groups/MFT1.2'>IUCN Global Ecosystem Typology</a>"
+
+occ <- factor(c("major","minor"))
+DPcolors <- c(rgb(193,15,2,255,max=255), rgb(247,157,150,255,max=255))
+
+
+leaflet() %>%
+  addTiles(urlTemplate=my_url,attribution=my_attribution) %>%
+  addPolygons(data =slc_unit, color = 'maroon', fill=FALSE, weight = 2, fillOpacity = 0.15, group='Outline')  %>%
+  addLegend(colors = DPcolors, labels = c("major","minor"), opacity = 1.0,
+            title = "Occurrence", position = "topright")
+
+```
+
+```{r}
+require(tmap)
+  tmap_mode("view")
+tm_basemap(server=my_url) + 
+tm_shape(slc_unit) + tm_borders(col='maroon') #+
+#tm_tiles("Stamen.TonerLabels")
+require(tmaptools)
+tmap_mode("plot")
+
+st_write(post_units,sprintf("%s/sandbox/Mangrove-Level4-units-map.gpkg",script.dir))
+
+st_write(post_units,sprintf("%s/sandbox/Mangrove-Level4-units-map.shp",script.dir))
+
+for (k in 1:nrow(post_units)) {
+  slc_unit <- post_units[k,] 
+  name <- slc_unit %>% st_drop_geometry %>% pull(unit_name)
+  code <- slc_unit %>% st_drop_geometry %>% pull(unit_code)
+  out.file=sprintf("%s/sandbox/%s-%s-map.png",script.dir,code,gsub("[ /]","_",name))
+  if (!file.exists(out.file)) {
+    slc_osm <- read_osm(slc_unit,ext=1.1)
+    tm <- tm_shape(slc_osm) +
+      tm_rgb() +
+      tm_shape(slc_unit) + tm_borders(col='darkgreen',lwd=2) + 
+      tm_add_legend(type='line',labels=name,col="darkgreen",lwd=2,)
+      #  tm_text("unit_name", just = "bottom",col="darkgreen")
+    tmap_save(tm, filename = out.file)
+  }
+}
+
+
+```
+
+
+```{bash}
+for i in $(ls maps-png/); do  magick maps-png/$i -resize 75% smaller-maps/$i; done
+```
+
