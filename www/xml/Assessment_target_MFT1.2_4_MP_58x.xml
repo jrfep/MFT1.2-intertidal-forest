@@ -3,8 +3,9 @@
 <Case-Study>
   <Assessment-Target date="2021-09-14" updated-by="JRFP" status="draft">
     <AT-id>MFT1.2_4_MP_58x</AT-id>
+    <AT-short-name>W Australian Shelf+Leeuwin</AT-short-name>
     <AT-descriptions>
-      <AT-description lang="en">The 'Mangroves of Western Australian Shelf and Leeuwin' is a regional ecosystem subgroup (level 4 unit of the IUCN Global Ecosystem Typology) that includes intertidal forest and shrublands of the marine ecoregions of Houtman (West Central Australian Shelf province), Leeuwin (Southwest Australian Shelf province), Shark Bay (West Central Australian Shelf province). The biota is characterised by 7 species of true mangroves and other key plant taxa that provide structure and resources for approx. 170 mangove-associated taxa. Mangroves in this subgroup have a mapped extent of at least ... km2 in ... countries and are predominantly ... and .... They are threatened by  conversion for urban and tourism development, agriculture and aquaculture, and by increases in frequency of tropical storms. </AT-description>
+      <AT-description lang="en">The 'Mangroves of Western Australian Shelf and Leeuwin' is a regional ecosystem subgroup (level 4 unit of the IUCN Global Ecosystem Typology) that includes intertidal forest and shrublands of the marine ecoregions of Houtman (West Central Australian Shelf province), Leeuwin (Southwest Australian Shelf province), Shark Bay (West Central Australian Shelf province). The biota is characterised by 7 species of true mangroves and other key plant taxa that provide structure and resources for other mangove-associated taxa. Mangroves in this subgroup have a mapped extent of less than 100 km^2 restricted to Australia. They are classified as Estuary with 13.3 % Carbonate and 86.7 % Terrigenous sedimentars They are threatened by  conversion for urban and tourism development, agriculture and aquaculture, and by increases in frequency of tropical storms. </AT-description>
     </AT-descriptions>
     <AT-names>
       <AT-name lang="en">Mangroves of Western Australian Shelf and Leeuwin</AT-name>
@@ -12,188 +13,43 @@
     </AT-names>
     <Characteristic-biota>
       <Biota-Summaries>
-        <Biota-Summary lang="en">The biota of 'Mangroves of Western Australian Shelf and Leeuwin' is characterised by the presence of 7 true mangrove and other key plant species. The range maps of Halodule uninervis, Avicennia marina, Cynometra iripa, Halophila ovalis overlap with most of the distribution of this unit. There are 176 species that have been associated with mangrove habitats in the Red List of Threatened Species database and that have natural history collection records or observations within the distribution of this unit (GBIF 2021). </Biota-Summary>
+        <Biota-Summary lang="en">The biota of 'Mangroves of Western Australian Shelf and Leeuwin' is characterised by the presence of 7 true mangrove and other key plant species (RLTS 2021). There are at least 27 species of the GASTROPODA, ACTINOPTERYGII, CHONDRICHTHYES, AVES, REPTILIA that have been associated with mangrove habitats in the Red List of Threatened Species database and have natural history collection records or observations within the distribution of this unit (GBIF 2021). The Critically Endangered Largetooth Sawfish occurs in this region.</Biota-Summary>
       </Biota-Summaries>
       <taxons>
-        <taxon>Halodule uninervis</taxon>
-        <taxon>Avicennia marina</taxon>
-        <taxon>Cynometra iripa</taxon>
-        <taxon>Halophila ovalis</taxon>
         <taxon>Halodule pinifolia</taxon>
         <taxon>Zostera muelleri</taxon>
+        <taxon>Halodule uninervis</taxon>
+        <taxon>Avicennia marina</taxon>
         <taxon>Rhizophora stylosa</taxon>
-        <taxon>Acanthiza iredalei</taxon>
-        <taxon>Acanthopagrus australis</taxon>
-        <taxon>Accipiter novaehollandiae</taxon>
-        <taxon>Aegotheles cristatus</taxon>
-        <taxon>Albizia lebbeck</taxon>
-        <taxon>Aprosmictus erythropterus</taxon>
-        <taxon>Ardea sumatrana</taxon>
-        <taxon>Argyrosomus hololepidotus</taxon>
-        <taxon>Arothron hispidus</taxon>
-        <taxon>Artamus personatus</taxon>
-        <taxon>Caesio cuning</taxon>
-        <taxon>Centropus phasianinus</taxon>
-        <taxon>Ceyx azureus</taxon>
-        <taxon>Chalcites lucidus</taxon>
-        <taxon>Charadrius mongolus</taxon>
-        <taxon>Chlamydera nuchalis</taxon>
-        <taxon>Colluricincla megarhyncha</taxon>
-        <taxon>Cryptoblepharus virgatus</taxon>
-        <taxon>Ctenotus robustus</taxon>
-        <taxon>Dacelo leachii</taxon>
-        <taxon>Dendrelaphis punctulatus</taxon>
-        <taxon>Dugong dugon</taxon>
-        <taxon>Egretta sacra</taxon>
-        <taxon>Epthianura albifrons</taxon>
-        <taxon>Eretmochelys imbricata</taxon>
-        <taxon>Eurostopodus argus</taxon>
-        <taxon>Fimbristylis cymosa</taxon>
-        <taxon>Fregata ariel</taxon>
-        <taxon>Fregata minor</taxon>
-        <taxon>Gallus gallus</taxon>
-        <taxon>Gavicalis versicolor</taxon>
-        <taxon>Gerygone levigaster</taxon>
-        <taxon>Gerygone magnirostris</taxon>
-        <taxon>Gerygone tenebrosa</taxon>
-        <taxon>Hydromys chrysogaster</taxon>
-        <taxon>Hypotaenidia philippensis</taxon>
-        <taxon>Ixobrychus dubius</taxon>
-        <taxon>Ixobrychus flavicollis</taxon>
-        <taxon>Ixobrychus minutus</taxon>
-        <taxon>Lalage sueurii</taxon>
-        <taxon>Lampropholis delicata</taxon>
-        <taxon>Lethrinus genivittatus</taxon>
-        <taxon>Lethrinus nebulosus</taxon>
+        <taxon>Cynometra iripa</taxon>
+        <taxon>Halophila ovalis</taxon>
+        <taxon>Littoraria undulata</taxon>
+        <taxon>Platax orbicularis</taxon>
+        <taxon>Conus varius</taxon>
+        <taxon>Arothron manilensis</taxon>
+        <taxon>Contusus brevicaudus</taxon>
+        <taxon>Elops hawaiensis</taxon>
         <taxon>Lutjanus fulviflamma</taxon>
         <taxon>Lutjanus fulvus</taxon>
-        <taxon>Lutjanus russellii</taxon>
-        <taxon>Lutjanus sebae</taxon>
-        <taxon>Malurus amabilis</taxon>
-        <taxon>Meliphaga notata</taxon>
-        <taxon>Monarcha melanopsis</taxon>
-        <taxon>Monodactylus argenteus</taxon>
-        <taxon>Neophema chrysostoma</taxon>
-        <taxon>Neophema petrophila</taxon>
-        <taxon>Nycticorax caledonicus</taxon>
-        <taxon>Pachycephala lanioides</taxon>
-        <taxon>Pachycephala melanura</taxon>
-        <taxon>Panicum effusum</taxon>
-        <taxon>Parupeneus barberinus</taxon>
-        <taxon>Platycercus venustus</taxon>
-        <taxon>Plectorhyncha lanceolata</taxon>
-        <taxon>Poodytes gramineus</taxon>
-        <taxon>Porzana fluminea</taxon>
-        <taxon>Pteropus scapulatus</taxon>
-        <taxon>Radjah radjah</taxon>
-        <taxon>Rattus rattus</taxon>
-        <taxon>Rhipidura dryas</taxon>
-        <taxon>Rhipidura phasiana</taxon>
-        <taxon>Ruppia maritima</taxon>
-        <taxon>Saccolaimus flaviventris</taxon>
-        <taxon>Tetractenos glaber</taxon>
-        <taxon>Todiramphus chloris</taxon>
-        <taxon>Trichoglossus rubritorquis</taxon>
-        <taxon>Tyto novaehollandiae</taxon>
-        <taxon>Varanus panoptes</taxon>
-        <taxon>Xenus cinereus</taxon>
-        <taxon>Zosterops luteus</taxon>
         <taxon>Lethrinus laticaudis</taxon>
-        <taxon>Conus varius</taxon>
-        <taxon>Osbornia octodonta</taxon>
-        <taxon>Arothron manilensis</taxon>
-        <taxon>Tetractenos hamiltoni</taxon>
-        <taxon>Acanthopagrus berda</taxon>
-        <taxon>Arothron immaculatus</taxon>
-        <taxon>Pomadasys argenteus</taxon>
-        <taxon>Macroderma gigas</taxon>
-        <taxon>Contusus brevicaudus</taxon>
-        <taxon>Yongeichthys nebulosus</taxon>
-        <taxon>Epinephelus coeruleopunctatus</taxon>
-        <taxon>Selenotoca multifasciata</taxon>
-        <taxon>Takifugu oblongus</taxon>
+        <taxon>Lethrinus nebulosus</taxon>
         <taxon>Pristis pristis</taxon>
-        <taxon>Lophognathus longirostris</taxon>
-        <taxon>Acanthopagrus morrisoni</taxon>
-        <taxon>Hippichthys penicillus</taxon>
-        <taxon>Elops hawaiensis</taxon>
-        <taxon>Maculabatis toshi</taxon>
-        <taxon>Colurodontis paxmani</taxon>
-        <taxon>Heteroscenes pallidus</taxon>
-        <taxon>Ascorhis occidua</taxon>
-        <taxon>Ephalophis greyae</taxon>
-        <taxon>Drombus halei</taxon>
-        <taxon>Cacatua alba</taxon>
-        <taxon>Festucalex scalaris</taxon>
-        <taxon>Cerithidea ornata</taxon>
-        <taxon>Elops machnata</taxon>
-        <taxon>Eviota storthynx</taxon>
-        <taxon>Anacanthus barbatus</taxon>
-        <taxon>Parachaeturichthys polynema</taxon>
-        <taxon>Epinephelus coioides</taxon>
-        <taxon>Epinephelus tauvina</taxon>
-        <taxon>Lagocephalus lunaris</taxon>
-        <taxon>Synodus sageneus</taxon>
-        <taxon>Acrostichum speciosum</taxon>
-        <taxon>Cerithium coralium</taxon>
-        <taxon>Platax orbicularis</taxon>
-        <taxon>Epinephelus malabaricus</taxon>
-        <taxon>Littoraria undulata</taxon>
-        <taxon>Holothuria impatiens</taxon>
-        <taxon>Arothron stellatus</taxon>
-        <taxon>Periophthalmus argentilineatus</taxon>
-        <taxon>Pluvialis fulva</taxon>
-        <taxon>Numenius phaeopus</taxon>
-        <taxon>Zosterops lateralis</taxon>
-        <taxon>Phalacrocorax sulcirostris</taxon>
-        <taxon>Sus scrofa</taxon>
-        <taxon>Egretta novaehollandiae</taxon>
-        <taxon>Rhipidura fuliginosa</taxon>
-        <taxon>Tringa nebularia</taxon>
-        <taxon>Todiramphus sanctus</taxon>
-        <taxon>Cairina moschata</taxon>
-        <taxon>Pandion haliaetus</taxon>
-        <taxon>Butorides striata</taxon>
-        <taxon>Egretta garzetta</taxon>
-        <taxon>Ardea intermedia</taxon>
+        <taxon>Todiramphus chloris</taxon>
         <taxon>Anhinga melanogaster</taxon>
-        <taxon>Ardea purpurea</taxon>
-        <taxon>Charadrius dubius</taxon>
-        <taxon>Actitis hypoleucos</taxon>
-        <taxon>Numenius arquata</taxon>
-        <taxon>Artamus leucoryn</taxon>
-        <taxon>Haliastur indus</taxon>
-        <taxon>Acridotheres tristis</taxon>
-        <taxon>Coracina novaehollandiae</taxon>
-        <taxon>Pachycephala pectoralis</taxon>
-        <taxon>Trichoglossus haematodus</taxon>
-        <taxon>Platalea regia</taxon>
-        <taxon>Dicrurus bracteatus</taxon>
-        <taxon>Coracina papuensis</taxon>
-        <taxon>Microcarbo melanoleucos</taxon>
-        <taxon>Pachycephala rufiventris</taxon>
-        <taxon>Anhinga novaehollandiae</taxon>
-        <taxon>Psephotus haematonotus</taxon>
-        <taxon>Colluricincla harmonica</taxon>
-        <taxon>Trichoglossus moluccanus</taxon>
-        <taxon>Myiagra rubecula</taxon>
-        <taxon>Sericornis frontalis</taxon>
-        <taxon>Melithreptus albogularis</taxon>
-        <taxon>Gavicalis virescens</taxon>
-        <taxon>Acanthiza nana</taxon>
-        <taxon>Phaps chalcoptera</taxon>
-        <taxon>Cacomantis flabelliformis</taxon>
-        <taxon>Philemon citreogularis</taxon>
-        <taxon>Acanthiza lineata</taxon>
-        <taxon>Phalacrocorax varius</taxon>
-        <taxon>Rhipidura albiscapa</taxon>
-        <taxon>Neochmia temporalis</taxon>
+        <taxon>Gavicalis versicolor</taxon>
+        <taxon>Gerygone magnirostris</taxon>
+        <taxon>Gerygone tenebrosa</taxon>
+        <taxon>Gerygone levigaster</taxon>
+        <taxon>Pachycephala melanura</taxon>
+        <taxon>Pachycephala lanioides</taxon>
+        <taxon>Rhipidura phasiana</taxon>
+        <taxon>Zosterops luteus</taxon>
+        <taxon>Ctenotus robustus</taxon>
+        <taxon>Acanthopagrus morrisoni</taxon>
+        <taxon>Parachaeturichthys polynema</taxon>
+        <taxon>Colurodontis paxmani</taxon>
         <taxon>Lichmera indistincta</taxon>
-        <taxon>Pardalotus striatus</taxon>
-        <taxon>Anas castanea</taxon>
-        <taxon>Artamus cinereus</taxon>
-        <taxon>Dicaeum hirundinaceum</taxon>
-        <taxon>Entomyzon cyanotis</taxon>
+        <taxon>Synodus sageneus</taxon>
       </taxons>
     </Characteristic-biota>
     <Abiotic-environment>
@@ -288,7 +144,7 @@
     </Classifications>
     <Distribution>
       <Distribution-Summaries>
-        <Distribution-Summary lang="en">The 'Mangroves of Western Australian Shelf and Leeuwin' includes intertidal forest and shrublands of the marine ecoregions of Houtman (West Central Australian Shelf province), Leeuwin (Southwest Australian Shelf province), Shark Bay (West Central Australian Shelf province), that extent across 1 countries and territories in the regions of East Asia &amp; Pacific. </Distribution-Summary>
+        <Distribution-Summary lang="en">The 'Mangroves of Western Australian Shelf and Leeuwin' includes intertidal forest and shrublands of the marine ecoregions of Houtman (West Central Australian Shelf province), Leeuwin (Southwest Australian Shelf province), Shark Bay (West Central Australian Shelf province), that extent across 1 countries and territories in the regions of East Asia &amp; Pacific. Mangrove extent in this region is estimated between 16 and 17 km^2 (Giri et al. 2011; Bunting et al. 2018).</Distribution-Summary>
       </Distribution-Summaries>
       <Countries>
         <Country iso-code-2="AU">Australia</Country>
@@ -317,5 +173,14 @@
         <Functional-collapse lang="en">These are highly dynamic systems, with species distributions adjusting to local changes in sediment distribution, tidal regimes, and local inundation and salinity gradients. Processes that disrupt this dynamic can lead to ecosystem collapse. Ecosystem collapse may occur under any of the following: a) climatic conditions (low temperatures) restrict recruitment and survival of diagnostic true mangroves; b) changes in rainfall and river inputs and/or waves and tidal currents destabilise and erode substrates and disrupt recruitment and growth, c) changes in rainfall and tidal flushing change salinity stress and nutrient loadings affecting survival.</Functional-collapse>
       </Functional-collapse-definitions>
     </Collapse-definition>
+    <References>
+      <Reference id='Worthington et al. 2020'>Worthington et al. (2020) A global biophysical typology of mangroves and its relevance for ecosystem structure and deforestation. Sci. Rep. 10, 14652. https://doi.org/10.1038/s41598-020-71194-5</Reference>
+      <Reference id='Bishop et al. 2020'>Bishop et al. (2020) </Reference>
+      <Reference id='RLTS 2021'>RLTS (2021) Habitat association, species distribution range and taxonomic information from the IUCN Red List of Threatened Species database.</Reference>
+      <Reference id='GBIF 2021'>GBIF (2021) Species distribution records from the Global Biodiversity Information Facility</Reference>
+      <Reference id='Spalding et al. 2007'>Spalding et al. (2007)  Marine Ecoregions of the World: a bioregionalization of coast and shelf areas. BioScience 57: 573-583. doi: 10.1641/B570707. Data URL: http://data.unep-wcmc.org/datasets/38</Reference>
+      <Reference id='Giri et al. 2011'>Giri et al. (2011) . *Status and distribution of mangrove forests of the world using earth observation satellite data* (version 1.3, updated by UNEP-WCMC). **Global Ecology and Biogeography** 20: 154-159. doi: [10.1111/j.1466-8238.2010.00584.x].</Reference>
+      <Reference id='Bunting et al. 2018'>Bunting et al. (2018)  The Global Mangrove Watch – a New 2010 Global Baseline of Mangrove Extent. Remote Sensing 10(10): 1669. doi: 10.3390/rs1010669.</Reference>
+    </References>
   </Assessment-Target>
 </Case-Study>

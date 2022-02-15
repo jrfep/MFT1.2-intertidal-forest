@@ -3,8 +3,9 @@
 <Case-Study>
   <Assessment-Target date="2021-09-14" updated-by="JRFP" status="draft">
     <AT-id>MFT1.2_4_MP_27</AT-id>
+    <AT-short-name>Java Transitional</AT-short-name>
     <AT-descriptions>
-      <AT-description lang="en">The 'Mangroves of Java Transitional' is a regional ecosystem subgroup (level 4 unit of the IUCN Global Ecosystem Typology) that includes intertidal forest and shrublands of the marine ecoregions of Cocos-Keeling/Christmas Island (Java Transitional province), Southern Java (Java Transitional province). The biota is characterised by 40 species of true mangroves and other key plant taxa that provide structure and resources for approx. 420 mangove-associated taxa. Mangroves in this subgroup have a mapped extent of at least ... km2 in ... countries and are predominantly ... and .... They are threatened by  conversion for urban and tourism development, agriculture and aquaculture, and by increases in frequency of tropical storms. </AT-description>
+      <AT-description lang="en">The 'Mangroves of Java Transitional' is a regional ecosystem subgroup (level 4 unit of the IUCN Global Ecosystem Typology) that includes intertidal forest and shrublands of the marine ecoregions of Cocos-Keeling/Christmas Island (Java Transitional province), Southern Java (Java Transitional province). The biota is characterised by 40 species of true mangroves and other key plant taxa that provide structure and resources for other mangove-associated taxa. Mangroves in this subgroup have a mapped extent between 140 and 180 km^2 restricted to Indonesia. They are classified as Estuary with 7.7 % Carbonate and 92.3 % Terrigenous sedimentars They are threatened by  conversion for urban and tourism development, agriculture and aquaculture, and by increases in frequency of tropical storms. </AT-description>
     </AT-descriptions>
     <AT-names>
       <AT-name lang="en">Mangroves of Java Transitional</AT-name>
@@ -12,22 +13,21 @@
     </AT-names>
     <Characteristic-biota>
       <Biota-Summaries>
-        <Biota-Summary lang="en">The biota of 'Mangroves of Java Transitional' is characterised by the presence of 40 true mangrove and other key plant species. The range maps of Bruguiera sexangula, Bruguiera gymnorhiza, Pemphis acidula, Heritiera littoralis overlap with most of the distribution of this unit. There are 424 species that have been associated with mangrove habitats in the Red List of Threatened Species database and that have natural history collection records or observations within the distribution of this unit (GBIF 2021). </Biota-Summary>
+        <Biota-Summary lang="en">The biota of 'Mangroves of Java Transitional' is characterised by the presence of 40 true mangrove and other key plant species (RLTS 2021). There are at least 66 species of the GASTROPODA, ACTINOPTERYGII, REPTILIA, CHONDRICHTHYES, MAMMALIA, AVES, MAGNOLIOPSIDA that have been associated with mangrove habitats in the Red List of Threatened Species database and have natural history collection records or observations within the distribution of this unit (GBIF 2021). These include 10 threatened species.</Biota-Summary>
       </Biota-Summaries>
       <taxons>
-        <taxon>Bruguiera sexangula</taxon>
-        <taxon>Bruguiera gymnorhiza</taxon>
-        <taxon>Pemphis acidula</taxon>
-        <taxon>Heritiera littoralis</taxon>
         <taxon>Dolichandrone spathacea</taxon>
         <taxon>Excoecaria agallocha</taxon>
         <taxon>Nypa fruticans</taxon>
         <taxon>Thalassodendron ciliatum</taxon>
+        <taxon>Bruguiera sexangula</taxon>
         <taxon>Rhizophora mucronata</taxon>
         <taxon>Rhizophora apiculata</taxon>
         <taxon>Bruguiera cylindrica</taxon>
         <taxon>Aegiceras corniculatum</taxon>
         <taxon>Sonneratia ovata</taxon>
+        <taxon>Bruguiera gymnorhiza</taxon>
+        <taxon>Pemphis acidula</taxon>
         <taxon>Enhalus acoroides</taxon>
         <taxon>Halodule pinifolia</taxon>
         <taxon>Lumnitzera racemosa</taxon>
@@ -43,6 +43,7 @@
         <taxon>Lumnitzera littorea</taxon>
         <taxon>Acrostichum aureum</taxon>
         <taxon>Halodule uninervis</taxon>
+        <taxon>Heritiera littoralis</taxon>
         <taxon>Avicennia marina</taxon>
         <taxon>Rhizophora stylosa</taxon>
         <taxon>Bruguiera parviflora</taxon>
@@ -55,400 +56,72 @@
         <taxon>Xylocarpus moluccensis</taxon>
         <taxon>Xylocarpus granatum</taxon>
         <taxon>Halophila ovalis</taxon>
-        <taxon>Accipiter gularis</taxon>
-        <taxon>Accipiter hiogaster</taxon>
-        <taxon>Accipiter virgatus</taxon>
-        <taxon>Aegithina viridissima</taxon>
-        <taxon>Aethopyga siparaja</taxon>
-        <taxon>Albizia lebbeck</taxon>
-        <taxon>Alcedo coerulescens</taxon>
-        <taxon>Alcedo meninting</taxon>
-        <taxon>Amaurornis cinerea</taxon>
-        <taxon>Anas gibberifrons</taxon>
-        <taxon>Anthreptes simplex</taxon>
-        <taxon>Aplonis metallica</taxon>
-        <taxon>Aplonis panayensis</taxon>
-        <taxon>Arachnothera chrysogenys</taxon>
-        <taxon>Arachnothera longirostra</taxon>
-        <taxon>Ardea sumatrana</taxon>
-        <taxon>Ardeola bacchus</taxon>
-        <taxon>Ardeola speciosa</taxon>
-        <taxon>Arothron hispidus</taxon>
-        <taxon>Brachypodius atriceps</taxon>
-        <taxon>Cacomantis variolosus</taxon>
-        <taxon>Caesio cuning</taxon>
-        <taxon>Callosciurus notatus</taxon>
-        <taxon>Caloenas nicobarica</taxon>
-        <taxon>Caprimulgus affinis</taxon>
-        <taxon>Caprimulgus macrurus</taxon>
-        <taxon>Ceyx erithaca</taxon>
-        <taxon>Chalcites lucidus</taxon>
-        <taxon>Chalcoparia singalensis</taxon>
-        <taxon>Chalcophaps indica</taxon>
-        <taxon>Charadrius mongolus</taxon>
-        <taxon>Chrysococcyx xanthorhynchus</taxon>
-        <taxon>Chrysocolaptes guttacristatus</taxon>
-        <taxon>Chrysophlegma mentale</taxon>
-        <taxon>Chrysophlegma miniaceum</taxon>
-        <taxon>Ciconia episcopus</taxon>
-        <taxon>Clamator coromandus</taxon>
-        <taxon>Colluricincla megarhyncha</taxon>
-        <taxon>Coracina striata</taxon>
-        <taxon>Corvus enca</taxon>
-        <taxon>Crypsirina temia</taxon>
-        <taxon>Culicicapa ceylonensis</taxon>
-        <taxon>Cyanoderma erythropterum</taxon>
-        <taxon>Cymbirhynchus macrorhynchos</taxon>
-        <taxon>Cyornis rufigastra</taxon>
-        <taxon>Cyornis turcosus</taxon>
-        <taxon>Dendronanthus indicus</taxon>
-        <taxon>Dicaeum trigonostigma</taxon>
-        <taxon>Dicrurus annectens</taxon>
-        <taxon>Dinopium javanense</taxon>
-        <taxon>Ducula badia</taxon>
-        <taxon>Ducula bicolor</taxon>
-        <taxon>Ducula zoeae</taxon>
-        <taxon>Duttaphrynus melanostictus</taxon>
-        <taxon>Egretta gularis</taxon>
-        <taxon>Egretta picata</taxon>
-        <taxon>Egretta sacra</taxon>
-        <taxon>Eretmochelys imbricata</taxon>
-        <taxon>Eubleekeria splendens</taxon>
-        <taxon>Eumyias thalassinus</taxon>
-        <taxon>Fejervarya cancrivora</taxon>
-        <taxon>Ficedula mugimaki</taxon>
-        <taxon>Ficedula narcissina</taxon>
-        <taxon>Ficedula zanthopygia</taxon>
-        <taxon>Fimbristylis cymosa</taxon>
-        <taxon>Fregata ariel</taxon>
-        <taxon>Fregata minor</taxon>
-        <taxon>Galactia tenuiflora</taxon>
-        <taxon>Gallus gallus</taxon>
-        <taxon>Gazza minuta</taxon>
-        <taxon>Gerres filamentosus</taxon>
-        <taxon>Gerygone sulphurea</taxon>
-        <taxon>Gracula religiosa</taxon>
-        <taxon>Halcyon coromanda</taxon>
-        <taxon>Halcyon pileata</taxon>
-        <taxon>Harpactes duvaucelii</taxon>
-        <taxon>Hemiprocne comata</taxon>
-        <taxon>Hemipus hirundinaceus</taxon>
-        <taxon>Hibiscus tiliaceus</taxon>
-        <taxon>Hierococcyx sparverioides</taxon>
-        <taxon>Himantura uarnak</taxon>
-        <taxon>Hypoplectrus unicolor</taxon>
-        <taxon>Hypotaenidia philippensis</taxon>
-        <taxon>Ixobrychus cinnamomeus</taxon>
-        <taxon>Ixobrychus flavicollis</taxon>
-        <taxon>Ixobrychus sinensis</taxon>
-        <taxon>Lalage nigra</taxon>
-        <taxon>Lalage sueurii</taxon>
-        <taxon>Lanius tigrinus</taxon>
-        <taxon>Leiognathus equulus</taxon>
-        <taxon>Leptocoma brasiliana</taxon>
-        <taxon>Leptocoma calcostetha</taxon>
-        <taxon>Leptocoma sperata</taxon>
-        <taxon>Leptoptilos javanicus</taxon>
-        <taxon>Lethrinus nebulosus</taxon>
-        <taxon>Lewinia striata</taxon>
-        <taxon>Loriculus galgulus</taxon>
-        <taxon>Lutjanus argentimaculatus</taxon>
+        <taxon>Littoraria undulata</taxon>
+        <taxon>Ellobium aurisjudae</taxon>
+        <taxon>Platax orbicularis</taxon>
+        <taxon>Bungarus fasciatus</taxon>
+        <taxon>Conus frigidus</taxon>
+        <taxon>Conus varius</taxon>
+        <taxon>Mahidolia mystacina</taxon>
+        <taxon>Exyrias puntang</taxon>
+        <taxon>Cryptocentrus leptocephalus</taxon>
+        <taxon>Apogon hyalosoma</taxon>
+        <taxon>Python bivittatus</taxon>
+        <taxon>Arothron manilensis</taxon>
+        <taxon>Arothron reticularis</taxon>
         <taxon>Lutjanus fulviflamma</taxon>
         <taxon>Lutjanus fulvus</taxon>
-        <taxon>Lutjanus johnii</taxon>
-        <taxon>Lutjanus russellii</taxon>
-        <taxon>Macaca fascicularis</taxon>
-        <taxon>Macaca mulatta</taxon>
-        <taxon>Macroglossus minimus</taxon>
-        <taxon>Macronus ptilosus</taxon>
-        <taxon>Merops superciliosus</taxon>
-        <taxon>Merops viridis</taxon>
-        <taxon>Micrastur semitorquatus</taxon>
-        <taxon>Micropternus brachyurus</taxon>
-        <taxon>Mixornis gularis</taxon>
-        <taxon>Mulleripicus pulverulentus</taxon>
-        <taxon>Muscicapa dauurica</taxon>
-        <taxon>Mycteria cinerea</taxon>
-        <taxon>Myophonus caeruleus</taxon>
-        <taxon>Nycticorax caledonicus</taxon>
-        <taxon>Oriolus chinensis</taxon>
-        <taxon>Orthotomus ruficeps</taxon>
-        <taxon>Orthotomus sericeus</taxon>
-        <taxon>Pachycephala cinerea</taxon>
-        <taxon>Panthera pardus</taxon>
-        <taxon>Paradoxurus hermaphroditus</taxon>
-        <taxon>Parupeneus barberinus</taxon>
-        <taxon>Pelargopsis capensis</taxon>
-        <taxon>Pellona ditchela</taxon>
-        <taxon>Pericrocotus cinnamomeus</taxon>
-        <taxon>Pericrocotus divaricatus</taxon>
-        <taxon>Phaenicophaeus curvirostris</taxon>
-        <taxon>Phaenicophaeus diardi</taxon>
-        <taxon>Phaenicophaeus sumatranus</taxon>
-        <taxon>Phylloscopus borealis</taxon>
-        <taxon>Phylloscopus coronatus</taxon>
-        <taxon>Phylloscopus examinandus</taxon>
-        <taxon>Phylloscopus fuscatus</taxon>
-        <taxon>Picus vittatus</taxon>
-        <taxon>Pitta moluccensis</taxon>
-        <taxon>Pitta sordida</taxon>
-        <taxon>Plicofollis dussumieri</taxon>
-        <taxon>Ploceus philippinus</taxon>
-        <taxon>Prinia familiaris</taxon>
-        <taxon>Prionochilus percussus</taxon>
-        <taxon>Psittacula alexandri</taxon>
-        <taxon>Psittinus cyanurus</taxon>
-        <taxon>Ptilinopus melanospilus</taxon>
-        <taxon>Ptilinopus superbus</taxon>
-        <taxon>Pycnonotus goiavier</taxon>
-        <taxon>Pycnonotus plumosus</taxon>
-        <taxon>Rallina eurizonoides</taxon>
-        <taxon>Rattus exulans</taxon>
-        <taxon>Rattus rattus</taxon>
-        <taxon>Rattus tanezumi</taxon>
-        <taxon>Rhipidura javanica</taxon>
-        <taxon>Sardinella albella</taxon>
-        <taxon>Sitta frontalis</taxon>
-        <taxon>Streptopelia bitorquata</taxon>
-        <taxon>Strix seloputo</taxon>
-        <taxon>Surniculus lugubris</taxon>
-        <taxon>Terpsiphone affinis</taxon>
-        <taxon>Terpsiphone atrocaudata</taxon>
-        <taxon>Thespesia populnea</taxon>
-        <taxon>Todiramphus chloris</taxon>
-        <taxon>Treron bicinctus</taxon>
-        <taxon>Treron curvirostra</taxon>
-        <taxon>Treron vernans</taxon>
-        <taxon>Trichastoma rostratum</taxon>
-        <taxon>Turdus obscurus</taxon>
-        <taxon>Varanus salvator</taxon>
-        <taxon>Xenus cinereus</taxon>
-        <taxon>Zosterops chloris</taxon>
-        <taxon>Ducula rosacea</taxon>
-        <taxon>Conus varius</taxon>
-        <taxon>Dinopium rafflesii</taxon>
-        <taxon>Laticauda laticaudata</taxon>
-        <taxon>Ellobium aurisjudae</taxon>
-        <taxon>Periophthalmus barbarus</taxon>
-        <taxon>Galeopterus variegatus</taxon>
-        <taxon>Treron fulvicollis</taxon>
-        <taxon>Hierococcyx bocki</taxon>
-        <taxon>Saurida nebulosa</taxon>
-        <taxon>Plectorhinchus gibbosus</taxon>
-        <taxon>Conus frigidus</taxon>
-        <taxon>Arothron manilensis</taxon>
-        <taxon>Trachypithecus cristatus</taxon>
-        <taxon>Exyrias puntang</taxon>
-        <taxon>Ophiocara porocephala</taxon>
-        <taxon>Ceriagrion cerinorubellum</taxon>
-        <taxon>Scolopsis ciliata</taxon>
-        <taxon>Hydrophis cyanocinctus</taxon>
-        <taxon>Arothron immaculatus</taxon>
-        <taxon>Mosia nigrescens</taxon>
-        <taxon>Chloropsis sonnerati</taxon>
-        <taxon>Ceriops decandra</taxon>
-        <taxon>Pycnonotus zeylanicus</taxon>
-        <taxon>Bungarus fasciatus</taxon>
-        <taxon>Pomadasys argenteus</taxon>
-        <taxon>Aerodramus bartschi</taxon>
-        <taxon>Gerres erythrourus</taxon>
-        <taxon>Cynometra ramiflora</taxon>
-        <taxon>Yongeichthys nebulosus</taxon>
-        <taxon>Siganus guttatus</taxon>
-        <taxon>Toxotes jaculatrix</taxon>
-        <taxon>Epinephelus coeruleopunctatus</taxon>
-        <taxon>Ophiophagus hannah</taxon>
-        <taxon>Sicyopterus lagocephalus</taxon>
-        <taxon>Valenciennea muralis</taxon>
-        <taxon>Takifugu oblongus</taxon>
-        <taxon>Ambassis macracanthus</taxon>
-        <taxon>Sus verrucosus</taxon>
-        <taxon>Hippichthys cyanospilos</taxon>
-        <taxon>Tetraroge barbata</taxon>
-        <taxon>Camacinia gigantea</taxon>
-        <taxon>Aonyx cinereus</taxon>
-        <taxon>Lutjanus jordani</taxon>
-        <taxon>Butis gymnopomus</taxon>
-        <taxon>Clithon faba</taxon>
-        <taxon>Neofelis nebulosa</taxon>
-        <taxon>Halcyon cyanoventris</taxon>
-        <taxon>Hippocampus comes</taxon>
-        <taxon>Oxyeleotris urophthalmus</taxon>
-        <taxon>Ducula oenothorax</taxon>
-        <taxon>Stenothyra ventricosa</taxon>
-        <taxon>Maculabatis pastinacoides</taxon>
-        <taxon>Dendrobium aloifolium</taxon>
-        <taxon>Centropus nigrorufus</taxon>
-        <taxon>Ambassis urotaenia</taxon>
         <taxon>Himantura leoparda</taxon>
-        <taxon>Urogymnus granulatus</taxon>
-        <taxon>Prionailurus planiceps</taxon>
-        <taxon>Philemon subcorniculatus</taxon>
-        <taxon>Zosterops flavus</taxon>
-        <taxon>Periophthalmus kalolo</taxon>
-        <taxon>Pteropus melanotus</taxon>
-        <taxon>Neopomacentrus taeniurus</taxon>
-        <taxon>Oryzias javanicus</taxon>
-        <taxon>Periophthalmus chrysospilos</taxon>
-        <taxon>Brachygobius xanthozonus</taxon>
-        <taxon>Thryssa kammalensis</taxon>
-        <taxon>Choeroichthys sculptus</taxon>
-        <taxon>Meiacanthus anema</taxon>
-        <taxon>Herpestes brachyurus</taxon>
-        <taxon>Ambassis nalua</taxon>
-        <taxon>Neritina zigzag</taxon>
-        <taxon>Arothron reticularis</taxon>
-        <taxon>Polydactylus microstomus</taxon>
-        <taxon>Gobiopterus brachypterus</taxon>
-        <taxon>Thryssa mystax</taxon>
-        <taxon>Lethrinus ornatus</taxon>
-        <taxon>Batrachostomus javensis</taxon>
-        <taxon>Macroglossus sobrinus</taxon>
-        <taxon>Brachygobius aggregatus</taxon>
-        <taxon>Sermyla riqueti</taxon>
-        <taxon>Anodontostoma selangkat</taxon>
-        <taxon>Apogon hyalosoma</taxon>
-        <taxon>Sardinella melanura</taxon>
-        <taxon>Dalbergia parviflora</taxon>
-        <taxon>Pteropus melanopogon</taxon>
-        <taxon>Batrachostomus cornutus</taxon>
-        <taxon>Brevitrygon imbricata</taxon>
-        <taxon>Boleophthalmus boddarti</taxon>
-        <taxon>Lethrinus semicinctus</taxon>
-        <taxon>Hippichthys heptagonus</taxon>
-        <taxon>Elops machnata</taxon>
-        <taxon>Coelops frithii</taxon>
-        <taxon>Mahidolia mystacina</taxon>
-        <taxon>Eviota storthynx</taxon>
-        <taxon>Goura cristata</taxon>
-        <taxon>Lutjanus ehrenbergii</taxon>
-        <taxon>Myotis hasseltii</taxon>
-        <taxon>Setipinna breviceps</taxon>
-        <taxon>Paracercion malayanum</taxon>
-        <taxon>Ambassis interrupta</taxon>
-        <taxon>Periophthalmus novemradiatus</taxon>
-        <taxon>Oligolepis acutipennis</taxon>
-        <taxon>Thryssa baelama</taxon>
-        <taxon>Dalbergia menoeides</taxon>
-        <taxon>Paratrypauchen microcephalus</taxon>
+        <taxon>Ambassis macracanthus</taxon>
         <taxon>Uropterygius concolor</taxon>
-        <taxon>Mystus gulio</taxon>
-        <taxon>Zenarchopterus ectuntio</taxon>
-        <taxon>Intsia palembanica</taxon>
-        <taxon>Fagraea auriculata</taxon>
-        <taxon>Baccaurea nanihua</taxon>
-        <taxon>Johnius carouna</taxon>
-        <taxon>Pateobatis bleekeri</taxon>
-        <taxon>Albizia retusa</taxon>
-        <taxon>Panna microdon</taxon>
-        <taxon>Balionycteris maculata</taxon>
-        <taxon>Pangio kuhlii</taxon>
-        <taxon>Cynoglossus puncticeps</taxon>
-        <taxon>Maculabatis macrura</taxon>
-        <taxon>Cryptocentrus leptocephalus</taxon>
-        <taxon>Aspericorvina jubata</taxon>
-        <taxon>Parachaeturichthys polynema</taxon>
-        <taxon>Amblygobius stethophthalmus</taxon>
-        <taxon>Python bivittatus</taxon>
-        <taxon>Siganus lineatus</taxon>
-        <taxon>Acanthus ilicifolius</taxon>
-        <taxon>Epinephelus coioides</taxon>
-        <taxon>Atule mate</taxon>
-        <taxon>Lethrinus harak</taxon>
-        <taxon>Megalops cyprinoides</taxon>
-        <taxon>Acrochordus granulatus</taxon>
-        <taxon>Epinephelus tauvina</taxon>
-        <taxon>Istigobius ornatus</taxon>
-        <taxon>Cacatua sulphurea</taxon>
-        <taxon>Falco severus</taxon>
-        <taxon>Lagocephalus lunaris</taxon>
-        <taxon>Acrostichum speciosum</taxon>
-        <taxon>Hipposideros ater</taxon>
-        <taxon>Hydrophis schistosus</taxon>
-        <taxon>Cerberus rynchops</taxon>
-        <taxon>Cerithium coralium</taxon>
-        <taxon>Scatophagus argus</taxon>
-        <taxon>Alcedo euryzona</taxon>
-        <taxon>Platax orbicularis</taxon>
-        <taxon>Megaderma spasma</taxon>
-        <taxon>Epinephelus malabaricus</taxon>
-        <taxon>Pongamia pinnata</taxon>
-        <taxon>Littoraria undulata</taxon>
-        <taxon>Holothuria impatiens</taxon>
-        <taxon>Phodilus badius</taxon>
-        <taxon>Arothron stellatus</taxon>
-        <taxon>Macaca nemestrina</taxon>
-        <taxon>Panthera tigris</taxon>
-        <taxon>Cordia subcordata</taxon>
-        <taxon>Holothuria scabra</taxon>
-        <taxon>Pachycephala fulvotincta</taxon>
-        <taxon>Laticauda colubrina</taxon>
-        <taxon>Eleotris fusca</taxon>
-        <taxon>Viverricula indica</taxon>
-        <taxon>Ilex cymosa</taxon>
-        <taxon>Erythrina variegata</taxon>
-        <taxon>Funambulus palmarum</taxon>
-        <taxon>Periophthalmus argentilineatus</taxon>
-        <taxon>Arachnothera crassirostris</taxon>
+        <taxon>Meiacanthus anema</taxon>
+        <taxon>Butis gymnopomus</taxon>
+        <taxon>Plectorhinchus gibbosus</taxon>
+        <taxon>Leiognathus equulus</taxon>
+        <taxon>Toxotes jaculatrix</taxon>
         <taxon>Neophocaena phocaenoides</taxon>
-        <taxon>Prionailurus bengalensis</taxon>
-        <taxon>Pipistrellus tenuis</taxon>
-        <taxon>Inocarpus fagifer</taxon>
-        <taxon>Pluvialis fulva</taxon>
-        <taxon>Numenius phaeopus</taxon>
-        <taxon>Phalacrocorax sulcirostris</taxon>
-        <taxon>Sus scrofa</taxon>
-        <taxon>Egretta novaehollandiae</taxon>
-        <taxon>Tringa nebularia</taxon>
-        <taxon>Todiramphus sanctus</taxon>
-        <taxon>Cairina moschata</taxon>
-        <taxon>Nycticorax nycticorax</taxon>
-        <taxon>Pandion haliaetus</taxon>
-        <taxon>Butorides striata</taxon>
-        <taxon>Egretta garzetta</taxon>
-        <taxon>Ardea intermedia</taxon>
-        <taxon>Apus affinis</taxon>
+        <taxon>Lethrinus harak</taxon>
+        <taxon>Lethrinus nebulosus</taxon>
+        <taxon>Lethrinus ornatus</taxon>
+        <taxon>Lethrinus semicinctus</taxon>
+        <taxon>Atule mate</taxon>
+        <taxon>Halcyon coromanda</taxon>
+        <taxon>Halcyon pileata</taxon>
+        <taxon>Todiramphus chloris</taxon>
+        <taxon>Phaenicophaeus sumatranus</taxon>
+        <taxon>Centropus nigrorufus</taxon>
+        <taxon>Goura cristata</taxon>
         <taxon>Anhinga melanogaster</taxon>
-        <taxon>Ardea purpurea</taxon>
-        <taxon>Ardea cinerea</taxon>
-        <taxon>Charadrius dubius</taxon>
-        <taxon>Prinia subflava</taxon>
-        <taxon>Actitis hypoleucos</taxon>
-        <taxon>Threskiornis aethiopicus</taxon>
-        <taxon>Alcedo atthis</taxon>
-        <taxon>Numenius arquata</taxon>
-        <taxon>Prinia flaviventris</taxon>
-        <taxon>Cinnyris jugularis</taxon>
-        <taxon>Centropus sinensis</taxon>
-        <taxon>Prinia inornata</taxon>
-        <taxon>Spilornis cheela</taxon>
-        <taxon>Dicrurus paradiseus</taxon>
-        <taxon>Artamus leucoryn</taxon>
-        <taxon>Copsychus saularis</taxon>
-        <taxon>Cypsiurus balasiensis</taxon>
-        <taxon>Halcyon smyrnensis</taxon>
-        <taxon>Dicrurus leucophaeus</taxon>
-        <taxon>Oriolus xanthornus</taxon>
-        <taxon>Corvus macrorhynchos</taxon>
+        <taxon>Mycteria cinerea</taxon>
+        <taxon>Leptoptilos javanicus</taxon>
+        <taxon>Gerygone sulphurea</taxon>
+        <taxon>Pachycephala cinerea</taxon>
         <taxon>Aegithina tiphia</taxon>
-        <taxon>Amaurornis phoenicurus</taxon>
-        <taxon>Merops philippinus</taxon>
-        <taxon>Orthotomus sutorius</taxon>
-        <taxon>Microcarbo niger</taxon>
-        <taxon>Psilopogon haemacephalus</taxon>
-        <taxon>Dendrocygna javanica</taxon>
-        <taxon>Haliastur indus</taxon>
-        <taxon>Threskiornis melanocephalus</taxon>
-        <taxon>Parus major</taxon>
-        <taxon>Acridotheres tristis</taxon>
-        <taxon>Pachycephala pectoralis</taxon>
-        <taxon>Zosterops simplex</taxon>
-        <taxon>Trichoglossus haematodus</taxon>
-        <taxon>Platalea regia</taxon>
-        <taxon>Microcarbo melanoleucos</taxon>
-        <taxon>Quiscalus mexicanus</taxon>
-        <taxon>Anhinga novaehollandiae</taxon>
+        <taxon>Prinia familiaris</taxon>
+        <taxon>Zosterops flavus</taxon>
+        <taxon>Orthotomus ruficeps</taxon>
+        <taxon>Ducula badia</taxon>
+        <taxon>Parachaeturichthys polynema</taxon>
+        <taxon>Aspericorvina jubata</taxon>
+        <taxon>Johnius carouna</taxon>
+        <taxon>Panna microdon</taxon>
+        <taxon>Cynometra ramiflora</taxon>
+        <taxon>Gerres erythrourus</taxon>
+        <taxon>Paratrypauchen microcephalus</taxon>
+        <taxon>Siganus guttatus</taxon>
+        <taxon>Siganus lineatus</taxon>
+        <taxon>Setipinna breviceps</taxon>
+        <taxon>Thryssa kammalensis</taxon>
+        <taxon>Zenarchopterus ectuntio</taxon>
+        <taxon>Gobiopterus brachypterus</taxon>
+        <taxon>Oxyeleotris urophthalmus</taxon>
+        <taxon>Pangio kuhlii</taxon>
+        <taxon>Sardinella melanura</taxon>
         <taxon>Lichmera indistincta</taxon>
+        <taxon>Cyornis rufigastra</taxon>
+        <taxon>Maculabatis macrura</taxon>
+        <taxon>Pateobatis bleekeri</taxon>
+        <taxon>Amblygobius stethophthalmus</taxon>
       </taxons>
     </Characteristic-biota>
     <Abiotic-environment>
@@ -543,7 +216,7 @@
     </Classifications>
     <Distribution>
       <Distribution-Summaries>
-        <Distribution-Summary lang="en">The 'Mangroves of Java Transitional' includes intertidal forest and shrublands of the marine ecoregions of Cocos-Keeling/Christmas Island (Java Transitional province), Southern Java (Java Transitional province), that extent across 1 countries and territories in the regions of East Asia &amp; Pacific. </Distribution-Summary>
+        <Distribution-Summary lang="en">The 'Mangroves of Java Transitional' includes intertidal forest and shrublands of the marine ecoregions of Cocos-Keeling/Christmas Island (Java Transitional province), Southern Java (Java Transitional province), that extent across 1 countries and territories in the regions of East Asia &amp; Pacific. Mangrove extent in this region is estimated between 154 and 174 km^2 (Giri et al. 2011; Bunting et al. 2018).</Distribution-Summary>
       </Distribution-Summaries>
       <Countries>
         <Country iso-code-2="ID">Indonesia</Country>
@@ -572,5 +245,14 @@
         <Functional-collapse lang="en">These are highly dynamic systems, with species distributions adjusting to local changes in sediment distribution, tidal regimes, and local inundation and salinity gradients. Processes that disrupt this dynamic can lead to ecosystem collapse. Ecosystem collapse may occur under any of the following: a) climatic conditions (low temperatures) restrict recruitment and survival of diagnostic true mangroves; b) changes in rainfall and river inputs and/or waves and tidal currents destabilise and erode substrates and disrupt recruitment and growth, c) changes in rainfall and tidal flushing change salinity stress and nutrient loadings affecting survival.</Functional-collapse>
       </Functional-collapse-definitions>
     </Collapse-definition>
+    <References>
+      <Reference id='Worthington et al. 2020'>Worthington et al. (2020) A global biophysical typology of mangroves and its relevance for ecosystem structure and deforestation. Sci. Rep. 10, 14652. https://doi.org/10.1038/s41598-020-71194-5</Reference>
+      <Reference id='Bishop et al. 2020'>Bishop et al. (2020) </Reference>
+      <Reference id='RLTS 2021'>RLTS (2021) Habitat association, species distribution range and taxonomic information from the IUCN Red List of Threatened Species database.</Reference>
+      <Reference id='GBIF 2021'>GBIF (2021) Species distribution records from the Global Biodiversity Information Facility</Reference>
+      <Reference id='Spalding et al. 2007'>Spalding et al. (2007)  Marine Ecoregions of the World: a bioregionalization of coast and shelf areas. BioScience 57: 573-583. doi: 10.1641/B570707. Data URL: http://data.unep-wcmc.org/datasets/38</Reference>
+      <Reference id='Giri et al. 2011'>Giri et al. (2011) . *Status and distribution of mangrove forests of the world using earth observation satellite data* (version 1.3, updated by UNEP-WCMC). **Global Ecology and Biogeography** 20: 154-159. doi: [10.1111/j.1466-8238.2010.00584.x].</Reference>
+      <Reference id='Bunting et al. 2018'>Bunting et al. (2018)  The Global Mangrove Watch – a New 2010 Global Baseline of Mangrove Extent. Remote Sensing 10(10): 1669. doi: 10.3390/rs1010669.</Reference>
+    </References>
   </Assessment-Target>
 </Case-Study>

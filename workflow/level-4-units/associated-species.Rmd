@@ -73,8 +73,10 @@ if (file.exists(key_spp_file)) {
   colnames(tst) <- post_units %>% st_drop_geometry %>% pull(shortname)
   mangroves %>% st_drop_geometry %>% select(id_no,binomial,legend,class,order_,family,code) %>% bind_cols(tst) -> key_spp_data
   #We export this to a spreadsheet for sharing with specialists:
-  write_csv(key_spp_data,file=key_spp_file)
+  write_csv(key_spp_data,path=key_spp_file)
 }
+  save(file=sprintf("%s/www/Rdata/mangrove-species-units.rda",script.dir),key_spp_data)
+
 ```
 
 
@@ -100,24 +102,24 @@ mga_spp_file <- sprintf("%s/mangrove-assoc-table.csv",work.dir)
 if (file.exists(mga_spp_file)) {
   mga_spp_data <- read_csv(mga_spp_file)
 } else {
-mprov.xy %>% left_join(post_units_components,by="ECO_CODE") %>% st_drop_geometry() %>% select(ECO_CODE,unit_code,unit_name) -> a
+mprov.xy %>% left_join(post_units_components,by="ECO_CODE") %>% st_drop_geometry() %>%  left_join(post_units,by=c("unit_code","unit_name")) %>% select(ECO_CODE,unit_code,unit_name,shortname) -> a
 
 mtzXprov %>% select(matches(gsub(" ","_",mga_spp$scientific_name))) -> b
 
 a %>% bind_cols(b) %>% 
   pivot_longer(cols=Neritina_virginea:Amblygobius_stethophthalmus,names_to="Species") %>% 
   filter(value>0 & !is.na(unit_code)) %>% 
-  mutate(Species=gsub("_"," ",Species),unit_name=gsub("Mangroves of ","",unit_name)) %>% 
-  mutate(unit_name=gsub("outh|orth|erate|ical|est|ast|ern","",unit_name)) %>% 
+  mutate(Species=gsub("_"," ",Species),unit_name=shortname) %>% 
   group_by(unit_name,Species) %>% 
   summarise(total=sum(value)) %>% 
   ungroup %>% 
   pivot_wider(id_cols=Species,names_from=unit_name,values_from=total) -> spp_mtz
 
-mga_spp %>%  inner_join(spp_mtz, by=c("scientific_name"="Species")) -> mga_spp_data
+mga_spp %>%  inner_join(spp_mtz, by=c("scientific_name"="Species")) %>% ungroup %>% distinct(scientific_name,.keep_all = TRUE) -> mga_spp_data
 
-  write_csv(mga_spp_data,path=mga_spp_file)
+  write_csv(mga_spp_data,file=mga_spp_file)
 }
+  save(file=sprintf("%s/www/Rdata/mangrove-species-units.rda",script.dir),key_spp_data,mga_spp_data)
 
 ```
 
